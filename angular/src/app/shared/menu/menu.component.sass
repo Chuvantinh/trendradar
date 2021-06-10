@@ -1,0 +1,59 @@
+/* Keep men always on the top of the website  */
+/* example : https://stackblitz.com/angular/lkbnqkxkxbe?file=src%2Fapp%2Fsidenav-responsive-example.html*/
+.active-link
+  color: #2aef18
+.menu-container
+  a
+    font-size: 20px
+    :hover
+      text-decoration: none !important
+      color: #2aef18
+  position: fixed
+  z-index: 999
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  height: 70px
+  .spacer
+    flex: 1 1 auto
+  .company-name
+    text-decoration: none
+    color: white
+    margin-left: 10px
+    :hover
+      cursor: pointer
+      color: black
+
+
+.example-is-mobile .example-toolbar 
+  position: fixed
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2
+
+
+.sidenav-container
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1
+  a
+    margin: 10px
+    cursor: pointer
+    outline: none
+    display: block
+    height: 50px
+    -webkit-tap-highlight-color: transparent
+    width: 100%
+    color: black
+    font-size: 18px
+    text-decoration: none
+    padding: 10px
+    :hover
+      color: red
+
+
+.example-is-mobile .sidenav-container
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto
+

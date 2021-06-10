@@ -1,2 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css"
+html, body
+  height: 100%
+  margin: 0
+.content
+  min-height: 100%
+input.ng-untouched.ng-valid
+  boder: white
+input.ng-touched.ng-valid
+    border: 5px solid green
+input.ng-touched.ng-invalid
+    border: 5px solid red
+.required
+  color: red

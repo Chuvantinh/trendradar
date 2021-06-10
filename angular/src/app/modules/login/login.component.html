@@ -1,0 +1,305 @@
+<div class="container">
+  <div class="login col-lg-6 col-md-12 col-sm-1 float-left">
+    <h1>Login</h1>
+
+    <div class="icons">
+      <div class="row">
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block facebook" title="Facebook">
+            <i class="fa fa-facebook fa-2x"></i>
+          </a>
+        </div>
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block twitter" title="Twitter">
+            <i class="fa fa-twitter fa-2x"></i>
+          </a>
+        </div>
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block google-plus" title="Google Plus">
+            <i class="fa fa-google-plus fa-2x"></i>
+          </a>
+        </div>
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block github" title="GitHub">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block soundcloud" title="SoundCloud">
+            <i class="fa fa-soundcloud fa-2x"></i>
+          </a>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block steam" title="Steam">
+            <i class="fa fa-steam fa-2x"></i>
+          </a>
+        </div>
+
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block printest" title="Pinterest">
+            <i class="fa fa-pinterest fa-2x"></i>
+          </a>
+        </div>
+
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block vimeo" title="Vimeo">
+            <i class="fa fa-vimeo-square fa-2x"></i>
+          </a>
+        </div>
+
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block lastfm" title="Lastfm">
+            <i class="fa fa-lastfm fa-2x"></i>
+          </a>
+        </div>
+
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block yahoo" title="Yahoo">
+            <i class="fa fa-yahoo fa-2x"></i>
+          </a>
+        </div>
+
+      </div>
+      <br>
+
+      <div class="row">
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block vk" title="VKontakte">
+            <i class="fa fa-vk fa-2x"></i>
+          </a>
+        </div>
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block spotify" title="Spotify">
+            <i class="fa fa-spotify fa-2x"></i>
+          </a>
+        </div>
+
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block linkedin" title="LinkedIn">
+            <i class="fa fa-linkedin fa-2x"></i>
+          </a>
+        </div>
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block stumbleupon" title="Stumble Upon">
+            <i class="fa fa-stumbleupon fa-2x"></i>
+            <span class="hidden-xs"></span>
+          </a>
+        </div>
+        <div class="col-lg-2 col-xs-2 col-sm-2">
+          <a href="#" class="btn btn-lg btn-block tumblr" title="Tumblr">
+            <i class="fa fa-tumblr fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <br><br>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-lg-10">
+        <form class="kpx_loginForm" action="" autocomplete="off" (ngSubmit)="login(form.value)" [formGroup]="form">
+          <div class="form-group">
+            <div class="form-control">
+              <span class="input-group-addon"><span class="fa fa-user"></span> Email: </span>
+              <input type="text" formControlName="email" class="form-control username" name="email" placeholder="Email">
+
+              <ng-template [ngIf]="email?.invalid && email?.dirty || email?.touched">
+                <div *ngIf="email?.errors?.required" class="required alert alert-danger">
+                  Email is required.
+                </div>
+
+                <div *ngIf="email?.errors?.pattern" class="required alert alert-danger">
+                  Email is not passed with Format of Email.
+                </div>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <span class="input-group-addon"><span class="fa fa-key"></span> Password: </span>
+            <div class="form-control float-left">
+              <input [type]="fieldTextType ? 'text' : 'password'"
+                     class="float-left col-lg-10 col-md-10 col-sm-10 password form-control" formControlName="password"
+                     placeholder="Password">
+
+              <div class="col-lg-1 col-md-1 col-sm-1 float-left eye-icon">
+                <span class="input-text">
+                  <i class="fa"
+                     [ngClass]="{
+                        'fa-eye-slash': !fieldTextType,
+                        'fa-eye': fieldTextType
+                      }"
+                     (click)="toggleFieldTextType()"></i>
+                </span>
+              </div>
+              <ng-template [ngIf]="pasword?.invalid && pasword?.dirty || pasword?.touched">
+                <div *ngIf="pasword?.errors?.required"
+                     class="required alert-danger alert float-left col-lg-12 float-left">
+                  Password is required.
+                </div>
+
+                <div *ngIf="pasword?.errors?.pattern" class="required alert alert-danger float-left">
+                  The password must contain at least one character in these categories among the following: <br>
+                  At least 8 characters <br>
+                  Uppercase characters (A-Z) <br>
+                  Lowercase characters (a-z) <br>
+                  Digits (0-9) <br>
+                  Special character (!"§$%&/) <br>
+                  ! Note: do not use < or > in your password <br>
+                </div>
+              </ng-template>
+            </div>
+
+          </div>
+          <br><br>
+          <br><br>
+          <button class="btn btn-lg btn-outline-primary btn-block" type="submit"><i class="fa fa-sign-in"></i> Login
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <!--  Register Register Register Register Register Register Register -->
+  <div class="register col-lg-6 col-md-12 col-sm-1 float-left">
+    <h2>Register</h2>
+    <form class="form-register" autocomplete="off"
+          (ngSubmit)="register(formRegister.value)" [formGroup]="formRegister">
+      <div class="form-group">
+        <div class="form-control">
+          <label for="InputName">Name</label>
+          <input type="email" formControlName="name" class="form-control" id="InputName" aria-describedby="emailHelp"
+                 placeholder="your name" required minlength="3">
+          <small class="form-text text-muted">Your name will show with everyone in the eco system</small>
+
+          <ng-template [ngIf]="registerName?.invalid && registerName?.dirty || registerName?.touched">
+            <div *ngIf="registerName?.errors?.required" class="required alert alert-danger">
+              Name is required.
+            </div>
+
+            <div *ngIf="registerName?.errors?.pattern" class="required alert alert-danger">
+              Name is not passed with Format of Email.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-control">
+          <label for="InputEmail">Email address</label>
+          <input type="email"
+                 formControlName="email" class="form-control" id="InputEmail" aria-describedby="emailHelp"
+                 placeholder="Enter email" required>
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else. You are
+            using this email for the login.
+          </small>
+
+          <ng-template [ngIf]="registerEmail?.invalid && registerEmail?.dirty || registerEmail?.touched">
+            <div *ngIf="registerEmail?.errors?.required" class="required alert alert-danger">
+              Email is required.
+            </div>
+
+            <div *ngIf="registerEmail?.errors?.pattern" class="required alert alert-danger">
+              Email is not passed with Format of Email.
+            </div>
+          </ng-template>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <div class="form-control">
+
+          <label for="InputPassword1">Password</label>
+          <br>
+
+          <input [type]="fieldTextTypeRegisterPassword ? 'text': 'password' "
+                 formControlName="password" class="form-control col-lg-10 col-md-10 col-sm-10 d-inline-block"
+                 id="InputPassword1" placeholder="Password" required minlength="6">
+
+          <div class="col-lg-1 col-md-1 col-sm-1 eye-icon d-inline-block">
+                <span class="input-text">
+                  <i class="fa"
+                     [ngClass]="{
+                        'fa-eye-slash': !fieldTextTypeRegisterPassword,
+                        'fa-eye': fieldTextTypeRegisterPassword
+                      }"
+                     (click)="toggleFieldTextTypeRegisterPassword()"></i>
+                </span>
+          </div>
+
+          <ng-template [ngIf]="registerPassword?.invalid && registerPassword?.dirty || registerPassword?.touched">
+            <div *ngIf="registerPassword?.errors?.required"
+                 class="required alert-danger alert col-lg-12 col-md-12 col-sm-1">
+              Password is required.
+            </div>
+
+            <div *ngIf="registerPassword?.errors?.pattern"
+                 class="required alert alert-danger col-lg-12 col-md-12 col-sm-1">
+              The password must contain at least one character in these categories among the following: <br>
+              At least 8 characters <br>
+              Uppercase characters (A-Z) <br>
+              Lowercase characters (a-z) <br>
+              Digits (0-9) <br>
+              Special character (!"§$%&/) <br>
+              ! Note: do not use < or > in your password <br>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-control">
+          <label for="InputRepeatPassword1">Repeat Password</label>
+          <br>
+          <input [type]="fieldTextTypeRepeatRegisterPassword ? 'text' : 'password'" formControlName="repeatPassword"
+                 class="col-lg-10 col-md-10 col-sm-10 form-control d-inline-block" id="InputRepeatPassword1"
+                 placeholder="RepeatPassword" required minlength="6">
+
+          <div class="col-lg-1 col-md-1 col-sm-1 eye-icon d-inline-block">
+                <span class="input-text">
+                  <i class="fa"
+                     [ngClass]="{
+                        'fa-eye-slash': !fieldTextTypeRepeatRegisterPassword,
+                        'fa-eye': fieldTextTypeRepeatRegisterPassword
+                      }"
+                     (click)="toggleFieldTextTypeRepeatRegisterPassword()"></i>
+                </span>
+          </div>
+
+          <ng-template
+            [ngIf]="registerRepeatPassword?.invalid && registerRepeatPassword?.dirty || registerRepeatPassword?.touched">
+            <div *ngIf="registerRepeatPassword?.errors?.required"
+                 class="required alert-danger alert col-lg-12 col-md-12 col-sm-1">
+              Password is required.
+            </div>
+
+            <div *ngIf="registerRepeatPassword?.errors?.pattern" class="required alert alert-danger col-md-12 col-sm-1">
+              The password must contain at least one character in these categories among the following: <br>
+              At least 8 characters <br>
+              Uppercase characters (A-Z) <br>
+              Lowercase characters (a-z) <br>
+              Digits (0-9) <br>
+              Special character (!"§$%&/) <br>
+              ! Note: do not use < or > in your password <br>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+  </div>
+
+</div>

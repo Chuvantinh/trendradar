@@ -1,0 +1,15 @@
+import {createSelector} from "@ngrx/store";
+import {User} from "../../models/user";
+import {State} from "../app.states";
+
+export const selectorAuthenticated = (state: State) => {
+  return state.isAuthenticated;
+}
+
+export const selectorUser = (state: State) => {
+  return state.user;
+}
+
+export const selectorErrorMessage = (state: State) => {
+  return state.errorMessage;
+}

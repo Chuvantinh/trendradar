@@ -28,3 +28,37 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Create new Component
 ng generate component [component-name] 
+
+## For understanding of NgRx in Angular with an example
+https://stackblitz.com/angular/nlrxbbygykj?file=src%2Fapp%2Fapp.component.ts
+
+the structure of code ist in the folder app : 
+
+ref: https://github.com/oopcoders/NGRX-Course
+
+https://www.eu-startups.com/ to get a funding for company
+
+https://www.youtube.com/watch?v=ATZ5fpThy2g
+
+https://viblo.asia/p/ngrx-la-gi-thu-nghiem-voi-ngrx-trong-ung-dung-angular-xay-dung-chuc-nang-login-phan-2-3P0lPY145ox
+
+```
+app
+  --modules
+  --pages :home, about, not found ...
+  --services 
+  --shared ( all generell component would be save here )
+  --store  (here I'm using the ngRx to store the state of app and provide the intelligent management 
+            instead of using only services
+```
+
+### APPOLLO Server
+how to config Fe to BE : https://apollo-angular.com/docs/
+
+toast component:
+how to add : https://blog.jscrambler.com/how-to-create-angular-toastr-notifications
+### Validate form login
+https://www.codingame.com/playgrounds/8012/angular-form-validation-example-tutorial
+
+### Ng Rx login, register logout , update template 
+https://mherman.org/blog/authentication-in-angular-with-ngrx/
