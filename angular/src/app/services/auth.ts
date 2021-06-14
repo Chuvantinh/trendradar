@@ -17,7 +17,7 @@ export class AuthService {
     private notification: NotificationService,
     private router: Router,
   ) { }
-  login(email: string, password: string): Observable<any>{
+  login(email: string, password: string){
 
     const LOGIN = gql`
       mutation login($data: UserAuthPayload!) {
@@ -25,7 +25,10 @@ export class AuthService {
       }
     `;
 
-    const data = this.apollo.mutate({
+    this.notification.showSuccess('Login success', 'trendradar.com');
+    this.router.navigateByUrl('home'); // redirect to home
+
+    return  this.apollo.mutate({
       mutation: LOGIN,
       variables: {
         data: {
@@ -33,31 +36,19 @@ export class AuthService {
           password: password,
         }
       }
-    }).toPromise();
+    });
 
-    console.log('in auth login:' + data);
-    let token;
-
-    if(data){
-      token = data.login;
-    }
-    console.log(token);
-    return of(data);
-    /**
+      /**
       .subscribe(({data}) => {
-      this.tokenObj = data;
-
       this.notification.showSuccess('Login success', 'trendradar.com');
       this.router.navigateByUrl('home'); // redirect to home
-
+      this.tokenObj = data;
     }, (error) => {
       this.notification.showError('Something gone wrong', 'trendradar.com');
     });
-
-    let date: Date = new Date("2019-01-16");
-    console.log('in authservice : ' + this.tokenObj);
-    return this.tokenObj;
-     */
+    return of(data);
+       */
+    //let date: Date = new Date("2019-01-16");
   }
 
   signUp(email: string, password: string): any{

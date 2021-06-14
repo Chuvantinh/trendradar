@@ -48,6 +48,7 @@ import {A} from "@angular/cdk/keycodes";
 import { Authreducer} from "./store/reducers/auth.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {AuthEffects} from "./store/effects/auth.effects";
+import { StoreDevtoolsModule} from "@ngrx/store-devtools";
 
 @NgModule({
   declarations: [
@@ -78,7 +79,11 @@ import {AuthEffects} from "./store/effects/auth.effects";
     MatGridListModule,
     MatSidenavModule,
     MatMenuModule,
-    StoreModule.forRoot(Authreducer),
+    StoreModule.forRoot({Authreducer: Authreducer}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      //logOnly: environment.production, // Restrict extension to log-only mode
+    }),
     EffectsModule.forRoot([AuthEffects]),
     CarouselModule,
     A11yModule,
