@@ -5,8 +5,8 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {Constants} from "../../services/constants";
 import {Store} from "@ngrx/store";
-import {State} from "../../store/app.states";
 import {loginStart, signupStart} from "../../store/actions/auth.actions";
+import {State} from "../../store/app.states";
 
 @Component({
   selector: 'app-login',
@@ -19,24 +19,27 @@ export class LoginComponent implements OnInit {
   fieldTextTypeRepeatRegisterPassword: boolean = false;
   form: FormGroup = this.formBuilder.group({});
   formRegister: FormGroup = this.formBuilder.group({});
+
   constructor(private apollo: Apollo,
               private notification: NotificationService,
               private router: Router,
               private formBuilder: FormBuilder,
-              private store: Store<State>
-  ) { }
+              private storeChunk: Store<State>,
+  ) {
+  }
 
   ngOnInit(): void {
+
     this.form = this.formBuilder.group(
       {
-        email: ['wifi@gmail.com',
+        email: ['abcd@gmail.com',
           [
           Validators.required,
           Validators.email,
           Validators.minLength(6),
           Validators.pattern(Constants.REGEX.EMAIL_FORMAT)
         ]],
-        password: ['wifiA123!', [
+        password: ['abcA123!ddddd', [
           Validators.required,
           Validators.minLength(8),
           Validators.pattern(Constants.REGEX.PASSWORD)
@@ -110,7 +113,7 @@ export class LoginComponent implements OnInit {
     }
     let email: string = valueInput.email;
     let password: string = valueInput.password;
-    this.store.dispatch(loginStart({email, password}));
+    this.storeChunk.dispatch(loginStart({email, password}));
   }
 
   /**
@@ -129,8 +132,7 @@ export class LoginComponent implements OnInit {
     }
     let email: string = formData.email;
     let password: string = formData.password;
-    //this.store.dispatch(signupStart({email, password}));
-
+    this.storeChunk.dispatch(signupStart({email, password}));
 
   }
 }

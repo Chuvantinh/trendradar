@@ -16,6 +16,12 @@ for postgresql
 - tutorial : https://www.tutorialspoint.com/postgresql/postgresql_schema.htm
 \d "User" to see the describe of the table user
 
+show table:
+``
+example:
+SELECT * FROM "Comment";
+``
+
 ```
 - create migrate as new table for postgres
 npx prisma migrate dev --name init
@@ -39,10 +45,103 @@ methode 1 : https://jwt.io/ and scret-key is 2021, payload is uid: 12345
 
 eg: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OTAifQ.HGXEycl3l88-B8ZHpRkXndVrqXTHdcMzG7i18BR4X7E
 
-methode 2 run command to get automatic token : npm run prismatoken
+methode 2 run command to get automatic token : 
+```
+npm run prismatoken
+```
+add migration for database when changing something
+```
+npx prisma migrate dev --name edit_relation_category_trend_manytomany
+```
+change prisma client after changing model, run with a command as below:
+```
+yarn or npm or npx prisma generate
+```
+
 
 # Nexus version 1.0.0
 Nexus will automatic remove or add mutation or query for you, also in database so.
 I split the mutation and query and types in the folder 'graphql' and then export all in index file, in the schema file I will import in the fild types.
 The puporse is the maintance for this project and wirte code easyer.
+See more at the documentation : https://nexusjs.org/docs/
+
+-- add more table in the file prisma/schema.prisma
+-- create Data for TrendSource
+```
+  createTrendSource(data:{
+      title: "test trend sourc1e",
+      description: "test trend sourc1e",
+      url: "https://google.co1m",
+      source: [Internet] 
+    })
+    {
+      title
+    }
+```
+
+```
+
+  // create category
+  mutation{
+    createCategory(data:{
+      title: "test",
+      description: "test",
+      parentId: 0
+    }){
+      title
+    }
+    
+    updateStatusCategory(
+    status: DEACTIVE,
+    id: 10
+    )
+    {
+      title
+    }
+    
+    deleteCategory(id: 10){title}
+  
+  }
+```
+    
+````
+  // create trend
+  createTrend(data:{
+      title: "test "
+      description: ""
+      status: ACTIVE
+    }){
+      id
+      title
+      description
+      createdAt
+      createdBy{
+        id
+      	name
+      }
+    }
+    
+    updateTrend(data:{
+       title: "test tren1222111d"
+       description: "des222c"
+       status: ACTIVE
+     },
+     id: 4){
+       id
+       title
+       description
+       createdAt
+       createdBy{
+         id
+       	name
+       }
+     }
+     
+     deleteTrend(id: 4){
+       createdBy{name}
+       updatedBy{name}
+       deletedBy{name}
+     }
+  // create comment
+````
 

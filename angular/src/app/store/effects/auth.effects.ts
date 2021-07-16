@@ -1,16 +1,17 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Action, compose} from '@ngrx/store';
 import {Store} from "@ngrx/store";
-import {concatMap, mergeMap, tap} from 'rxjs/operators';
-import {EMPTY, of} from "rxjs";
-import {catchError, exhaustMap, map, switchMap} from "rxjs/operators";
+import {catchError, exhaustMap, map, tap} from "rxjs/operators";
+import {Observable} from "rxjs";
+import * as storage from "../state/storage";
+import {NotificationService} from "../../services/notification.service";
 
 import {
   loginStart,
   loginSuccess,
   loginFail,
+  logOut,
   autoLogout,
   autologin,
   signupStart,
@@ -20,10 +21,6 @@ import {
 } from "../actions/auth.actions";
 import {State} from "../app.states";
 import {AuthService} from "../../services/auth";
-import {__await} from "tslib";
-import {User} from "../../models/user";
-import {Observable} from "rxjs";
-import {subscribe} from "graphql";
 
 @Injectable()
 export class AuthEffects {
@@ -33,66 +30,65 @@ export class AuthEffects {
     private authService: AuthService,
     private store: Store<State>,
     private router: Router,
+    private notificationService: NotificationService,
   ) {
   }
 
-  // effects go here
-  /**
-   login$ = createEffect(() => {
+  login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loginStart),
-      exhaustMap( (action) => {
-        return this.authService.login(action.email, action.password).subscribe(({data}) => {
-
-          const user = this.authService.formatUser(action.email, "123", "123", new Date());
-          console.log(data);
-          return loginSuccess({user, redirect: true});
-
-        }, (error) => {
-          console.log('there was an error sending the query', error);
-        });
-      });
-);
-});
-
-   */
-
-
-
-  login$ = createEffect( () => {
-    return this.actions$.pipe(
-      ofType(loginStart),
-      exhaustMap( (action) => {
+      exhaustMap((action) => {
         return this.authService.login(action.email, action.password).pipe(
-          map( data => {
-
-              const user = this.authService.formatUser(action.email, "22" ,"1",  new Date(333333));
-              return loginSuccess({user, redirect: true});
+          map((data: any) => {
+              const user = this.authService.formatUser(action.email, data.data.login);
+              return loginSuccess({user, redirect: true, isAuthenticated: true});
             }
-
           )
         )
       })
     )
   })
 
-  /**
-   signUp$ = createEffect((): any => {
+
+  signUp$ = createEffect((): any => {
     return this.actions$.pipe(
       ofType(signupStart),
       exhaustMap((action) => {
         return this.authService.signUp(action.email, action.password).pipe(
-          map((data) => {
-            const user = this.authService.formatUser(data);
-            return signupSuccess({user, redirect: true})
+          map((data: any) => {
+            this.authService.login(action.email, action.password).pipe(
+              map((datalogin: any) => {
+                let token: string = (datalogin.data.login).toString();
+                const user = this.authService.formatUser(action.email, token);
+                return signupSuccess({user, redirect: true, isAuthenticated: true})
+              })
+            )
+
           }),
-          catchError( (err) => {
+          catchError((err) => {
             return err;
           })
         )
       })
     )
   })
-   }
-   */
+
+
+  logOut$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(logOut),
+        tap(() => {
+          storage.deleteItemByKey('user');
+          this.notificationService.showWarning('You are logged out', 'trendradar.com');
+
+          this.router.navigate(['home'])
+            .then(() => {
+              window.location.reload();
+            });
+
+        })
+      ),
+    {dispatch: false}
+  )
 }

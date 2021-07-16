@@ -4,6 +4,7 @@ import {User} from "../../models/user";
 export const LOGIN_START = '[auth page] login start';
 export const LOGIN_SUCCESS = '[auth page] login success';
 export const LOGIN_FAIL = '[auth page] login fail';
+export const LOGIN_OUT = '[auth page] log out';
 
 export const loginStart = createAction(
   LOGIN_START,
@@ -12,10 +13,12 @@ export const loginStart = createAction(
 
 export const loginSuccess = createAction(
   LOGIN_SUCCESS,
-props<{user: User; redirect: boolean}>()
+props<{user: User; redirect: boolean; isAuthenticated: boolean}>()
 )
 
 export const loginFail = createAction(LOGIN_FAIL)
+export const logOut = createAction(LOGIN_OUT);
+
 
 export const SIGNUP_START = '[auth page] signup start'
 export const SIGNUP_SUCCESS = '[auth page] signup success'
@@ -28,7 +31,7 @@ export const signupStart = createAction(
 
 export const signupSuccess = createAction(
   SIGNUP_SUCCESS,
-  props<{user: User; redirect: boolean}>()
+  props<{user: User; redirect: boolean, isAuthenticated: boolean}>()
 )
 
 export const signupFail = createAction(SIGNUP_FAIL)

@@ -2,18 +2,184 @@
 ### Do not make changes to this file directly
 
 
+type CategoriesOnTrend {
+  catId: Category
+  createdBy: User
+  deletedBy: User
+  trendId: Trend
+  trends: Trend
+  updatedBy: User
+}
+
+type Category {
+  createdAt: DateTime!
+  createdBy: User
+  deletedAt: DateTime!
+  deletedBy: User
+  description: String
+  id: ID
+  parentId: Int
+  status: Status
+  title: String
+  updatedAt: DateTime!
+  updatedBy: User
+}
+
+input CategoryCreateInput {
+  description: String
+  parentId: Int
+  status: Status
+  title: String!
+}
+
+type Comment {
+  content: String
+  createdAt: DateTime!
+  createdBy: User
+  deletedAt: DateTime!
+  deletedBy: User
+  id: ID
+  trendId: Trend
+  updatedAt: DateTime!
+  updatedBy: User
+}
+
+input CommentCreateInput {
+  content: String
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
+input ListIdCategory {
+  id: Int
+}
+
 type Mutation {
+  createCategory(data: CategoryCreateInput!): Category!
+  createComment(data: CommentCreateInput!, trendId: Int): Comment!
+  createTrend(catId1: Int, catId2: Int, data: TrendCreateInput!, source: [TrendSourceCreateInput]): Trend!
+  createTrendEvalution(data: TrendEvalutionCreateInput!, trendId: Int): TrendEvalution!
+  createTrendSource(data: TrendSourceCreateInput!, trendId: Int): TrendSource!
+  deleteCategory(id: Int): Category!
+  deleteComment(id: Int): Comment!
+  deleteTrend(id: Int): Trend!
+  deleteTrendEvalution(id: Int): TrendEvalution!
+  deleteTrendSource(id: Int): TrendSource!
   login(data: UserAuthPayload!): String
   signupUser(data: UserCreateInput!): User!
+  updateCategory(data: CategoryCreateInput!, id: Int): Category!
+  updateComment(data: CommentCreateInput!, idEvalution: Int, trendID: Int): Comment!
+  updateTrend(catId: Int, data: TrendCreateInput!, id: Int): Trend!
+  updateTrendEvalutio(data: TrendEvalutionCreateInput!, idEvalution: Int, trendID: Int): TrendEvalution!
+  updateTrendSource(data: TrendSourceCreateInput!, id: Int): TrendSource!
 }
 
 type Query {
   allUsers: [User!]!
+  getCategories: [Category!]!
+  getCategoriesById(id: Int): Category
+  getCommentById(id: Int): Comment
+  getComments: [Comment!]!
+  getTrendById(id: Int): Trend
+  getTrendEvalution: [TrendEvalution!]!
+  getTrendEvalutionById(id: Int): TrendEvalution
+  getTrendSource: [TrendSource!]!
+  getTrendSourceById(id: Int): TrendSource
+  getTrends: [Trend!]!
+  getUserById(id: Int): User
+}
+
+"""Status when created is Active, and updatedStatus attempts deactive"""
+enum Sources {
+  Company
+  Conferences
+  Database
+  ExtendNetwork
+  Internet
+  Media
+  Paten
+  Publication
+  Seminar
+  Trade
+  Travel
+}
+
+"""Status when created is Active, and updatedStatus attempts deactive"""
+enum Status {
+  ACTIVE
+  DEACTIVE
+}
+
+type Trend {
+  categories: CategoriesOnTrend
+  comment: [Comment]
+  createdAt: DateTime!
+  createdBy: User
+  deletedAt: DateTime!
+  deletedBy: User
+  description: String
+  id: ID
+  images: String
+  source: [TrendSource]
+  status: Status
+  title: String
+  trendEvalution: [TrendEvalution]
+  updatedAt: DateTime!
+  updatedBy: User
+  videos: String
+}
+
+input TrendCreateInput {
+  description: String
+  images: String
+  status: Status
+  title: String!
+  videos: String
+}
+
+type TrendEvalution {
+  createdAt: DateTime!
+  createdBy: User
+  deletedAt: DateTime!
+  deletedBy: User
+  during: String
+  effect: Float
+  id: ID
+  probability: Float
+  trendId: Trend
+  updatedAt: DateTime!
+  updatedBy: User
+}
+
+input TrendEvalutionCreateInput {
+  during: String
+  effect: Float
+  probability: Float
+}
+
+type TrendSource {
+  createdAt: DateTime!
+  createdBy: User
+  deletedAt: DateTime!
+  deletedBy: User
+  description: String
+  id: ID
+  source: [Sources!]
+  title: String
+  trendId: Trend
+  updatedAt: DateTime!
+  updatedBy: User
+  url: String
+}
+
+input TrendSourceCreateInput {
+  description: String
+  source: [Sources!]
+  title: String
+  url: String
 }
 
 type User {

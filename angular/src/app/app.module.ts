@@ -30,7 +30,7 @@ import {A11yModule} from "@angular/cdk/a11y";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 // state management
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, MetaReducer } from '@ngrx/store';
 import { ScrolltopComponent } from './shared/generell-component/scrolltop/scrolltop.component';
 
 const uri = 'http://localhost:4000/'; // our GraphQL API
@@ -50,6 +50,12 @@ import {EffectsModule} from "@ngrx/effects";
 import {AuthEffects} from "./store/effects/auth.effects";
 import { StoreDevtoolsModule} from "@ngrx/store-devtools";
 
+import { metaReducers, reducers} from "./store/app.states";
+import { TrendradarComponent } from './pages/trendradar/trendradar.component';
+import { PortfolioComponent } from './pages/portfolio/portfolio.component';
+import { RoadmapComponent } from './pages/roadmap/roadmap.component';
+import { ListtrendsComponent } from './pages/listtrends/listtrends.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +73,11 @@ import { StoreDevtoolsModule} from "@ngrx/store-devtools";
     FooterComponent,
     MenudownComponent,
     FooterCopyrightComponent,
-    ScrolltopComponent
+    ScrolltopComponent,
+    TrendradarComponent,
+    PortfolioComponent,
+    RoadmapComponent,
+    ListtrendsComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +89,7 @@ import { StoreDevtoolsModule} from "@ngrx/store-devtools";
     MatGridListModule,
     MatSidenavModule,
     MatMenuModule,
-    StoreModule.forRoot({Authreducer: Authreducer}),
+    StoreModule.forRoot(reducers, {metaReducers}),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       //logOnly: environment.production, // Restrict extension to log-only mode

@@ -1,3 +1,10 @@
+# define Observeable , Observer, Subcrible in Angular
+1.Observable is like a youtube channel of someone else. (( It uploads new videos(data) from time to time, so it is a data source for you))
+
+2.Your youtube account is an Observer
+
+3.Your youtube account (Observer) can only get notifications about whether someone else's youtube channel (Observable) has uploaded a new video (has new data) or made a livestream (new event) only if you have subscribed to that channel
+
 # GraphQL Server Example
 https://github.com/prisma/prisma-examples/tree/latest/typescript/graphql
 

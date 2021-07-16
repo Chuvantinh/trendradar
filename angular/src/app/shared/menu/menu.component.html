@@ -60,12 +60,33 @@
 
       <a mat-button routerLink="projects" routerLinkActive="active-link">Projects</a>
       <a mat-button routerLink="about" routerLinkActive="active-link">About Us</a>
-      <a mat-button routerLink="trendradar" routerLinkActive="active-link">Trend Radar</a>
-      <a mat-button routerLink="roadmap" routerLinkActive="active-link">Road Map</a>
+
+      <ng-container *ngIf="isAuthenticatedState">
+        <a mat-button routerLink="listtrends" routerLinkActive="active-link" color="accent">List trends</a>
+        <a mat-button routerLink="portfolio" routerLinkActive="active-link" color="accent">Portfolio-Analyse</a>
+        <a mat-button routerLink="roadmap" routerLinkActive="active-link" color="accent">Road Map</a>
+        <a mat-button routerLink="trendradar" routerLinkActive="active-link" color="accent">Trend Radar</a>
+      </ng-container>
 
     </div>
 
-    <a mat-raised-button color="accent" routerLink="login">Sign Up</a>
+    <ng-container *ngIf="isAuthenticatedState" >
+      <div class="user-infor">
+        <div class="mat-button bg-primary" (click)="clickEmail()">
+          Welcome {{emailUser}} <i class="fas" [ngClass]="isActive ? 'fa-sort-up' : 'fa-sort-down'"></i>
+        </div>
+        <div class="user-toogle" [ngClass]="isActive ? 'active' : 'deactive'">
+          <p>Edit</p>
+          <p>
+            <button (click)="logout()" mat-raised-button color="warn">Log out</button>
+          </p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!isAuthenticatedState">
+      <a mat-raised-button color="accent" routerLink="login">Sign Up</a>
+    </ng-container>
 
   </mat-toolbar>
 

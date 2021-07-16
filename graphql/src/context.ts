@@ -21,6 +21,7 @@ export const context: Context = async ({req, connection}: any): Promise<Context>
   if (req && req.body && req.body.query) {
     authRequired = await operationAuthorized(req.body);
   }
+
   const uid = await verifyAuthKey(header, authRequired);
   return {
     prisma: prisma,

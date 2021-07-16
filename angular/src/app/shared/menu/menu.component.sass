@@ -57,3 +57,23 @@
      `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto
 
+.user-infor
+  position: relative
+  .user-toogle.active
+    position: absolute
+    top: 40px
+    right: 0
+    background: #0d6efd
+    transform-style: flat
+    text-align: center
+    height: 100px
+    width: 100%
+    opacity: 1
+    visibility: visible
+    transition: visibility 0s, opacity 0.5s linear, height 1s
+  .user-toogle.deactive
+    height: 0
+    text-align: center
+    visibility: hidden
+    opacity: 0
+    transition: visibility 0s, opacity 0.5s linear, height 1s

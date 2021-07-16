@@ -8,10 +8,177 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  password  String   @default("tinhcv123")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  name        String?
+  password    String   @default("tinhcv123")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  createdUser           Trend[]  @relation("trendCreatedUser")
+  updatedUser           Trend[]  @relation("trendUpdatedUser")
+  deletedUser           Trend[]  @relation("trendDeletedUser")
+
+  categoryCreatedUser           Category[]  @relation("categoryCreatedUser")
+  categoryUpdatedUser           Category[]  @relation("categoryUpdatedUser")
+  categoryDeletedUser           Category[]  @relation("categoryDeletedUser")
+
+  trendEvalutionCreatedUser           TrendEvalution[]  @relation("trendEvalutionCreatedUser")
+  trendEvalutionUpdatedUser           TrendEvalution[]  @relation("trendEvalutionUpdatedUser")
+  trendEvalutionDeletedUser           TrendEvalution[]  @relation("trendEvalutionDeletedUser")
+
+  trendSourceCreatedUser           TrendSource[]  @relation("trendSourceCreatedUser")
+  trendSourceUpdatedUser           TrendSource[]  @relation("trendSourceUpdatedUser")
+  trendSourceDeletedUser           TrendSource[]  @relation("trendSourceDeletedUser")
+
+  commentCreatedUser           Comment[]  @relation("commentCreatedUser")
+  commentUpdatedUser           Comment[]  @relation("commentUpdatedUser")
+  commentDeletedUser           Comment[]  @relation("commentDeletedUser")
+}
+
+model Trend{
+   id         Int      @id @default(autoincrement())
+   title      String?
+   description  String
+
+   categories   CategoriesOnTrend[]
+   source     TrendSource[] @relation("trendTrendSource")
+
+   trendEvalution     TrendEvalution[] @relation("trendTrendEvalution")
+   comment            Comment[] @relation("trendComment")
+   status   Status?
+
+   images   String?
+   videos   String?
+
+   createdAt  DateTime? @default(now())
+   createdUser User?  @relation("trendCreatedUser", fields: [createdBy], references: [id])
+   createdBy  Int?
+
+   updatedAt  DateTime? @updatedAt
+   updatedUser User?  @relation("trendUpdatedUser", fields: [updatedBy], references: [id])
+   updatedBy  Int?
+
+   deletedAt  DateTime? @updatedAt
+   deletedUser User?  @relation("trendDeletedUser", fields: [deletedBy], references: [id])
+   deletedBy  Int?
+}
+
+enum Status{
+  ACTIVE
+  DEACTIVE
+}
+
+model Category{
+  id          Int @id @default(autoincrement())
+  title       String  @unique
+  description String
+  parentId    Int   @default(0)
+
+  trends      CategoriesOnTrend[]
+
+  createdAt   DateTime? @default(now())
+  createdUser User?  @relation("categoryCreatedUser", fields: [createdBy], references: [id])
+  createdBy   Int?
+
+  updatedAt   DateTime? @updatedAt
+  updatedUser User?  @relation("categoryUpdatedUser", fields: [updatedBy], references: [id])
+  updatedBy   Int?
+
+  deletedAt   DateTime? @default(now())
+  deletedUser User?  @relation("categoryDeletedUser", fields: [deletedBy], references: [id])
+  deletedBy   Int?
+  status      Status?
+}
+
+model CategoriesOnTrend{
+    trend        Trend     @relation(fields: [trendId], references: [id])
+    trendId      Int       // relation scalar field (used in the `@relation` attribute above)
+
+    category    Category @relation(fields: [catId], references: [id])
+    catId  Int      // relation scalar field (used in the `@relation` attribute above)
+    createdAt   DateTime @default(now())
+
+    @@id([trendId, catId])
+}
+
+model TrendEvalution{
+  id          Int @id @default(autoincrement())
+
+  trendId     Int
+  trend       Trend @relation("trendTrendEvalution", fields:[trendId], references: [id])
+
+  effect      Float?
+  probability Float?
+  during      String
+
+  createdAt  DateTime? @default(now())
+  createdUser User?  @relation("trendEvalutionCreatedUser", fields: [createdBy], references: [id])
+  createdBy  Int?
+
+  updatedAt  DateTime? @updatedAt
+  updatedUser User?  @relation("trendEvalutionUpdatedUser", fields: [updatedBy], references: [id])
+  updatedBy  Int?
+
+  deletedAt  DateTime? @updatedAt
+  deletedUser User?  @relation("trendEvalutionDeletedUser", fields: [deletedBy], references: [id])
+  deletedBy  Int?
+}
+
+enum Sources {
+  Media
+  Publication
+  Internet
+  Database
+  Company
+  Paten
+  Seminar
+  Trade
+  Conferences
+  Travel
+  ExtendNetwork
+}
+
+model TrendSource{
+  id          Int @id @default(autoincrement())
+  title       String
+  description String
+  url         String
+  source      Sources[]
+
+  trendId     Int?
+  trend       Trend?   @relation("trendTrendSource", fields: [trendId], references: [id])
+
+  createdAt  DateTime? @default(now())
+  createdUser User?  @relation("trendSourceCreatedUser", fields: [createdBy], references: [id])
+  createdBy  Int?
+
+  updatedAt  DateTime? @updatedAt
+  updatedUser User?  @relation("trendSourceUpdatedUser", fields: [updatedBy], references: [id])
+  updatedBy  Int?
+
+  deletedAt  DateTime? @default(now())
+  deletedUser User?  @relation("trendSourceDeletedUser", fields: [deletedBy], references: [id])
+  deletedBy  Int?
+}
+
+model Comment{
+  id            Int @id @default(autoincrement())
+
+  trendID       Int?
+  trend         Trend?   @relation("trendComment",fields: [trendID], references: [id])
+
+  content       String
+
+  createdAt     DateTime? @default(now())
+  createdUser   User?  @relation("commentCreatedUser", fields: [createdBy], references: [id])
+  createdBy     Int?
+
+  updatedAt     DateTime? @updatedAt
+  updatedUser   User?  @relation("commentUpdatedUser", fields: [updatedBy], references: [id])
+  updatedBy     Int?
+
+  deletedAt     DateTime? @default(now())
+  deletedUser  User?  @relation("commentDeletedUser", fields: [deletedBy], references: [id])
+  deletedBy     Int?
 }
