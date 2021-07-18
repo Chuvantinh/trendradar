@@ -114,4 +114,13 @@ export class AuthService {
     console.log(emailUser);
     return emailUser;
   }
+
+  getTokenforRoot(): string {
+    let token: any = '';
+    this.storeChunk.select('user').subscribe((data:any)=>{
+      token = data.user?.token;
+    })
+
+    return token;
+  }
 }

@@ -3,6 +3,7 @@ import {ChangeDetectorRef, Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthService} from "../../services/auth";
 import {Store} from "@ngrx/store";
 import {logOut} from "../../store/actions/auth.actions";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-menu',

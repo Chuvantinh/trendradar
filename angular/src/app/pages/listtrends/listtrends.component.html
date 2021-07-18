@@ -1,1 +1,65 @@
-<p>listtrends works!</p>
+
+<div class="container">
+
+  <p>Listtrends Page</p>
+  <p>Informationen </p>
+  <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12">
+    <form action="listtrends.component.ts" method="post" (ngSubmit)="getListBySearch()" autocomplete="off">
+      <input type="text" name="search_string" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" class="form-control float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
+      <select name="search_category" id="search-category" class="form-control form-select float-left col-xs-1 col-sm-1 col-md-3 col-lg-3" multiple>
+        <option value="all">All Categories</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="2">2</option>
+        <option value="2">2</option>
+        <option value="2">2</option>
+        <option value="2">2</option>
+        <option value="2">2</option>
+        <option value="2">2</option>
+      </select>
+
+      <select name="search_strategie" id="search-strategie" class="form-control form-select float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
+        <option value="Sort">Sort</option>
+        <option value="createdAt_ASC">Newest</option>
+        <option value="createdAt_DESC">Lastest</option>
+        <option value="effect_ASC">Effect Asc</option>
+        <option value="effect_DESC">Effect Desc</option>
+      </select>
+      <button type="submit" class="form-control float-left col-xs-1 col-sm-1 col-md-3 col-lg-3 btn btn-success">Search</button>
+    </form>
+  </div>
+  <div class="clearfix"></div>
+
+  <div class="trends col-xs-1 col-sm-1 col-md-12 col-lg-12">
+    <span>Trends:</span>
+    <br>
+      <div class="float-left col-xs-1 col-sm-1 col-md-3 col-lg-3" *ngFor="let item of listTrends; index as i;">
+        <p>
+          <img src="{{ item.images}}" alt="{{ item.title }}">
+        </p>
+
+        <p>
+          <video src="{{ item.videos}}"> </video>
+        </p>
+
+        <p class="title">
+            {{ item.title }}
+        </p>
+
+        <p class="desc">
+          {{ item.description}}
+        </p>
+
+        <p>
+          Status: {{ item.status }}
+        </p>
+
+        <p>
+          <span>{{ item.createdAt}}</span>
+          <span>{{ item.createdBy.name}}</span>
+        </p>
+      </div>
+
+  </div>
+  <div class="clearfix"></div>
+</div>

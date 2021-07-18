@@ -20,6 +20,7 @@
       "dom",
       "esnext.asynciterable"
     ],
+    "jsx": "react",
     "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {

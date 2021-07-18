@@ -24,6 +24,7 @@ import { FooterCopyrightComponent } from './shared/footer-copyright/footer-copyr
 import { MatGridListModule} from "@angular/material/grid-list";
 import { MatSidenavModule} from "@angular/material/sidenav";
 import { MatMenuModule} from "@angular/material/menu";
+
 //bootstrap: https://valor-software.com/ngx-bootstrap/#/documentation
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import {A11yModule} from "@angular/cdk/a11y";
@@ -32,13 +33,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 // state management
 import { StoreModule, MetaReducer } from '@ngrx/store';
 import { ScrolltopComponent } from './shared/generell-component/scrolltop/scrolltop.component';
-
-const uri = 'http://localhost:4000/'; // our GraphQL API
-import {APOLLO_OPTIONS} from 'apollo-angular';
-import { GraphQLModule } from './graphql.module';
-import { HttpClientModule } from '@angular/common/http';
-import {HttpLink} from 'apollo-angular/http';
-import {InMemoryCache} from '@apollo/client/core';
 
 // toast notification
 import { ToastrModule } from 'ngx-toastr';
@@ -55,6 +49,7 @@ import { TrendradarComponent } from './pages/trendradar/trendradar.component';
 import { PortfolioComponent } from './pages/portfolio/portfolio.component';
 import { RoadmapComponent } from './pages/roadmap/roadmap.component';
 import { ListtrendsComponent } from './pages/listtrends/listtrends.component';
+import {GraphQLModule} from "./graphql.module";
 
 @NgModule({
   declarations: [
@@ -79,6 +74,9 @@ import { ListtrendsComponent } from './pages/listtrends/listtrends.component';
     RoadmapComponent,
     ListtrendsComponent
   ],
+  exports: [
+    MatSidenavModule
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -98,27 +96,16 @@ import { ListtrendsComponent } from './pages/listtrends/listtrends.component';
     CarouselModule,
     A11yModule,
     FormsModule,
-    GraphQLModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     ReactiveFormsModule,
+
+    GraphQLModule
   ],
   providers: [
-    {
-      provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpLink) => {
-        return {
-          cache: new InMemoryCache(),
-          link: httpLink.create({
-            uri: uri,
-          }),
-        };
-      },
-      deps: [HttpLink],
-    },
     AuthService,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {}
