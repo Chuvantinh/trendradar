@@ -1,0 +1,84 @@
+<div class="container">
+  <form (ngSubmit)="add(form.value)" [formGroup]="form" #myform="ngForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Select MEGA Trend</label>
+
+        <select formControlName="catId1" class="form-control" (ngModelChange)="getMarcoTrendByMegaId($event)">
+          <option value="">Select Category</option>
+          <option *ngFor="let c of categoriesMegatrend" value="{{c.id}}">{{c.title}}</option>
+        </select>
+
+        <div *ngIf="form.get('catId1')?.hasError('required') && myform.submitted" class='alert alert-danger'>
+          Please select mega trend
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Select Marco Trend</label>
+        <select formControlName="catId2" class="form-control">
+          <option value="">Select Category</option>
+          <option *ngFor="let c of categories" value="{{c.id}}">{{c.title}}</option>
+        </select>
+        <div *ngIf="form.get('catId2')?.hasError('required') && myform.submitted" class='alert alert-danger'>
+          This Field is required
+        </div>
+      </div>
+
+
+      <div class="form-group col-md-6">
+        <label>Titel of Trend:</label>
+        <input type="text" placeholder="title" formControlName="title" class="form-control">
+        <div *ngIf="form.get('title')?.hasError('required') && myform.submitted" class='alert alert-danger'>
+          Title is required
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Put more Information at description field</label>
+        <textarea type="text" formControlName="description"
+                  placeholder="Please write more information for this trend"
+                  class="form-control col-xs-12 col-sm-12 col-md-12 col-lg-12"></textarea>
+        <div *ngIf="form.get('description')?.hasError('required') && myform.submitted" class='alert alert-danger'>
+          Description is required
+        </div>
+      </div>
+
+      <!-- Videos -->
+      <div formArrayName="trendVideos" class="form-group col-md-6">
+        <div id="id-video">
+          <div *ngFor="let check of trend_videos().controls; let i=index" [formGroupName]="i">
+            <span>Videos <i class="fas fa-video"></i></span>
+            <i class="fas fa-trash-alt col-1 col-xl-1 col-lg-1 col-sm-1" (click)="removeQuestionVideo(i)"></i>
+            <input type="file" multiple="multiple" formControlName="trend_videos" placeholder="add video"
+                   (change)="onFileVideoChange($event)">
+          </div>
+        </div>
+
+        <video class="video-preview" *ngFor='let url of videos' autoplay controls height="150" width="200px"
+               style="margin: 3px;">
+          <source [src]="url" type="video/mp4">
+          <source [src]="url" type="video/ogg">
+          Your browser does not support HTML video.
+        </video>
+      </div>
+
+      <!-- Images -->
+      <div formArrayName="trendImages" class="form-group col-md-6">
+        <div id="id-image">
+          <div *ngFor="let check of trend_images().controls; let i=index" [formGroupName]="i">
+            <span>Image <i class="far fa-image" style="font-size: 18px"></i></span>
+            <i class="fas fa-trash-alt col-1 col-xl-1 col-lg-1 col-sm-1" (click)="removeQuestionImage(i)"></i>
+            <input type="file" multiple="multiple" formControlName="trend_images" placeholder="add image"
+                   (change)="onFileImagesChange($event)">
+          </div>
+        </div>
+
+        <img class="image-preview" *ngFor='let url of images' [src]="url" height="150" width="200px">
+      </div>
+
+      <br><br><br>
+      <button type="submit" class="save btn btn-primary">Save</button>
+    </div>
+  </form>
+</div>

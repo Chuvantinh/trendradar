@@ -1,1 +1,307 @@
-<p>portfolio works!</p>
+<div class="container">
+  <h3 class="border-light">Portfolio-Analyse mit der <a href="https://www.marketinginstitut.biz/blog/portfolio-analyse-als-instrument-im-business-development/">McKinsey-Matrix</a></h3>
+  <br>
+
+  <div class="explantion">
+    <div class="part">
+      Diese Portfolio basiert auf die entwickelne Model mit der McKinsey-Matrix. Es handelt sich um 3 Teile, die Investion(I, II, IV), Selektion (III, V, VII), Desinvestition(VI, VIII, IX) umfasst.
+      Aus der Bewertungen wird Portfolio auf diese Seite aufgebaut.
+    </div>
+  </div>
+
+
+  <br>
+  <div class="portfolio">
+    <div class="content">
+      <table>
+        <div class="btn btn-info stark d-inline-block" tooltip="Vom Unternehmen direkt beeinflussbar">stark</div>
+        <div class="btn btn-info aufwirkung d-inline-block" tooltip="Aufwirkung aufs Unternehmen von 1 bis 5">Aufwirkung auf das Unternehmen</div>
+        <div class="btn btn-info gering  d-inline-block" tooltip="NICHT DIREKT Vom Unternehmen beeinflussbar">gering</div>
+
+        <div class="btn btn-info bottom-gering d-inline-block" tooltip="kein Gewinn" >gering</div>
+        <div class="btn btn-info bottom-eintritt d-inline-block" tooltip="Eintrittswahrscheinlichkeit Achse" >Eintrittswahrscheinlichkeit</div>
+        <div class="btn btn-info bottom-stark  d-inline-block" tooltip="sehr hoch eintreten">hoch</div>
+
+        <div class="trends" >
+            <ng-container *ngFor="let item of portFolio[0]; index as i">
+              <ng-template #popTemplate>
+                <div class="cv-tooltip">
+                  <div class="cv-title"> Effect : {{ roundExtends(item.average_effect )}}, Eintrittswahrscheinlichkeit: {{ roundExtends(item.average_pro)}} %</div>
+                  <div><b>{{item.trendId.title}}</b> <br>{{ item.trendId.description}}</div>
+                </div>
+              </ng-template>
+
+
+              <span
+                    class="p-trend big-{{i}} {{getClassColor(item.average_effect)}}"
+                    [tooltip]="popTemplate"
+                    [delay]="200"
+                    [style.top.%]="100 - (item.average_effect * 100 / 5)" [style.left.%]="item.average_pro"
+                    [style.width.px]="item.total / 2"
+                    [style.height.px]="item.total / 2"
+                    (click)="routerOtherPage(item.trendId.id)">
+                {{ titleSlice(item.trendId.title) }}
+              </span>
+            </ng-container>
+        </div>
+
+        <div class="one">0%</div>
+        <div class="ten">10%</div>
+        <div class="twenty">20%</div>
+        <div class="thirty">30%</div>
+        <div class="forty">40%</div>
+        <div class="fifty">50%</div>
+        <div class="sixty">60%</div>
+        <div class="seventy">70%</div>
+        <div class="eighty">80%</div>
+        <div class="nighty">90%</div>
+        <div class="hundert">100%</div>
+
+
+        <ng-template #Template1>
+          <div class="cv-tooltip">
+            <div class="cv-title">
+              Position verteidigen
+            </div>
+            <div>
+              Trends sofort anpacken: Dies ist der wichtigste und sensibelste Bereiche des Portfolio. <br>
+              Chance müssen ernergisch genutzt und Risiken konsequent umgangen werden. <br>
+              Wenn die Trendentwicklungen weiter in der Zukunft liege, so ist hiert eine präventive Planung notwendig, mit der sich das Unternehmen
+              auf die Entwicklung vorbereitet.
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #Template2>
+          <div class="cv-tooltip">
+            <div class="cv-title">
+              Ausbau mit Investition
+            </div>
+            <div>
+              Trends proaktive aufgreifen:  Diese Trends sind für das Unternehmen von großer Bedeutungleichzeitig ist nicht klar, ob sie wirklich eintreten werden.<br>
+              Aufgrund der hohen Bedeutung sollte sich das Unternehmen intensiv mit diesen Trends befassen und deren mögliches Eintreten beobachten
+              bzw. es ggf. sogar selbst beeinflussen.
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #Template3>
+          <div class="cv-tooltip">
+            <div class="cv-title">
+              Selektiver Ausbau der Trends
+            </div>
+            <div>
+              Reaktive Eventualpläne, um im Fall des eher unerwarteten Eintreffens Chancen zu nutzen bzw. Risiken abwenden zu können;
+              <br>
+              Einsatzfeld für strategische Frühaufklärung.
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #Template4>
+          <div class="cv-tooltip">
+            <div class="cv-title">
+              Selektiver Ausbau der Trends
+            </div>
+            <div>
+              Dies sind die mittel Trends. Zur Zeit stehen diese Trends nicht so hoch und nicht so gering. Aber da si sich in mehrere Richtungen
+              entwickeln können, sollten sie sehr genau beobachtet werden.
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #Template5>
+          <div class="cv-tooltip">
+            <div class="cv-title">
+              Selektion / Gewinnorientierung
+            </div>
+            <div>
+              Dies sind die mittel Trends. Zur Zeit stehen diese Trends nicht so hoch und nicht so gering.
+              Aber da sie sich in mehrere Richtungen
+              entwickeln können, sollten sie sehr genau beobachtet werden.
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #Template6>
+          <div class="cv-tooltip">
+            <div class="cv-title">
+              Bedingt expandieren
+            </div>
+            <div>
+              Diese Trends können in der Zukunf weiter erweitern. Trotzdem sollte sie genau anschauen, welche Bedingungen für die Entwicklung noch
+              benötigen brauchen.
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #Template7>
+          <div class="cv-tooltip">
+            <div class="cv-title">
+              Verteidigung und schwerpunkt verlagern
+            </div>
+            <div>
+              Entsprechende Trends haben nur eine geringe Auswirkung auf das Unternehmen. Aufgrund ihrer hohen Wahrscheinlichkeit sollte sie
+              beobachtet  und in laufende Planungen eingebunden werden.
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #Template8>
+          <div class="cv-tooltip">
+            <div class="cv-title">
+              Gewinorientierung
+            </div>
+            <div>
+              Diese Trend wirkt sehr gering aufs Unternehmen. Trotzdem können sie Gewinn auf dem Markt für Sie in kurze Zeit bringen.
+              Sie sollten auch beobachtet werden.
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #Template9>
+          <div class="cv-tooltip">
+            <div class="cv-title">
+             Deinvestition
+            </div>
+            <div>
+              Keine Ressourcen unnötig binden. Trends sollte nicht im Mittelpunkt der Plannung stehen
+            </div>
+          </div>
+        </ng-template>
+
+        <tr>
+          <td class="td-first">
+            <span>5</span>
+          </td>
+          <td class="bg-primary"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template3">III
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+          </b></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template2">II
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+          </b></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template1">I
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+           </b></td>
+        </tr>
+        <tr>
+          <td class="td-first"> <span>4.5</span></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+        </tr>
+        <tr>
+          <td class="td-first"> <span>4</span></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+        </tr>
+        <tr>
+          <td class="bg-dark td-first"> <span>3.5</span></td>
+          <td class="bg-dark"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template6">VI
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+          </b></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template5">V
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+          </b></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template4">IV
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+          </b></td>
+        </tr>
+        <tr>
+          <td class="bg-dark td-first"> <span>3</span></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+        </tr>
+        <tr>
+          <td class="bg-dark td-first"> <span>2.5</span></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+          <td class="bg-success"></td>
+        </tr>
+        <tr>
+          <td class="bg-dark td-first"> <span>2</span></td>
+          <td class="bg-dark"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template9">IX
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+          </b></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template8">VIII
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+          </b></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template7">VII
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+          </b></td>
+        </tr>
+        <tr>
+          <td class="bg-dark td-first">
+            <span>1.5</span>
+            <span class="begin">1</span>
+          </td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-dark"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+          <td class="bg-primary"></td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+
+</div>
+

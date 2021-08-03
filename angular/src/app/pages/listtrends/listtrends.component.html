@@ -1,6 +1,6 @@
-
 <div class="container">
-
+  <p class="text-center"><a routerLink="add/trend" class="btn btn-sm btn-success mb-2">Add new Trend</a></p>
+  <br><br>
   <p>Listtrends Page</p>
   <p>Informationen </p>
   <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12">
@@ -35,15 +35,19 @@
     <br>
       <div class="float-left col-xs-1 col-sm-1 col-md-3 col-lg-3" *ngFor="let item of listTrends; index as i;">
         <p>
-          <img src="{{ item.images}}" alt="{{ item.title }}">
+          <a routerLink="{{item.id}}">
+            <img src="{{ item.images}}" alt="{{ item.title }}">
+          </a>
         </p>
 
-        <p>
-          <video src="{{ item.videos}}"> </video>
-        </p>
+        <div>
+<!--          <iframe width="560" height="315" src="{{item.videos}}" frameborder="0" allowfullscreen></iframe>-->
+        </div>
 
         <p class="title">
+          <a routerLink="{{item.id}}">
             {{ item.title }}
+          </a>
         </p>
 
         <p class="desc">

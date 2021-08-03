@@ -3,8 +3,6 @@ import {NotificationService} from "./notification.service";
 import {Apollo, gql} from 'apollo-angular';
 import {Router} from "@angular/router";
 import {User} from "../models/user";
-import { from, of } from 'rxjs';
-import {Observable} from "rxjs";
 import {Store} from "@ngrx/store";
 import {State} from "../store/app.states";
 

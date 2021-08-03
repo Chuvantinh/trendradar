@@ -1,1 +1,231 @@
-<p>trendradar works!</p>
+<!--<p>trendradar works!</p>-->
+<!--<div class="radar col-lg-12 col-12">-->
+
+<!--  <div class="Invest">-->
+<!--    invest-->
+<!--  </div>-->
+
+<!--  <div class="Selection">-->
+<!--    Selection-->
+<!--  </div>-->
+
+<!--  <div class="DeInvest">-->
+<!--    deinvest-->
+<!--  </div>-->
+
+<!--  <div class="radar-container">-->
+
+<!--    <div class="invest col-4 bg-info float-left h-100">-->
+<!--      111-->
+<!--    </div>-->
+
+<!--    <div class="selection col-4 bg-success float-left h-100">-->
+<!--      2222-->
+<!--    </div>-->
+
+<!--    <div class="deinvest col-4 bg-warning float-left h-100">-->
+<!--      333-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<div class="container">
+  <div #tooltip class="tooltip"></div>
+
+  <svg class="cv-radar" width="1450" height="1000" style="background: white">
+
+    <g transform="translate(725,500)">
+
+      <!--      2 Lines and the circles      -->
+      <g>
+        <line x1="0" y1="-400" x2="0" y2="400" class="cv-line"></line>
+        <line x1="-400" y1="0" x2="400" y2="0" class="cv-line"></line>
+        <defs>
+          <filter x="0" y="0" width="1" height="1" id="solid">
+            <feFlood flood-color="rgb(0, 0, 0, 0.8)"></feFlood>
+            <feComposite in="SourceGraphic"></feComposite>
+          </filter>
+        </defs>
+
+        <circle cx="0" cy="0" r="130" class="cv-circle"></circle>
+        <text y="-68" text-anchor="middle" class="text-cluster">
+          ADOPT
+        </text>
+        <circle cx="0" cy="0" r="220" class="cv-circle"></circle>
+        <text y="-158" text-anchor="middle" class="text-cluster">
+          TRIAL
+        </text>
+        <circle cx="0" cy="0" r="310" class="cv-circle"></circle>
+        <text y="-248" text-anchor="middle" class="text-cluster">
+          ASSESS
+        </text>
+        <circle cx="0" cy="0" r="400" class="cv-circle"></circle>
+        <text y="-338" text-anchor="middle" class="text-cluster">
+          HOLD
+        </text>
+      </g>
+
+      <ng-container *ngFor="let item of adoptTrends; index as i">
+        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 1)">
+          <!--      down-->
+          <!--      <path d="M -11,-5 11,-5 0,13 z" style="fill: rgb(239, 175, 169);"></path>-->
+
+          <!--      up-->
+          <!--      <path d="M -11,5 11,5 0,-13 z" style="fill: rgb(239, 175, 169);"></path>-->
+
+          <!--      cricle symbol-->
+          <circle r="9" fill="green" class="cv-circle-trend" class="cv-circle-adopt-{{i+1}}"
+                  (mouseenter)="mouseEnter($event, item.trendId.title)"
+                  (mouseleave)="mouseLeave($event)"></circle>
+          <text y="3" text-anchor="middle" class="cv-trend-text">
+            {{ i + 1 }}
+          </text>
+        </g>
+      </ng-container>
+
+      <ng-container *ngFor="let item of trialTrends; index as i">
+        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 2)">
+          <!--      down-->
+          <!--      <path d="M -11,-5 11,-5 0,13 z" style="fill: rgb(239, 175, 169);"></path>-->
+
+          <!--      up-->
+          <!--      <path d="M -11,5 11,5 0,-13 z" style="fill: rgb(239, 175, 169);"></path>-->
+
+          <!--      cricle symbol-->
+          <circle r="9" fill="blue"
+                  (mouseenter)="mouseEnter($event, item.trendId.title)"
+                  (mouseleave)="mouseLeave($event)">
+
+          </circle>
+
+          <text y="3" text-anchor="middle" class="cv-trend-text">
+            {{ i + 1}}
+          </text>
+        </g>
+      </ng-container>
+
+      <ng-container *ngFor="let item of assesTrends; index as i">
+        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 3)">
+          <!--      down-->
+          <!--      <path d="M -11,-5 11,-5 0,13 z" style="fill: rgb(239, 175, 169);"></path>-->
+
+          <!--      up-->
+          <!--      <path d="M -11,5 11,5 0,-13 z" style="fill: rgb(239, 175, 169);"></path>-->
+
+          <!--      cricle symbol-->
+          <circle r="9" fill="orange" (mouseenter)="mouseEnter($event, item.trendId.title)"
+                  (mouseleave)="mouseLeave($event)" ></circle>
+          <text y="3" text-anchor="middle" class="cv-trend-text">
+            {{ i }}
+          </text>
+        </g>
+      </ng-container>
+
+      <ng-container *ngFor="let item of holdTrends; index as i">
+        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 4)">
+          <!--      down-->
+          <!--      <path d="M -11,-5 11,-5 0,13 z" style="fill: rgb(239, 175, 169);"></path>-->
+
+          <!--      up-->
+          <!--      <path d="M -11,5 11,5 0,-13 z" style="fill: rgb(239, 175, 169);"></path>-->
+
+          <!--      cricle symbol-->
+          <circle r="9" fill="red" (mouseenter)="mouseEnter($event, item.trendId.title)"
+                  (mouseleave)="mouseLeave($event)"></circle>
+          <text y="3" text-anchor="middle" class="cv-trend-text">
+            {{item.trendId.title}}
+          </text>
+        </g>
+      </ng-container>
+
+      <!--<g class="blip" transform="translate(85, 104)">
+        &lt;!&ndash;      down&ndash;&gt;
+        &lt;!&ndash;      <path d="M -11,-5 11,-5 0,13 z" style="fill: rgb(239, 175, 169);"></path>&ndash;&gt;
+
+        &lt;!&ndash;      up&ndash;&gt;
+        &lt;!&ndash;      <path d="M -11,5 11,5 0,-13 z" style="fill: rgb(239, 175, 169);"></path>&ndash;&gt;
+
+        &lt;!&ndash;      cricle symbol&ndash;&gt;
+        <circle r="9" fill="#93c47d"></circle>
+        <text y="3" text-anchor="middle" class="cv-trend-text">
+          bien
+        </text>
+      </g>-->
+      <!--      TREND      -->
+    </g>
+
+    <!--      PRINT Informationen of trend list      -->
+    <g transform="translate(0,30)">
+      <text class="title">Adopt Trend:</text>
+      <ng-container *ngFor="let item of adoptTrends;index as i">
+        <text [attr.transform]="caculateTextAdopt(i)">
+          {{i +1}}. {{item.trendId.title}}
+        </text>
+      </ng-container>
+    </g>
+
+    <g transform="translate(1200,30)">
+      <text class="title">Trial Trend:</text>
+      <ng-container *ngFor="let item of trialTrends;index as i">
+        <text [attr.transform]="caculateTextTrial(i)">
+          {{i +1}}. {{item.trendId.title}}
+        </text>
+      </ng-container>
+    </g>
+
+    <g transform="translate(1200,800)">
+      <text class="title">Asses Trend:</text>
+      <ng-container *ngFor="let item of assesTrends;index as i">
+        <text [attr.transform]="caculateTextAdopt(i)">
+          {{i +1}}. {{item.trendId.title}}
+        </text>
+      </ng-container>
+    </g>
+
+    <g transform="translate(0,800)">
+      <text class="title">Hold Trend:</text>
+      <ng-container *ngFor="let item of holdTrends;index as i">
+        <text [attr.transform]="caculateTextTrial(i)">
+          {{i +1}}. {{item.trendId.title}}
+        </text>
+      </ng-container>
+    </g>
+
+  </svg>
+</div>
+
+<div class="explantion">
+  The  Radar is a list of trends, which are valuated by a lot of employees and summaried via complexity funtion in the backend
+  and the result is showed on the ring assignment. I am using four rings with the following semantics
+  <details>
+    <summary>ADOPT</summary>
+    <p>
+      Technologies we have high confidence in to serve our purpose, also in large scale.
+      Technologies with a usage culture in our Zalando production environment, low risk and recommended to be widely used.
+    </p>
+
+  </details>
+
+  <details>
+    <summary>TRIAL</summary>
+    <p>Technologies that we have seen work with success in project work to solve a real problem; first serious usage experience that confirm benefits and can uncover limitations.
+      TRIAL technologies are slightly more risky; some engineers in our organization walked this path and will share knowledge and experiences.</p>
+
+  </details>
+
+  <details>
+    <summary>ASSESS</summary>
+    <p>Technologies that are promising and have clear potential value-add for us; technologies worth to invest some research and prototyping efforts in to see if it has impact.
+      ASSESS technologies have higher risks; they are often brand new and highly unproven in our organisation. You will find some engineers that have knowledge in the technology and promote it, you may even find teams that have started a prototyping effort</p>
+
+  </details>
+
+  <details>
+    <summary>HOLD</summary>
+    <p>
+      Technologies not recommended to be used for new projects. Technologies that we think are not (yet) worth to (further) invest in.
+      HOLD technologies should not be used for new projects, but usually can be continued for existing projects.
+    </p>
+  </details>
+</div>

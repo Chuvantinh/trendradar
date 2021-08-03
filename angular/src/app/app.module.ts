@@ -50,6 +50,18 @@ import { PortfolioComponent } from './pages/portfolio/portfolio.component';
 import { RoadmapComponent } from './pages/roadmap/roadmap.component';
 import { ListtrendsComponent } from './pages/listtrends/listtrends.component';
 import {GraphQLModule} from "./graphql.module";
+import { TrendDetailComponent } from './pages/trend-detail/trend-detail.component';
+import { TrendAddOneComponent } from './pages/trend-add-one/trend-add-one.component';
+// tool tip
+import { TooltipModule} from "ngx-bootstrap/tooltip";
+// fire storage
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { environment } from '../environments/environment';
+
+import { HttpClientModule } from '@angular/common/http';
+import {HttpLinkModule} from 'apollo-angular-link-http';
 
 @NgModule({
   declarations: [
@@ -72,7 +84,9 @@ import {GraphQLModule} from "./graphql.module";
     TrendradarComponent,
     PortfolioComponent,
     RoadmapComponent,
-    ListtrendsComponent
+    ListtrendsComponent,
+    TrendDetailComponent,
+    TrendAddOneComponent
   ],
   exports: [
     MatSidenavModule
@@ -100,7 +114,16 @@ import {GraphQLModule} from "./graphql.module";
     ToastrModule.forRoot(),
     ReactiveFormsModule,
 
-    GraphQLModule
+    GraphQLModule,
+    TooltipModule.forRoot(),
+
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
+
+    HttpClientModule,
+    HttpLinkModule,
+
   ],
   providers: [
     AuthService,

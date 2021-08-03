@@ -1,0 +1,79 @@
+
+
+.radar
+  height: 800px
+  position: relative
+  .Invest
+    text-align: left
+    bottom: 50%
+    left: 15%
+    position: absolute
+  .Selection
+    text-align: center
+    margin-bottom: 10px
+  .DeInvest
+    text-align: right
+    bottom: 50%
+    right: 15%
+    position: absolute
+
+  .radar-container
+    width: 1000px
+    height: 500px
+    background-color: #ff8800
+    margin: 0 auto
+    border-top-left-radius: 500px /* 100px of height + 10px of border */
+    border-top-right-radius: 500px /* 100px of height + 10px of border */
+    border: 2px solid gray
+    border-bottom: 0
+    border-bottom: 2px solid #0d6efd
+    position: relative
+    //overflow: hidden
+    .invest
+      opacity: 0.5
+      border-radius: 100% 0% 0% 10% / 100% 10% 0% 0%
+    .selection
+      border-radius: 73% 66% 12% 5% / 9% 8% 0% 0%
+
+.text-cluster
+  fill: rgb(67, 69, 192)
+  font-size: 42px
+  font-weight: bold
+  pointer-events: none
+  user-select: none
+  opacity: 0.5
+.cv-circle
+  fill: none
+  stroke: rgb(255, 217, 83)
+  stroke-width: 1
+.cv-circle-trend
+  :hover
+    background: red
+.cv-line
+  stroke: rgb(192, 12, 12)
+  stroke-width: 1
+.cv-trend-text
+  fill: rgb(255, 255, 255)
+  font-family: Arial, Helvetica
+  font-size: 9px
+  pointer-events: none
+  user-select: none
+.title
+  font-weight: bold
+
+.tooltip
+  display: none
+  position: absolute
+  font-size: 0.75em
+  background-color: white
+  border-style: solid
+  padding: 10px
+  border-color: gray
+  border-width: 1px
+  border-radius: 2px
+  opacity: 1
+  cursor: pointer
+circle
+  :hover
+    cursor: pointer
+

@@ -8,6 +8,8 @@ import {ListtrendsComponent} from "./pages/listtrends/listtrends.component";
 import {TrendradarComponent} from "./pages/trendradar/trendradar.component";
 import {PortfolioComponent} from "./pages/portfolio/portfolio.component";
 import {RoadmapComponent} from "./pages/roadmap/roadmap.component";
+import {TrendDetailComponent} from "./pages/trend-detail/trend-detail.component";
+import {TrendAddOneComponent} from "./pages/trend-add-one/trend-add-one.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -16,7 +18,15 @@ const routes: Routes = [
   {path: 'services', component: ServicesComponent},
   {path: 'projects', component: ServicesComponent},
   {path: 'about', component: AboutComponent},
-  {path: 'listtrends', component: ListtrendsComponent},
+
+  { path: 'listtrends',
+    children: [
+      { path: '', component: ListtrendsComponent },
+      { path: ':id', component: TrendDetailComponent},
+      { path: 'add/trend', component: TrendAddOneComponent},
+    ]
+  },
+
   {path: 'trendradar', component: TrendradarComponent},
   {path: 'portfolio', component: PortfolioComponent},
   {path: 'roadmap', component: RoadmapComponent},

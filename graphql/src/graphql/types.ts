@@ -356,8 +356,34 @@ const TrendEvalution = objectType({
           .deletedUser()
       },
     })
+
   }
 })
+
+const Portfolio = objectType({
+  name: 'Portfolio',
+  definition(t) {
+    t.field('trendId',{
+        type: 'Trend',
+        resolve: (parent, _, context: Context) => {
+          return context.prisma.trendEvalution.findFirst({
+            where: {trendId: parent.trendId || undefined}
+          })
+            .trend()
+        }
+      }
+    )
+
+    t.float('total_effect')
+    t.float('count')
+    t.float('average_effect')
+
+    t.float('total_pro')
+    t.float('average_pro')
+    t.float('total')
+  }
+})
+
 // END TrendEvalution Type
 
 // BEGIN TrendSource Type
@@ -521,6 +547,7 @@ export {
 
   TrendEvalution,
   TrendEvalutionCreateInput,
+  Portfolio,
 
   TrendSource,
   TrendSourceCreateInput,

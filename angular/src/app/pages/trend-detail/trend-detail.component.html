@@ -1,0 +1,64 @@
+<div class="container">
+  <p>trend-detail works!</p>
+  <div class="trends col-xs-1 col-sm-1 col-md-12 col-lg-12">
+    <span>Trends:</span>
+    <br>
+    <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12" *ngFor="let item of trend; index as i;">
+      <p class="text-center">
+        <a routerLink="{{item.id}}">
+          <img src="{{ item.images}}" alt="{{ item.title }}">
+        </a>
+      </p>
+
+      <p>
+        <video src="{{ item.videos}}"> </video>
+      </p>
+
+      <p class="title">
+        <a routerLink="{{item.id}}">
+          {{ item.title }}
+        </a>
+      </p>
+
+      <p class="desc">
+        {{ item.description}}
+      </p>
+
+      <p>
+        Status: {{ item.status }}
+      </p>
+
+      <p>
+        <span>{{ item.createdAt}}</span>
+        <span>{{ item.createdBy.name}}</span>
+      </p>
+    </div>
+
+  </div>
+  <div class="clearfix"></div>
+
+  <div>
+    Trend Vote:
+
+    <div class="col-6 col-sm-12 col-xs-12 col-lg-6">
+      <form [formGroup]="form" autocomplete="off" (ngSubmit)="trendEvalution(form.value)">
+        <div class="form-group">
+          <label for="effect">Effect auf das Unternehmen</label>
+          <input type="text" class="form-control" id="effect" placeholder="from 1 to 5" formControlName="effect">
+        </div>
+
+        <div class="form-group">
+          <label for="probability">Eintrittswahrscheilichkeit</label>
+          <input type="text" class="form-control" id="probability" placeholder="from 1 to 100" formControlName="probability">
+        </div>
+
+        <div class="form-group">
+          <label for="during">During</label>
+          <input type="text" class="form-control" id="during" placeholder="1 year" formControlName="during">
+        </div>
+
+        <button class="btn btn-success" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

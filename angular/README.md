@@ -60,5 +60,9 @@ how to add : https://blog.jscrambler.com/how-to-create-angular-toastr-notificati
 ### Validate form login
 https://www.codingame.com/playgrounds/8012/angular-form-validation-example-tutorial
 
+angular tootip
+how to custom tooltip crt + shift + c for pause debug on chrom
+https://valor-software.com/ngx-bootstrap/#/tooltip#custom-class
+
 ### Ng Rx login, register logout , update template 
 https://mherman.org/blog/authentication-in-angular-with-ngrx/

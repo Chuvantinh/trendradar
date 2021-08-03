@@ -5,6 +5,9 @@
 
 ## Angular 
 I made a decesion for the intergration of NgRx for this website in order to manage 
+```
+  ng g c new-component --module app
+```
 ## Backend 
 # Postgresql 
 ```

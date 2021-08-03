@@ -61,7 +61,7 @@ export const Mutation = objectType({
       }
     })
 
-// BEGIN CATEGORY MUTATION
+// ############################################################################### BEGIN CATEGORY MUTATION
     t.nonNull.field('createCategory', {
       type: 'Category',
       args: {
@@ -125,7 +125,7 @@ export const Mutation = objectType({
     })
 // END CATEGORY MUTATION
 
-// ++++ BEGIN TREND MUTATION
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ BEGIN TREND MUTATION
     t.nonNull.field('createTrend', {
       type: 'Trend',
       args: {
@@ -225,7 +225,7 @@ export const Mutation = objectType({
     })
 // ++++ END TREND MUTATION
 
-// ----- BEGIN TrendSource MUTATION
+// ---------------------------------------------------------------------------- BEGIN TrendSource MUTATION
     t.nonNull.field('createTrendSource', {
       type: 'TrendSource',
       args: {
@@ -293,7 +293,7 @@ export const Mutation = objectType({
     })
 // ----- END TrendSource MUTATION
 
-// ***** BEGIN TREND_EVALUTION
+// ********************************************************************************************* BEGIN TREND_EVALUTION
     t.nonNull.field('createTrendEvalution', {
       type: 'TrendEvalution',
       args: {
@@ -322,7 +322,7 @@ export const Mutation = objectType({
       },
     })
 
-    t.nonNull.field('updateTrendEvalutio', {
+    t.nonNull.field('updateTrendEvalution', {
       type: 'TrendEvalution',
       args: {
         data: nonNull(

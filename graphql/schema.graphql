@@ -73,16 +73,28 @@ type Mutation {
   updateCategory(data: CategoryCreateInput!, id: Int): Category!
   updateComment(data: CommentCreateInput!, idEvalution: Int, trendID: Int): Comment!
   updateTrend(catId: Int, data: TrendCreateInput!, id: Int): Trend!
-  updateTrendEvalutio(data: TrendEvalutionCreateInput!, idEvalution: Int, trendID: Int): TrendEvalution!
+  updateTrendEvalution(data: TrendEvalutionCreateInput!, idEvalution: Int, trendID: Int): TrendEvalution!
   updateTrendSource(data: TrendSourceCreateInput!, id: Int): TrendSource!
+}
+
+type Portfolio {
+  average_effect: Float
+  average_pro: Float
+  count: Float
+  total: Float
+  total_effect: Float
+  total_pro: Float
+  trendId: Trend
 }
 
 type Query {
   allUsers: [User!]!
-  getCategories: [Category!]!
+  getCategories(isparent: Int): [Category!]!
   getCategoriesById(id: Int): Category
   getCommentById(id: Int): Comment
   getComments: [Comment!]!
+  getMarcoTrendByMegaId(parentId: Int): Category
+  getPortfolioEvalution: [Portfolio!]!
   getTrendById(id: Int): Trend
   getTrendEvalution: [TrendEvalution!]!
   getTrendEvalutionById(id: Int): TrendEvalution
