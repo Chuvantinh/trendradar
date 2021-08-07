@@ -62,6 +62,9 @@ import { environment } from '../environments/environment';
 
 import { HttpClientModule } from '@angular/common/http';
 import {HttpLinkModule} from 'apollo-angular-link-http';
+// check editor
+import { CKEditorModule} from "ckeditor4-angular";
+import { MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -123,6 +126,9 @@ import {HttpLinkModule} from 'apollo-angular-link-http';
 
     HttpClientModule,
     HttpLinkModule,
+
+    CKEditorModule,
+    MatSelectModule, // for select
 
   ],
   providers: [

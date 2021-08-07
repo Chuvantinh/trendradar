@@ -8,6 +8,12 @@ I made a decesion for the intergration of NgRx for this website in order to mana
 ```
   ng g c new-component --module app
 ```
+
+error while installing beccause of npm version 7 , downstream could be better
+https://stackoverflow.com/questions/66101540/npm-install-unable-to-resolve-dependency-tree
+```
+npm install --legacy-peer-deps
+```
 ## Backend 
 # Postgresql 
 ```

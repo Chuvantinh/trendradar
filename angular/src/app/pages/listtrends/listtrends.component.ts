@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 import {Observable} from "rxjs";
 import {Router, ActivatedRoute} from '@angular/router';
 import {NotificationService} from "../../services/notification.service";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-listtrends',
@@ -17,6 +17,8 @@ import {FormBuilder} from "@angular/forms";
 
 export class ListtrendsComponent implements OnInit {
   listTrends: any;// store all trend to show
+  categories:any = [];
+  form: FormGroup = this.formBuilder.group({});
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,18 +30,34 @@ export class ListtrendsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getListTrends();
+    this.getListTrends("", "title", "asc");
+    this.getCategories();
+    this.definedFormGroup();
+  }
+
+  /**
+   * Definde the arttribute of Form with 4 option
+   */
+  definedFormGroup(){
+    this.form = this.formBuilder.group({
+      search_string: ['', Validators.required],
+      //categories: ['', Validators.required],
+      orderByField: ['', Validators.required],
+      valueField: ['', Validators.required],
+    });
   }
 
   /**
    * Get actually all of trends in the table Trend
    */
-  getListTrends(){
+  getListTrends(search_string: string, orderByField: string, valueField: string){
     this.apollo
     .watchQuery({
       query: gql`
-        query GetAllTrends{
-          getTrends{
+        query GetAllTrends($search_string: String, $orderByField: String, $valueField: String){
+          getTrends(data:{
+            search_string: $search_string, orderByField: $orderByField, valueField: $valueField
+          }){
             id,
             title,
             description,
@@ -72,7 +90,11 @@ export class ListtrendsComponent implements OnInit {
           }
         }
       `,
-      variables: {}
+      variables: {
+        search_string: search_string,
+        orderByField: orderByField,
+        valueField: valueField
+      }
     })
     .valueChanges.subscribe(result => {
       this.listTrends = Array.of(result.data);
@@ -80,7 +102,52 @@ export class ListtrendsComponent implements OnInit {
     });
   }
 
-  getListBySearch(){
-    alert("11");
+  /**
+   * get Infor of all categories with subcategory
+   */
+  getCategories() {
+    this.apollo
+    .watchQuery({
+      query: gql`
+        query getCategories($isparent: Int){
+          getCategories(isparent: $isparent){
+            id
+            title
+            description
+            subCategory{
+              id
+              title
+            }
+            createdAt
+            createdBy
+            {
+              id
+              name
+            }
+          }
+        }
+      `,
+      variables: {
+        isparent: 3
+      }
+    })
+    .valueChanges.subscribe(result => {
+
+      this.categories = Array.of(result.data);
+
+      this.categories = this.categories[0].getCategories;
+
+    });
+  }
+
+  getListBySearch(value:any){
+    if(value.orderByField == ""){
+      value.orderByField = "title";
+    }
+
+    if (value.valueField == ""){
+      value.valueField = "asc";
+    }
+    this.getListTrends(value.search_string, value.orderByField, value.valueField);
   }
 }

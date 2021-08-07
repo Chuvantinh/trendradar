@@ -4,11 +4,8 @@
 
 type CategoriesOnTrend {
   catId: Category
-  createdBy: User
-  deletedBy: User
+  createdAt: DateTime
   trendId: Trend
-  trends: Trend
-  updatedBy: User
 }
 
 type Category {
@@ -20,6 +17,7 @@ type Category {
   id: ID
   parentId: Int
   status: Status
+  subCategory: [Category]
   title: String
   updatedAt: DateTime!
   updatedBy: User
@@ -60,7 +58,7 @@ input ListIdCategory {
 type Mutation {
   createCategory(data: CategoryCreateInput!): Category!
   createComment(data: CommentCreateInput!, trendId: Int): Comment!
-  createTrend(catId1: Int, catId2: Int, data: TrendCreateInput!, source: [TrendSourceCreateInput]): Trend!
+  createTrend(categoriesId: [String], data: TrendCreateInput!, source: [TrendSourceCreateInput]): Trend!
   createTrendEvalution(data: TrendEvalutionCreateInput!, trendId: Int): TrendEvalution!
   createTrendSource(data: TrendSourceCreateInput!, trendId: Int): TrendSource!
   deleteCategory(id: Int): Category!
@@ -72,7 +70,7 @@ type Mutation {
   signupUser(data: UserCreateInput!): User!
   updateCategory(data: CategoryCreateInput!, id: Int): Category!
   updateComment(data: CommentCreateInput!, idEvalution: Int, trendID: Int): Comment!
-  updateTrend(catId: Int, data: TrendCreateInput!, id: Int): Trend!
+  updateTrend(data: TrendCreateInput!, id: Int, source: [TrendSourceCreateInput]): Trend!
   updateTrendEvalution(data: TrendEvalutionCreateInput!, idEvalution: Int, trendID: Int): TrendEvalution!
   updateTrendSource(data: TrendSourceCreateInput!, id: Int): TrendSource!
 }
@@ -93,14 +91,13 @@ type Query {
   getCategoriesById(id: Int): Category
   getCommentById(id: Int): Comment
   getComments: [Comment!]!
-  getMarcoTrendByMegaId(parentId: Int): Category
   getPortfolioEvalution: [Portfolio!]!
   getTrendById(id: Int): Trend
   getTrendEvalution: [TrendEvalution!]!
   getTrendEvalutionById(id: Int): TrendEvalution
   getTrendSource: [TrendSource!]!
   getTrendSourceById(id: Int): TrendSource
-  getTrends: [Trend!]!
+  getTrends(data: TrendSearchInput): [Trend]
   getUserById(id: Int): User
 }
 
@@ -126,7 +123,7 @@ enum Status {
 }
 
 type Trend {
-  categories: CategoriesOnTrend
+  categories: [Category]
   comment: [Comment]
   createdAt: DateTime!
   createdBy: User
@@ -134,22 +131,22 @@ type Trend {
   deletedBy: User
   description: String
   id: ID
-  images: String
+  images: [String]
   source: [TrendSource]
   status: Status
   title: String
   trendEvalution: [TrendEvalution]
   updatedAt: DateTime!
   updatedBy: User
-  videos: String
+  videos: [String]
 }
 
 input TrendCreateInput {
   description: String
-  images: String
+  images: [String]
   status: Status
   title: String!
-  videos: String
+  videos: [String]
 }
 
 type TrendEvalution {
@@ -170,6 +167,13 @@ input TrendEvalutionCreateInput {
   during: String
   effect: Float
   probability: Float
+}
+
+input TrendSearchInput {
+  categoriesId: [String]
+  orderByField: String
+  search_string: String
+  valueField: String
 }
 
 type TrendSource {

@@ -1,6 +1,8 @@
-import {enumType, inputObjectType, objectType} from "nexus";
+import {enumType, inputObjectType, list, objectType, stringArg} from "nexus";
 import {context, Context} from "../context";
 import {type} from "os";
+
+import { parseResolveInfo, simplifyParsedResolveInfoFragmentWithType} from "graphql-parse-resolve-info";
 
 const User = objectType({
   name: 'User',
@@ -41,7 +43,7 @@ const UserCreateInput = inputObjectType({
 
 // for trend
 
-// BEGIN CATEGORY
+// ------------------------------------------------------------------------------------ BEGIN CATEGORY
 const Status = enumType({
   name: 'Status',
   members: ['ACTIVE', 'DEACTIVE'],
@@ -70,6 +72,9 @@ const Category = objectType({
     t.nonNull.field('updatedAt', { type: 'DateTime' })
     t.nonNull.field('deletedAt', { type: 'DateTime' })
     t.field('status', { type: 'Status'})
+    t.nullable.list.field('subCategory',{
+      type: 'Category'
+    })
     t.field('createdBy', {
       type: 'User',
       resolve: (parent, _, context: Context) => {
@@ -116,80 +121,93 @@ const CategoryCreateInput = inputObjectType({
 })
 // END CATEGORY
 
-// BEGIN CategoriesOnTrend
+// ------------------------------------------------------------------------------------  BEGIN CategoriesOnTrend
 const   CategoriesOnTrend= objectType({
   name: 'CategoriesOnTrend',
   definition(t){
+    t.nullable.field('createdAt', { type: 'DateTime' })
+
     t.field('trendId', {
       type: 'Trend',
       resolve: (parent, _, context: Context) => {
-        return context.prisma.categoriesOnTrend
-          .findUnique({
+        return context.prisma.trend
+          .findFirst({
             where: { trendId: parent.id}
           })
-          .trend()
+          //.trend()
       }
     })
 
-    t.field('catId', {
+    t.nullable.field('catId', {
       type: 'Category',
       resolve: (parent, _, context: Context) => {
-        return context.prisma.categoriesOnTrend
-          .findUnique({
-            where: { catId: parent.id}
-          })
-          .category()
-      }
-    })
-
-    t.field('trends', {
-      type: 'Trend',
-      resolve: (parent, _, context: Context) => {
-        return context.prisma.categoriesOnTrend
-          .findUnique({
-            where: { trendId: parent.id}
-          })
-          .trend()
-      }
-    })
-
-    t.field('createdBy', {
-      type: 'User',
-      resolve: (parent, _, context: Context) => {
-        return context.prisma.category
-          .findUnique({
+        return context.prisma.category.findMany({
             where: { id: parent.id}
-          }).createdUser()
-      },
+          })
+          //category()
+      }
     })
 
-    t.field('updatedBy', {
-      type: 'User',
-      resolve: (parent, _, context: Context) => {
-        return context.prisma.category
-          .findUnique({
-            where: { id: parent.id || undefined}
-          })
-          .updatedUser()
-      },
-    })
+    /*// t.field('trends', {
+    //   type: 'Trend',
+    //   resolve: (parent, _, context: Context) => {
+    //     return context.prisma.categoriesOnTrend
+    //       .findUnique({
+    //         where: { trendId: parent.id}
+    //       })
+    //       .trend()
+    //   }
+    // })
 
-    t.field('deletedBy', {
-      type: 'User',
-      resolve: (parent, _, context: Context) => {
-        return context.prisma.category
-          .findUnique({
-            where: { id: parent.id || undefined}
-          })
-          .deletedUser()
-      },
-    })
+    // t.field('createdBy', {
+    //   type: 'User',
+    //   resolve: (parent, _, context: Context) => {
+    //     return context.prisma.category
+    //       .findUnique({
+    //         where: { id: parent.id}
+    //       }).createdUser()
+    //   },
+    // })
+    //
+    // t.field('updatedBy', {
+    //   type: 'User',
+    //   resolve: (parent, _, context: Context) => {
+    //     return context.prisma.category
+    //       .findUnique({
+    //         where: { id: parent.id || undefined}
+    //       })
+    //       .updatedUser()
+    //   },
+    // })
+    //
+    // t.field('deletedBy', {
+    //   type: 'User',
+    //   resolve: (parent, _, context: Context) => {
+    //     return context.prisma.category
+    //       .findUnique({
+    //         where: { id: parent.id || undefined}
+    //       })
+    //       .deletedUser()
+    //   },
+    // })*/
   }
 })
 // END CategoriesOnTrend
 
 
-// BEGIN TREND Type
+// ------------------------------------------------------------------------------------  BEGIN TREND Type
+const TrendSearchInput = inputObjectType({
+  name: 'TrendSearchInput',
+  definition(t) {
+    t.nullable.string('search_string')
+    t.nullable.list.field('categoriesId', {
+      type: 'String'
+    })
+    t.nullable.string('orderByField')
+    t.nullable.string('valueField')
+  }
+})
+
 const TrendCreateInput = inputObjectType({
   name: 'TrendCreateInput',
   definition(t) {
@@ -197,7 +215,14 @@ const TrendCreateInput = inputObjectType({
     t.string('description')
     t.field('status', {type: Status})
     t.string('images')
-    t.string('videos')
+
+    t.nullable.list.field('images', {
+      type: 'String'
+    })
+
+    t.nullable.list.field('videos', {
+      type: 'String'
+    })
   },
 })
 
@@ -207,22 +232,46 @@ const Trend = objectType({
     t.id('id')
     t.string('title')
     t.string('description')
-    t.string('images')
-    t.string('videos')
+
+    t.nullable.list.field('images', {
+      type: 'String'
+    })
+
+    t.nullable.list.field('videos', {
+      type: 'String'
+    })
 
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.nonNull.field('updatedAt', { type: 'DateTime' })
     t.nonNull.field('deletedAt', { type: 'DateTime' })
     t.field('status', { type: 'Status'})
-
-    t.field('categories', {
-      type: 'CategoriesOnTrend',
-      resolve: async (parent, _, context: Context) => {
-        return await context.prisma.categoriesOnTrend.findFirst({
+    // https://stackoverflow.com/questions/53665761/graphql-using-nested-query-arguments-on-parent-or-parent-arguments-on-nested-que
+    t.nullable.list.field('categories', {
+      type: Category,
+      resolve: async (parent,args, context: Context, resolveInfo) => {
+        const parsedResolveInfoFragment = parseResolveInfo(resolveInfo);
+        console.log(parent);
+        // step 1: find out catId on the table categoriesOnTrend
+        // step2 : for list category and get infor of its in the table category and return this data with type of category
+        let catList = await context.prisma.categoriesOnTrend.findMany({
           where: {
             trendId: parent.id
           }
-        })
+        });
+        let data = [];
+        if(catList){
+          // check catList in args.categoriesId as list
+
+          for ( let item of catList ){
+            let obj = await context.prisma.category.findFirst({
+              where: {
+                id: item.catId
+              }
+            });
+            if (obj){ data.push(obj)};
+          }
+        }
+        return data;
       }
     })
 
@@ -291,7 +340,7 @@ const Trend = objectType({
 // END TREND Type
 
 
-// BEGIN TrendEvalution Type
+// ------------------------------------------------------------------------------------  BEGIN TrendEvalution Type
 
 const TrendEvalutionCreateInput = inputObjectType({
   name: 'TrendEvalutionCreateInput',
@@ -386,7 +435,7 @@ const Portfolio = objectType({
 
 // END TrendEvalution Type
 
-// BEGIN TrendSource Type
+// ------------------------------------------------------------------------------------  BEGIN TrendSource Type
 const TrendSourceCreateInput = inputObjectType({
   name: 'TrendSourceCreateInput',
   definition(t) {
@@ -464,7 +513,7 @@ const TrendSource = objectType({
 })
 // END TrendSource Type
 
-// BEGIN Comment Type
+// ------------------------------------------------------------------------------------  BEGIN Comment Type
 const CommentCreateInput = inputObjectType({
   name: 'CommentCreateInput',
   definition(t) {
@@ -544,6 +593,7 @@ export {
 
   Trend,
   TrendCreateInput,
+  TrendSearchInput,
 
   TrendEvalution,
   TrendEvalutionCreateInput,

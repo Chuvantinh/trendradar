@@ -2,46 +2,72 @@
   <p class="text-center"><a routerLink="add/trend" class="btn btn-sm btn-success mb-2">Add new Trend</a></p>
   <br><br>
   <p>Listtrends Page</p>
-  <p>Informationen </p>
-  <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12">
-    <form action="listtrends.component.ts" method="post" (ngSubmit)="getListBySearch()" autocomplete="off">
-      <input type="text" name="search_string" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" class="form-control float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
-      <select name="search_category" id="search-category" class="form-control form-select float-left col-xs-1 col-sm-1 col-md-3 col-lg-3" multiple>
-        <option value="all">All Categories</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="2">2</option>
-        <option value="2">2</option>
-        <option value="2">2</option>
-        <option value="2">2</option>
-        <option value="2">2</option>
-        <option value="2">2</option>
-      </select>
 
-      <select name="search_strategie" id="search-strategie" class="form-control form-select float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
-        <option value="Sort">Sort</option>
-        <option value="createdAt_ASC">Newest</option>
-        <option value="createdAt_DESC">Lastest</option>
-        <option value="effect_ASC">Effect Asc</option>
-        <option value="effect_DESC">Effect Desc</option>
-      </select>
-      <button type="submit" class="form-control float-left col-xs-1 col-sm-1 col-md-3 col-lg-3 btn btn-success">Search</button>
+  <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12">
+    <form action="listtrends.component.ts" method="post" (ngSubmit)="getListBySearch(form.value)" [formGroup]="form" autocomplete="off">
+
+      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
+        <label> Search String</label>
+        <input formControlName="search_string"
+          type="text" name="search_string" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1"
+               class="form-control">
+      </div>
+
+
+<!--      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">-->
+<!--        <mat-form-field appearance="fill" class="form-control">-->
+<!--          <mat-label>Select Category</mat-label>-->
+<!--          <mat-select formControlName="categoriesId" multiple>-->
+<!--            <mat-option>&#45;&#45; None &#45;&#45;</mat-option>-->
+<!--            <mat-optgroup *ngFor="let group of categories" [label]="group.title">-->
+<!--              <mat-option *ngFor="let sub of group.subCategory" [value]="sub.id">-->
+<!--                {{ sub.title }}-->
+<!--              </mat-option>-->
+<!--            </mat-optgroup>-->
+<!--          </mat-select>-->
+<!--        </mat-form-field>-->
+
+<!--        <div *ngIf="form.get('categoriesId')?.hasError('required')" class='alert alert-danger'>-->
+<!--          Please select mega trend-->
+<!--        </div>-->
+<!--      </div>-->
+
+
+      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
+        <label>OrderBy</label>
+        <select formControlName="orderByField" name="search_strategie" id="search-strategie" class="form-control">
+          <option value="">Sort Field</option>
+          <option value="createdAt">Created At</option>
+          <option value="title">Title</option>
+        </select>
+      </div>
+
+      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
+        <label>Value</label>
+        <select formControlName="valueField" class="form-control">
+          <option value="">Sort Value</option>
+          <option value="asc">ASC</option>
+          <option value="desc">DESC</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-search form-control float-left col-xs-1 col-sm-1 col-md-3 col-lg-3 btn btn-success">Search</button>
     </form>
   </div>
+
   <div class="clearfix"></div>
 
   <div class="trends col-xs-1 col-sm-1 col-md-12 col-lg-12">
-    <span>Trends:</span>
     <br>
-      <div class="float-left col-xs-1 col-sm-1 col-md-3 col-lg-3" *ngFor="let item of listTrends; index as i;">
+      <div class="trend-element float-left col-xs-1 col-sm-1 col-md-3 col-lg-3" *ngFor="let item of listTrends; index as i;">
         <p>
           <a routerLink="{{item.id}}">
-            <img src="{{ item.images}}" alt="{{ item.title }}">
+              <img class="img-galaxy" src="{{ item.images[0]}}" alt="{{item.title}}">
           </a>
         </p>
 
         <div>
-<!--          <iframe width="560" height="315" src="{{item.videos}}" frameborder="0" allowfullscreen></iframe>-->
+            <video controls autoplay class="video-galaxy-detail" src="{{ item.videos[0] }}"> </video>
         </div>
 
         <p class="title">
@@ -50,17 +76,20 @@
           </a>
         </p>
 
-        <p class="desc">
-          {{ item.description}}
+<!--        <i class="fas fa-info-circle"></i>-->
+<!--        <p class="desc text-justify" [innerHTML]="item.description">-->
+
+<!--        </p>-->
+
+        <p>
+          <i class="fas fa-toggle-on"></i>: <span class="btn btn-success">{{ item.status }}</span>
         </p>
 
         <p>
-          Status: {{ item.status }}
+          <i class="fas fa-clock"></i>: <span>{{ item.createdAt}}</span>
         </p>
-
-        <p>
-          <span>{{ item.createdAt}}</span>
-          <span>{{ item.createdBy.name}}</span>
+        <p class="createdBy">
+          By:<span>{{ item.createdBy.name}}</span>
         </p>
       </div>
 

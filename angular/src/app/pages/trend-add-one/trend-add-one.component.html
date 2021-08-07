@@ -1,32 +1,27 @@
 <div class="container">
   <form (ngSubmit)="add(form.value)" [formGroup]="form" #myform="ngForm">
     <div class="form-row">
-      <div class="form-group col-md-6">
-        <label>Select MEGA Trend</label>
+      <div class="form-group col-md-6 col-sm-12">
 
-        <select formControlName="catId1" class="form-control" (ngModelChange)="getMarcoTrendByMegaId($event)">
-          <option value="">Select Category</option>
-          <option *ngFor="let c of categoriesMegatrend" value="{{c.id}}">{{c.title}}</option>
-        </select>
+        <label>Select Category</label>
+        <mat-form-field appearance="fill" class="form-control">
+          <mat-label>Select Category</mat-label>
+          <mat-select formControlName="categoriesId" multiple>
+            <mat-option>-- None --</mat-option>
+            <mat-optgroup *ngFor="let group of categories" [label]="group.title">
+              <mat-option *ngFor="let sub of group.subCategory" [value]="sub.id">
+                {{ sub.title }}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
 
-        <div *ngIf="form.get('catId1')?.hasError('required') && myform.submitted" class='alert alert-danger'>
+        <div *ngIf="form.get('categoriesId')?.hasError('required') && myform.submitted" class='alert alert-danger'>
           Please select mega trend
         </div>
       </div>
 
-      <div class="form-group col-md-6">
-        <label>Select Marco Trend</label>
-        <select formControlName="catId2" class="form-control">
-          <option value="">Select Category</option>
-          <option *ngFor="let c of categories" value="{{c.id}}">{{c.title}}</option>
-        </select>
-        <div *ngIf="form.get('catId2')?.hasError('required') && myform.submitted" class='alert alert-danger'>
-          This Field is required
-        </div>
-      </div>
-
-
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-6 col-sm-12">
         <label>Titel of Trend:</label>
         <input type="text" placeholder="title" formControlName="title" class="form-control">
         <div *ngIf="form.get('title')?.hasError('required') && myform.submitted" class='alert alert-danger'>
@@ -34,11 +29,17 @@
         </div>
       </div>
 
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-6 col-sm-12">
         <label>Put more Information at description field</label>
-        <textarea type="text" formControlName="description"
-                  placeholder="Please write more information for this trend"
-                  class="form-control col-xs-12 col-sm-12 col-md-12 col-lg-12"></textarea>
+<!--        <textarea type="text" formControlName="description"-->
+<!--                  placeholder="Please write more information for this trend"-->
+<!--                  class="form-control col-xs-12 col-sm-12 col-md-12 col-lg-12"></textarea>-->
+
+        <ckeditor
+          data="<p>Some initial data</p>"
+          formControlName="description"
+        ></ckeditor>
+
         <div *ngIf="form.get('description')?.hasError('required') && myform.submitted" class='alert alert-danger'>
           Description is required
         </div>
@@ -55,27 +56,79 @@
           </div>
         </div>
 
-        <video class="video-preview" *ngFor='let url of videos' autoplay controls height="150" width="200px"
+        <video class="video-preview" *ngFor='let url of videos' autoplay controls height="150" width="33%"
                style="margin: 3px;">
           <source [src]="url" type="video/mp4">
           <source [src]="url" type="video/ogg">
-          Your browser does not support HTML video.
+          Your browser does not support HTML
+          <video src="" class=""></video>
         </video>
       </div>
 
       <!-- Images -->
       <div formArrayName="trendImages" class="form-group col-md-6">
         <div id="id-image">
-          <div *ngFor="let check of trend_images().controls; let i=index" [formGroupName]="i">
-            <span>Image <i class="far fa-image" style="font-size: 18px"></i></span>
+          Images:
+          <div *ngFor="let check of trend_images().controls; let i=index" [formGroupName]="i" class="images-preview">
             <i class="fas fa-trash-alt col-1 col-xl-1 col-lg-1 col-sm-1" (click)="removeQuestionImage(i)"></i>
             <input type="file" multiple="multiple" formControlName="trend_images" placeholder="add image"
                    (change)="onFileImagesChange($event)">
           </div>
+
+          <ng-container *ngFor='let url of images; let j = index'>
+            <img class="image-preview" [src]="url" height="150" width="33%">
+          </ng-container>
+
         </div>
 
-        <img class="image-preview" *ngFor='let url of images' [src]="url" height="150" width="200px">
+
       </div>
+
+<!--      Source ---------------------------------------------- -->
+      <p class="col-12 col-sm-12">
+        <i class="btn btn-primary fa fa-plus " (click)="addSources()">Add Source</i>
+      </p>
+
+      <div class="sources col-12 col-xl-12 col-lg-12 col-sm-12" formArrayName="sources">
+          <ng-container *ngFor="let source of getSources().controls; let i = index" [formGroupName]="i">
+          <div class="sources-element col-6 col-xl-6 col-lg-6 col-sm-12 float-left">
+
+              <i class="fas fa-trash-alt col-1 col-xl-1 col-lg-1 col-sm-1" (click)="removeSources(i)"></i>
+              <div class="form-group">
+                <label>Source Title</label>
+                <input type="text" formControlName="title" class="form-control" placeholder="Landessieg bei Jugend forscht 2021" value="">
+              </div>
+
+              <div class="form-group">
+                <label>Source Description</label>
+                <textarea class="form-control" formControlName="description" id="" cols="30" rows="5" placeholder="From Max-Planck-Gymnasium Göttingen in Germany"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Source URL</label>
+                <input class="form-control" type="text" formControlName="url" placeholder="Url" value="">
+              </div>
+
+              <div class="form-group">
+                <label>Source Type</label>
+                <select class="form-control" formControlName="source" multiple>
+                  <option value="Media">Media</option>
+                  <option value="Publication">Publication</option>
+                  <option value="Internet">Internet</option>
+                  <option value="Database">Database</option>
+                  <option value="Company">Company</option>
+                  <option value="Paten">Paten</option>
+                  <option value="Seminar">Seminar</option>
+                  <option value="Trade">Trade</option>
+                  <option value="Conferences">Conferences</option>
+                  <option value="Travel">Travel</option>
+                  <option value="ExtendNetwork">ExtendNetwork</option>
+                </select>
+              </div>
+
+          </div>
+          </ng-container>
+        </div>
 
       <br><br><br>
       <button type="submit" class="save btn btn-primary">Save</button>

@@ -127,9 +127,10 @@ export class TrendradarComponent implements OnInit {
 
     });
   }
-// https://stackblitz.com/edit/angular-svg-tooltip?file=src%2Fapp%2Fapp.component.ts
+  // https://stackblitz.com/edit/angular-svg-tooltip?file=src%2Fapp%2Fapp.component.ts
   public mouseEnter($event:any, data:any): void {
     let circle = $event.target as HTMLElement;
+    console.log(circle);
     let coordinates = circle.getBoundingClientRect();
     let x = `${coordinates.left + 20}px`;
     let y = `${coordinates.top + 20}px`;

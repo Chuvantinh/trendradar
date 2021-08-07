@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, FormArray, FormBuilder, Validators} from '@angular/forms';
 // Get data by gql query
-import {Apollo} from 'apollo-angular';
-import gql from 'graphql-tag';
+import {Apollo, gql} from 'apollo-angular';
+// import  from 'graphql-tag';
 
 import {Router, ActivatedRoute} from '@angular/router';
 import {NotificationService} from '../../services/notification.service';
@@ -10,7 +10,7 @@ import {NotificationService} from '../../services/notification.service';
 import {AngularFireDatabase} from "@angular/fire/database";
 import {AngularFireStorage} from "@angular/fire/storage";
 import { HttpClientModule } from '@angular/common/http';
-import {Observable,of, from } from 'rxjs';
+import {Observable,of, from, Subscription } from 'rxjs';
 import {finalize, map} from "rxjs/operators";
 
 @Component({
@@ -18,10 +18,12 @@ import {finalize, map} from "rxjs/operators";
   templateUrl: './trend-add-one.component.html',
   styleUrls: ['./trend-add-one.component.sass'],
 })
+
 export class TrendAddOneComponent implements OnInit {
+
+
   form: FormGroup = this.formBuilder.group({});
   categories:any = [];
-  categoriesMegatrend:any = [];
 
   images:any[] = []; // for preview images
   videos:any[] = []; // for preview videos
@@ -48,7 +50,6 @@ export class TrendAddOneComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    this.getCategoriesMegatrend();
 
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
@@ -63,16 +64,23 @@ export class TrendAddOneComponent implements OnInit {
           trend_images: new FormControl('', [Validators.required]),
         })
       ]),
-      status: ['', Validators.required],
-      catId1: ['', Validators.required],
-      catId2: ['', Validators.required],
+      categoriesId: ['', Validators.required],
+      sources: this.fb.array([
+        this.fb.group({
+          title: new FormControl('', [Validators.required]),
+          description: new FormControl('', [Validators.required]),
+          url: new FormControl('', [Validators.required]),
+          source: new FormControl('', [Validators.required]),
+        })
+      ]),
+
     });
   }
 
   async add(valueInput: any) {
     // validate form
     if (this.form.invalid) {
-      this.notification.showError('Bitte validieren Sie Form', 'open-innovation.de');
+      this.notification.showError('Bitte validieren Sie Form', 'trendradar.de');
       return;
     }
 
@@ -88,15 +96,73 @@ export class TrendAddOneComponent implements OnInit {
       }
     }
 
+    //console.log(valueInput.categoriesId) ["29", "30", "31", "36", "37"]
+
     enum STATUS {
       e = 'ACTIVE',
       g = 'DEACTIVE',
       b = 'BEENDET'
     }
 
-    const _status = STATUS;
-
     // add data to database
+    const createTrend = gql`
+      mutation createTrend(
+        $title: String!,
+        $description: String,
+        $status: Status
+        $images: [String],
+        $videos: [String],
+        $categoriesId: [String],
+        $source: [TrendSourceCreateInput]
+      ){
+        createTrend( data: {
+          title: $title,
+          description: $description,
+          status: $status,
+          images: $images,
+          videos: $videos,
+          },
+          categoriesId: $categoriesId,
+          source: $source
+        )
+        {
+          id
+          title
+          description
+          createdAt
+          createdBy{
+            id
+            name
+          }
+          createdBy{
+            id
+            name
+            email
+          }
+        }
+      }
+    `;
+
+    this.apollo.mutate({
+      mutation: createTrend,
+      variables: {
+        title: valueInput.title,
+        description: valueInput.description,
+        status: STATUS.e,
+        images: this.linkImages,
+        videos: this.linkVideos,
+        categoriesId: valueInput.categoriesId,
+        source: valueInput.sources
+      }
+    }).subscribe( (data) => {
+      if(data){
+        this.notification.showSuccess('trendradar', 'trendradar.de');
+        this.router.navigateByUrl('listtrends');
+      } else {
+        this.notification.showError('error during adding', 'trendradar.de')
+      }
+
+    })
   }
 
   /**
@@ -143,7 +209,7 @@ export class TrendAddOneComponent implements OnInit {
   }
 
   /**
-   * get Infor of all categories
+   * get Infor of all categories with subcategory
    */
   getCategories() {
     this.apollo
@@ -154,6 +220,10 @@ export class TrendAddOneComponent implements OnInit {
             id
             title
             description
+            subCategory{
+              id
+              title
+            }
             createdAt
             createdBy
             {
@@ -164,7 +234,7 @@ export class TrendAddOneComponent implements OnInit {
         }
       `,
       variables: {
-        isparent: 1
+        isparent: 3
       }
     })
     .valueChanges.subscribe(result => {
@@ -177,69 +247,9 @@ export class TrendAddOneComponent implements OnInit {
   }
 
   /**
-   * get Infor of all categories
-   */
-  getCategoriesMegatrend() {
-    this.apollo
-    .watchQuery({
-      query: gql`
-        query getCategories($isparent: Int){
-          getCategories(isparent: $isparent){
-            id
-            title
-            description
-            createdAt
-            createdBy
-            {
-              id
-              name
-            }
-          }
-        }
-      `,
-      variables: {
-        isparent: 0
-      }
-    })
-    .valueChanges.subscribe(result => {
-
-      this.categoriesMegatrend = Array.of(result.data);
-
-      this.categoriesMegatrend = this.categoriesMegatrend[0].getCategories;
-
-    });
-  }
-
-  getMarcoTrendByMegaId($event: any){
-    let parentId:number = parseInt($event);
-    console.log(parentId);
-    this.apollo
-    .watchQuery({
-      query: gql`
-        query getMarcoTrendByMegaId($parentId: Int){
-          getMarcoTrendByMegaId(parentId: $parentId){
-            id
-            title
-            description
-          }
-        }
-      `,
-      variables: {
-        parentId: parentId
-      }
-    })
-    .valueChanges.subscribe(result => {
-      this.categories = Array.of(result.data);
-      this.categories = Array.of(this.categories[0].getMarcoTrendByMegaId);
-
-    });
-  }
-
-  /**
-   * ************************************************************************************ FORM ARRAY
+   * ******************************************************************************************************** FORM ARRAY
    */
 
-  // Video ----------------------------------------------------------------------------------------------------------
   /**
    * Video, Add and Remove question type Video
    */
@@ -251,7 +261,6 @@ export class TrendAddOneComponent implements OnInit {
     this.trend_videos().removeAt(index);
   }
 
-  // Images ----------------------------------------------------------------------------------------------------------
   /**
    * Image, Add and Remove question type image
    * image would save on the google cloud
@@ -264,8 +273,26 @@ export class TrendAddOneComponent implements OnInit {
     this.trend_images().removeAt(index);
   }
 
+  getSources(){
+    return this.form.get('sources') as FormArray;
+  }
+
+  addSources(){
+    return this.getSources().push(
+      this.fb.group({
+        title: new FormControl('', [Validators.required]),
+        description: new FormControl('', [Validators.required]),
+        url: new FormControl('', [Validators.required]),
+        source: new FormControl('', [Validators.required]),
+    }))
+  }
+
+  removeSources(index:number){
+    this.getSources().removeAt(index);
+  }
+
   /**
-   * ***********************************************************************************************************
+   * *********************************************************************************************************** END FORM ARRAY
    */
 
   /**

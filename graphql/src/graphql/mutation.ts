@@ -40,7 +40,7 @@ export const Mutation = objectType({
           })
         )
       },
-      resolve: async (_, args, context: Context) =>{
+      resolve: async (_, args, context: Context) => {
         // check email and password is equals or not with bcrypt
         try{
           const user = await context.prisma.user.findUnique({
@@ -134,11 +134,39 @@ export const Mutation = objectType({
             type: 'TrendCreateInput',
           }),
         ),
-        catId1: intArg(),
-        catId2: intArg(),
+        categoriesId: list(stringArg()),
         source: list(TrendSourceCreateInput)
       },
       resolve: async (_, args, context: Context) => {
+
+        // handle list id of category to [{id: 1}, {id: 2}]
+        // [
+        //
+        //   {
+        //     category: {
+        //       connect: id
+        //     }
+        //   }
+        // ]
+
+        let listCate:any[] = [];
+        if(args.categoriesId){
+          for(let item of args.categoriesId){
+            let obj = {
+              "category": {
+                "connect": {
+                  id: parseInt(item)
+                }
+              }
+            };
+
+            listCate.push(obj);
+          }
+        }
+
+
+        console.log(listCate);
+
         return await context.prisma.trend.create({
           data: {
             title: args.data.title,
@@ -150,19 +178,7 @@ export const Mutation = objectType({
               connect: { id: context.userId}
             },
             categories: {
-              create:[
-                {
-                  category: {
-                    connect: {id: args.catId1}
-                  }
-                },
-                {
-                  category: {
-                    connect: {id: args.catId2}
-                  }
-                }
-              ]
-
+              create: listCate
             },
             source:{
               create: args.source
@@ -182,7 +198,7 @@ export const Mutation = objectType({
           }),
         ),
         id: intArg(),
-        catId: intArg()
+        source: list(TrendSourceCreateInput),
       },
       resolve: async (_, args, context: Context) => {
         // check array of catId , then create array for connect.
@@ -193,20 +209,14 @@ export const Mutation = objectType({
             title: args.data.title,
             description: args.data.description,
             status: args.data.status,
+            images: args.data.images,
+            videos: args.data.videos,
             updatedUser: {
               connect: { id: context.userId}
             },
-            categories: {
-              create: [
-                {
-                  category: {
-                    connect: {
-                      id: args.catId
-                    }
-                  }
-                }
-              ]
-            },
+            source:{
+              create: args.source
+            }
           },
         })
       },

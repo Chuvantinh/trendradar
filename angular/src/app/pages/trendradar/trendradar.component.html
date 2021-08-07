@@ -48,20 +48,20 @@
           </filter>
         </defs>
 
-        <circle cx="0" cy="0" r="130" class="cv-circle"></circle>
-        <text y="-68" text-anchor="middle" class="text-cluster">
+        <circle cx="0" cy="0" r="130" class="cv-circle"  stroke="green"></circle>
+        <text y="-68" text-anchor="middle" class="text-cluster" fill="green">
           ADOPT
         </text>
-        <circle cx="0" cy="0" r="220" class="cv-circle"></circle>
-        <text y="-158" text-anchor="middle" class="text-cluster">
+        <circle cx="0" cy="0" r="220" class="cv-circle" stroke="blue"></circle>
+        <text y="-158" text-anchor="middle" class="text-cluster" fill="blue">
           TRIAL
         </text>
-        <circle cx="0" cy="0" r="310" class="cv-circle"></circle>
-        <text y="-248" text-anchor="middle" class="text-cluster">
+        <circle cx="0" cy="0" r="310" class="cv-circle" stroke="orange" ></circle>
+        <text y="-248" text-anchor="middle" class="text-cluster" fill="orange">
           ASSESS
         </text>
-        <circle cx="0" cy="0" r="400" class="cv-circle"></circle>
-        <text y="-338" text-anchor="middle" class="text-cluster">
+        <circle cx="0" cy="0" r="400" class="cv-circle" stroke="red" ></circle>
+        <text y="-338" text-anchor="middle" class="text-cluster" fill="red">
           HOLD
         </text>
       </g>
@@ -195,36 +195,39 @@
   </svg>
 </div>
 
-<div class="explantion">
+<div class="container">
   The  Radar is a list of trends, which are valuated by a lot of employees and summaried via complexity funtion in the backend
   and the result is showed on the ring assignment. I am using four rings with the following semantics
   <details>
     <summary>ADOPT</summary>
     <p>
-      Technologies we have high confidence in to serve our purpose, also in large scale.
-      Technologies with a usage culture in our Zalando production environment, low risk and recommended to be widely used.
+      Trend we have high confidence in to serve our purpose, also in large scale.
+      Trend with a usage culture in our System production environment, low risk and recommended to be widely used.
     </p>
 
   </details>
 
   <details>
     <summary>TRIAL</summary>
-    <p>Technologies that we have seen work with success in project work to solve a real problem; first serious usage experience that confirm benefits and can uncover limitations.
-      TRIAL technologies are slightly more risky; some engineers in our organization walked this path and will share knowledge and experiences.</p>
+    <p>Trend that we have seen work with success in project work to solve a real problem;
+      first serious usage experience that confirm benefits and can uncover limitations.
+      TRIAL Trends are slightly more risky; some engineers in our organization walked this path and will share knowledge and experiences.</p>
 
   </details>
 
   <details>
     <summary>ASSESS</summary>
-    <p>Technologies that are promising and have clear potential value-add for us; technologies worth to invest some research and prototyping efforts in to see if it has impact.
-      ASSESS technologies have higher risks; they are often brand new and highly unproven in our organisation. You will find some engineers that have knowledge in the technology and promote it, you may even find teams that have started a prototyping effort</p>
+    <p>Trend that are promising and have clear potential value-add for us;
+      technologies worth to invest some research and prototyping efforts in to see if it has impact.
+      ASSESS trends have higher risks; they are often brand new and highly unproven in our organisation.
+      You will find some engineers that have knowledge in the technology and promote it, you may even find teams that have started a prototyping effort</p>
 
   </details>
 
   <details>
     <summary>HOLD</summary>
     <p>
-      Technologies not recommended to be used for new projects. Technologies that we think are not (yet) worth to (further) invest in.
+      Trends in this are not recommended to be used for new projects. This Trend that we think are not (yet) worth to (further) invest in.
       HOLD technologies should not be used for new projects, but usually can be continued for existing projects.
     </p>
   </details>

@@ -1,6 +1,6 @@
-import {intArg, objectType, stringArg} from "nexus";
+import {arg, intArg, interfaceType, list, nonNull, objectType, stringArg} from "nexus";
 import {Context} from "../context";
-import {User, Category} from "./types";
+import {TrendSearchInput} from "./types";
 
 export const Query = objectType({
   name: 'Query',
@@ -25,10 +25,70 @@ export const Query = objectType({
     })
 
     // ---------------------- ----------------------------------------- BEGIN QUERY: TREND
-    t.nonNull.list.nonNull.field('getTrends', {
+    t.nullable.list.field('getTrends', {
       type: 'Trend',
-      resolve: async (_parent, _args, context: Context) => {
-        return await context.prisma.trend.findMany();
+      args: {
+        data:
+          arg({
+            type: 'TrendSearchInput'
+          }),
+      },
+      resolve: async (_parent, _args, context: Context, resolveInfo) => {
+        let orderByField = _args.data.orderByField;
+        let valueField = _args.data.valueField;
+
+        if(orderByField == "createdAt"){
+          if(valueField == "asc"){
+            return await context.prisma.trend.findMany({
+              where: {
+                title: {
+                  contains: _args.data.search_string,
+                }
+              },
+              orderBy: {
+                createdAt: 'asc'
+              }
+            });
+          }else{
+            return await context.prisma.trend.findMany({
+              where: {
+                title: {
+                  contains: _args.data.search_string,
+                }
+              },
+              orderBy: {
+                createdAt: 'desc'
+              }
+            });
+          }
+        }
+
+        if(orderByField == "title"){
+          if(valueField == "desc"){
+            return await context.prisma.trend.findMany({
+              where: {
+                title: {
+                  contains: _args.data.search_string,
+                }
+              },
+              orderBy: {
+                title: 'desc'
+              }
+            });
+          }else{
+            return await context.prisma.trend.findMany({
+              where: {
+                title: {
+                  contains: _args.data.search_string,
+                }
+              },
+              orderBy: {
+                title: 'asc'
+              }
+            });
+          }
+        }
+
       },
     })
 
@@ -53,6 +113,7 @@ export const Query = objectType({
         isparent: intArg() // 0 is parent megatrend, 1 is all children, 2 is all
       },
       resolve:async (_parent, _args, context: Context) => {
+
         if( _args.isparent == 0){
           return await context.prisma.category.findMany({
             where: {
@@ -69,12 +130,31 @@ export const Query = objectType({
             }
           })
         }
-
-
-        if(_args.isparent == 2){
+        else if(_args.isparent == 2){
           return await context.prisma.category.findMany();
-        }
+        }else if(_args.isparent == 3){// cate with subcate
+          let data = await context.prisma.category.findMany({ // get parent category
+            orderBy: {
+              title: 'asc'
+            },
+            where: {
+              parentId: 0
+            }
+          });
 
+          if(data){
+            for (let item of data){
+                let sub = await context.prisma.category.findMany({
+                  where: {
+                    parentId: item.id
+                  }
+                });
+                item.subCategory = sub;
+            }
+          }
+
+          return data;
+        }
       },
     })
 
@@ -90,22 +170,6 @@ export const Query = objectType({
       },
     })
 
-    t.nullable.field('getMarcoTrendByMegaId', {
-      type: 'Category',
-      args: {
-        parentId: intArg()
-      },
-      resolve: async (_parent, _args, context: Context) => {
-        return await context.prisma.category.findMany({
-          where: {
-            parentId: _args.id
-          }
-        })
-
-        // return await await context.prisma.$queryRaw('select * from "public"."Category"');
-
-      },
-    })
     // --- END QUERY: Category
 
     // ----------------------------------------------------------------------- BEGIN QUERY: TrenSource

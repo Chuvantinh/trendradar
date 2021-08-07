@@ -88,6 +88,9 @@ export class TrendDetailComponent implements OnInit {
               probability
               during
               createdAt
+              createdBy{
+                name
+              }
             }
             comment{
               id
