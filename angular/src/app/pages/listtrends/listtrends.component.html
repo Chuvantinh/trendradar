@@ -4,33 +4,34 @@
   <p>Listtrends Page</p>
 
   <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12">
-    <form action="listtrends.component.ts" method="post" (ngSubmit)="getListBySearch(form.value)" [formGroup]="form" autocomplete="off">
+    <form action="listtrends.component.ts" method="post" (ngSubmit)="getListBySearch(form.value)" [formGroup]="form"
+          autocomplete="off">
 
       <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
         <label> Search String</label>
         <input formControlName="search_string"
-          type="text" name="search_string" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1"
+               type="text" name="search_string" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1"
                class="form-control">
       </div>
 
 
-<!--      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">-->
-<!--        <mat-form-field appearance="fill" class="form-control">-->
-<!--          <mat-label>Select Category</mat-label>-->
-<!--          <mat-select formControlName="categoriesId" multiple>-->
-<!--            <mat-option>&#45;&#45; None &#45;&#45;</mat-option>-->
-<!--            <mat-optgroup *ngFor="let group of categories" [label]="group.title">-->
-<!--              <mat-option *ngFor="let sub of group.subCategory" [value]="sub.id">-->
-<!--                {{ sub.title }}-->
-<!--              </mat-option>-->
-<!--            </mat-optgroup>-->
-<!--          </mat-select>-->
-<!--        </mat-form-field>-->
+      <!--      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">-->
+      <!--        <mat-form-field appearance="fill" class="form-control">-->
+      <!--          <mat-label>Select Category</mat-label>-->
+      <!--          <mat-select formControlName="categoriesId" multiple>-->
+      <!--            <mat-option>&#45;&#45; None &#45;&#45;</mat-option>-->
+      <!--            <mat-optgroup *ngFor="let group of categories" [label]="group.title">-->
+      <!--              <mat-option *ngFor="let sub of group.subCategory" [value]="sub.id">-->
+      <!--                {{ sub.title }}-->
+      <!--              </mat-option>-->
+      <!--            </mat-optgroup>-->
+      <!--          </mat-select>-->
+      <!--        </mat-form-field>-->
 
-<!--        <div *ngIf="form.get('categoriesId')?.hasError('required')" class='alert alert-danger'>-->
-<!--          Please select mega trend-->
-<!--        </div>-->
-<!--      </div>-->
+      <!--        <div *ngIf="form.get('categoriesId')?.hasError('required')" class='alert alert-danger'>-->
+      <!--          Please select mega trend-->
+      <!--        </div>-->
+      <!--      </div>-->
 
 
       <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
@@ -51,7 +52,9 @@
         </select>
       </div>
 
-      <button type="submit" class="btn-search form-control float-left col-xs-1 col-sm-1 col-md-3 col-lg-3 btn btn-success">Search</button>
+      <button type="submit"
+              class="btn-search form-control float-left col-xs-1 col-sm-1 col-md-3 col-lg-3 btn btn-success">Search
+      </button>
     </form>
   </div>
 
@@ -59,39 +62,49 @@
 
   <div class="trends col-xs-1 col-sm-1 col-md-12 col-lg-12">
     <br>
-      <div class="trend-element float-left col-xs-1 col-sm-1 col-md-3 col-lg-3" *ngFor="let item of listTrends; index as i;">
-        <p>
-          <a routerLink="{{item.id}}">
-              <img class="img-galaxy" src="{{ item.images[0]}}" alt="{{item.title}}">
-          </a>
-        </p>
 
-        <div>
-            <video controls autoplay class="video-galaxy-detail" src="{{ item.videos[0] }}"> </video>
-        </div>
-
-        <p class="title">
-          <a routerLink="{{item.id}}">
-            {{ item.title }}
-          </a>
-        </p>
-
-<!--        <i class="fas fa-info-circle"></i>-->
-<!--        <p class="desc text-justify" [innerHTML]="item.description">-->
-
-<!--        </p>-->
-
-        <p>
-          <i class="fas fa-toggle-on"></i>: <span class="btn btn-success">{{ item.status }}</span>
-        </p>
-
-        <p>
-          <i class="fas fa-clock"></i>: <span>{{ item.createdAt}}</span>
-        </p>
-        <p class="createdBy">
-          By:<span>{{ item.createdBy.name}}</span>
-        </p>
+      <div class="vt-pagination">
+        <pagination-controls (pageChange)="p = $event" ></pagination-controls>
       </div>
+
+    <div class="trend-element float-left col-xs-1 col-sm-1 col-md-3 col-lg-3"
+         *ngFor="let item of listTrends | paginate: { itemsPerPage: 4, currentPage: p }; index as i;">
+      <p>
+        <a routerLink="{{item.id}}">
+          <img class="img-galaxy" src="{{ item.images[0]}}" alt="{{item.title}}">
+        </a>
+      </p>
+
+      <div>
+        <video controls autoplay class="video-galaxy-detail" src="{{ item.videos[0] }}"></video>
+      </div>
+
+      <p class="title">
+        <a routerLink="{{item.id}}">
+          {{ item.title }}
+        </a>
+      </p>
+
+      <!--        <i class="fas fa-info-circle"></i>-->
+      <!--        <p class="desc text-justify" [innerHTML]="item.description">-->
+
+      <!--        </p>-->
+
+      <p>
+        <i class="fas fa-toggle-on"></i>: <span class="btn btn-success">{{ item.status }}</span>
+      </p>
+
+      <p>
+        <i class="fas fa-clock"></i>: <span>{{ item.createdAt}}</span>
+      </p>
+      <p class="createdBy">
+        By:<span>{{ item.createdBy.name}}</span>
+      </p>
+    </div>
+
+    <div class="clearfix"></div>
+      <pagination-controls  (pageChange)="p = $event"></pagination-controls>
+
 
   </div>
   <div class="clearfix"></div>

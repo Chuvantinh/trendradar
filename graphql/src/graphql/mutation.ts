@@ -1,9 +1,11 @@
-import {arg, intArg, list, nonNull, nullable, objectType, stringArg} from "nexus";
+import {arg, floatArg, intArg, list, nonNull, nullable, objectType, stringArg} from "nexus";
 import {context, Context} from "../context";
 import {User, UserCreateInput, UserLogin, UserAuthPayload, Category, Status, TrendSourceCreateInput, ListIdCategory} from "./types";
 import {checkUser, generatePassword} from "../authorization/bcrypt";
 import {jwtToken} from "../authorization/authorization"
 import {GraphQLList} from "graphql";
+import kmeans from "kmeans-ts";
+import { KMeans, Vectors, Utils } from "kmeans-ts";
 
 export const Mutation = objectType({
   name: 'Mutation',
@@ -233,6 +235,44 @@ export const Mutation = objectType({
         })
       },
     })
+
+    // https://github.com/GoldinGuy/K-Means-TS
+    // clustering hier in typescript
+    t.nonNull.field('TrendCluster', {
+      type: 'TrendCluster',
+      args: {
+        input_data: list(list(floatArg())),
+        number_cluster: intArg(),
+        max_interation: intArg()
+      },
+      resolve: async (_, args, context: Context) => {
+        //let output: any = kmeans(args.input_data, args.number_cluster,null, args.max_interation);
+        //console.log(output);
+        //return output;
+        let input_data: Array<Array<number>> = [
+          [1, 12, 14, 4, 25, 35, 22, 3, 14, 5, 51, 2, 23, 24, 15],
+          [7, 34, 15, 34, 17, 11, 34, 2, 35, 18, 52, 34, 33, 21],
+          [5, 19, 35, 17, 35, 18, 12, 45, 23, 56, 23, 45, 16, 3]
+        ];
+        let data: KMeans = kmeans(args.input_data, args.number_cluster, null, args.max_interation);
+
+        return data;
+      },
+    })
+
+    // t.nullable.field('TrendCluster', {
+    //   type: 'TrendCluster',
+    //   args:{
+    //     input_data: list(intArg()),
+    //     number_cluster: intArg(),
+    //     max_interation: intArg()
+    //   },
+    //   resolve: async (_, args, context: Context) => {
+    //     let output: Array<Array<number>> = kmeans(args.input_data, args.number_cluster, null, args.max_interation);
+    //     return null;
+    //   }
+    // })
+
 // ++++ END TREND MUTATION
 
 // ---------------------------------------------------------------------------- BEGIN TrendSource MUTATION

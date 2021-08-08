@@ -66,6 +66,8 @@ export const Query = objectType({
         if(orderByField == "title"){
           if(valueField == "desc"){
             return await context.prisma.trend.findMany({
+              take: 4,
+              skip: 2,
               where: {
                 title: {
                   contains: _args.data.search_string,
@@ -243,6 +245,18 @@ export const Query = objectType({
       resolve: async (_parent, _args, context: Context) => {
         return await context.prisma.comment.findUnique({
           where: {id: _args.id}
+        })
+      },
+    })
+
+    t.nullable.list.nullable.field('getCommentByTrendId', {
+      type: 'Comment',
+      args: {
+        trendId: intArg()
+      },
+      resolve: async (_parent, _args, context: Context) => {
+        return await context.prisma.comment.findMany({
+          where: {trendID: _args.trendId}
         })
       },
     })

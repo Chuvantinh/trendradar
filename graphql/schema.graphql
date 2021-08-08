@@ -56,6 +56,7 @@ input ListIdCategory {
 }
 
 type Mutation {
+  TrendCluster(input_data: [[Float]], max_interation: Int, number_cluster: Int): TrendCluster!
   createCategory(data: CategoryCreateInput!): Category!
   createComment(data: CommentCreateInput!, trendId: Int): Comment!
   createTrend(categoriesId: [String], data: TrendCreateInput!, source: [TrendSourceCreateInput]): Trend!
@@ -90,6 +91,7 @@ type Query {
   getCategories(isparent: Int): [Category!]!
   getCategoriesById(id: Int): Category
   getCommentById(id: Int): Comment
+  getCommentByTrendId(trendId: Int): [Comment]
   getComments: [Comment!]!
   getPortfolioEvalution: [Portfolio!]!
   getTrendById(id: Int): Trend
@@ -139,6 +141,13 @@ type Trend {
   updatedAt: DateTime!
   updatedBy: User
   videos: [String]
+}
+
+type TrendCluster {
+  centroids: [Int]
+  indexes: [Int]
+  iterations: Int
+  k: Int
 }
 
 input TrendCreateInput {

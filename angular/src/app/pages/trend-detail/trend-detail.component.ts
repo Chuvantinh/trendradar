@@ -10,6 +10,7 @@ import {NotificationService} from "../../services/notification.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Constants} from "../../services/constants";
 
+
 @Component({
   selector: 'app-trend-detail',
   templateUrl: './trend-detail.component.html',
@@ -19,6 +20,9 @@ export class TrendDetailComponent implements OnInit {
   form: FormGroup = this.formBuilder.group({});
   trend: any; // store a trend detail
   id: number;
+  datacomment:any;
+
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -33,7 +37,17 @@ export class TrendDetailComponent implements OnInit {
   ngOnInit(): void {
     this.id = parseInt(this.route.snapshot.params['id']);
     this.getTrendById(this.id);
+    this.getCommentByTrendId(this.id);
 
+    this.initForm();
+
+  }
+
+  /**
+   * Init Form for trend's voting
+   * @return void
+   */
+  public initForm(){
     this.form = this.formBuilder.group({
       effect: ['',
         [
@@ -157,6 +171,85 @@ export class TrendDetailComponent implements OnInit {
     }).subscribe( (data) => {
       this.notification.showSuccess('trendradar', 'added TrendEvalution')
       this.router.navigateByUrl('listtrends');
+    })
+  }
+
+  /**
+   * Take data from Comment Component and save data to the table TrendComment
+   * @param newComment
+   */
+  addComment(newComment: string) {
+   if(newComment){
+     const createComment = gql`
+       mutation createComment(
+         $content: String,
+         $trendId: Int,
+       ){
+         createComment(
+           data: {
+             content: $content,
+         }, trendId: $trendId)
+         {
+           id
+           content
+           trendId{
+             id
+             title
+             description
+           }
+           createdBy{
+             id
+             name
+             email
+           }
+         }
+       }
+     `;
+
+     this.apollo.mutate({
+       mutation: createComment,
+       variables: {
+         content: newComment,
+         trendId: this.id
+       }
+     }).subscribe( (data) => {
+       this.notification.showSuccess('added new Comment', 'trendradar.de')
+     })
+   }
+  }
+
+  private getCommentByTrendId(id:number): any{
+    const getCommentByTrendId = gql`
+      query getCommentByTrendId($trendId: Int)
+      {
+        getCommentByTrendId(trendId: $trendId)
+        {
+          id
+          content
+          trendId{
+            id
+            title
+            description
+          }
+          createdAt
+          createdBy{
+            id
+            name
+            email
+          }
+        }
+      }
+    `;
+
+    this.apollo.watchQuery({
+      query: getCommentByTrendId,
+      variables: {
+        trendId: this.id
+      }
+    }).valueChanges.subscribe( (data) => {
+      this.datacomment = Array.of(data);
+      this.datacomment = this.datacomment[0].data.getCommentByTrendId;
+      console.log(this.datacomment);
     })
   }
 }

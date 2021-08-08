@@ -65,6 +65,8 @@ import {HttpLinkModule} from 'apollo-angular-link-http';
 // check editor
 import { CKEditorModule} from "ckeditor4-angular";
 import { MatSelectModule} from "@angular/material/select";
+import { CommentsComponent } from './shared/comments/comments.component';
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -89,7 +91,8 @@ import { MatSelectModule} from "@angular/material/select";
     RoadmapComponent,
     ListtrendsComponent,
     TrendDetailComponent,
-    TrendAddOneComponent
+    TrendAddOneComponent,
+    CommentsComponent,
   ],
   exports: [
     MatSidenavModule
@@ -129,7 +132,7 @@ import { MatSelectModule} from "@angular/material/select";
 
     CKEditorModule,
     MatSelectModule, // for select
-
+    NgxPaginationModule, // for pagging a component of angular with offset
   ],
   providers: [
     AuthService,

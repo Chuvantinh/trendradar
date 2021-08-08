@@ -1,0 +1,13 @@
+<div id="mainDiv">
+  <form [formGroup]="form" autocomplete="off" (ngSubmit)="addComment(form.value)">
+    <div class="form-group">
+      <label>Write your comment:</label>
+      <ckeditor
+        data="<p>Some initial data</p>"
+        formControlName="content"
+      ></ckeditor>
+    </div>
+
+    <button class="btn btn-info" type="submit">Submit</button>
+  </form>
+</div>

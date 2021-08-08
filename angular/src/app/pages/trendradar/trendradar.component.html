@@ -67,7 +67,7 @@
       </g>
 
       <ng-container *ngFor="let item of adoptTrends; index as i">
-        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 1)">
+        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 1, item.indexed)">
           <!--      down-->
           <!--      <path d="M -11,-5 11,-5 0,13 z" style="fill: rgb(239, 175, 169);"></path>-->
 
@@ -77,6 +77,7 @@
           <!--      cricle symbol-->
           <circle r="9" fill="green" class="cv-circle-trend" class="cv-circle-adopt-{{i+1}}"
                   (mouseenter)="mouseEnter($event, item.trendId.title)"
+                  (click)="clickCircle(item.trendId.id)"
                   (mouseleave)="mouseLeave($event)"></circle>
           <text y="3" text-anchor="middle" class="cv-trend-text">
             {{ i + 1 }}
@@ -85,7 +86,7 @@
       </ng-container>
 
       <ng-container *ngFor="let item of trialTrends; index as i">
-        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 2)">
+        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 2, item.indexed)">
           <!--      down-->
           <!--      <path d="M -11,-5 11,-5 0,13 z" style="fill: rgb(239, 175, 169);"></path>-->
 
@@ -106,7 +107,7 @@
       </ng-container>
 
       <ng-container *ngFor="let item of assesTrends; index as i">
-        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 3)">
+        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 3, item.indexed)">
           <!--      down-->
           <!--      <path d="M -11,-5 11,-5 0,13 z" style="fill: rgb(239, 175, 169);"></path>-->
 
@@ -123,7 +124,7 @@
       </ng-container>
 
       <ng-container *ngFor="let item of holdTrends; index as i">
-        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 4)">
+        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 4, item.indexed)">
           <!--      down-->
           <!--      <path d="M -11,-5 11,-5 0,13 z" style="fill: rgb(239, 175, 169);"></path>-->
 
@@ -159,8 +160,8 @@
     <g transform="translate(0,30)">
       <text class="title">Adopt Trend:</text>
       <ng-container *ngFor="let item of adoptTrends;index as i">
-        <text [attr.transform]="caculateTextAdopt(i)">
-          {{i +1}}. {{item.trendId.title}}
+        <text [attr.transform]="caculateTextAdopt(i)" class="cv-trend-detail">
+          <a  (click)="clickCircle(item.trendId.id)">{{i +1}}. {{item.trendId.title}}</a>
         </text>
       </ng-container>
     </g>
@@ -168,8 +169,8 @@
     <g transform="translate(1200,30)">
       <text class="title">Trial Trend:</text>
       <ng-container *ngFor="let item of trialTrends;index as i">
-        <text [attr.transform]="caculateTextTrial(i)">
-          {{i +1}}. {{item.trendId.title}}
+        <text [attr.transform]="caculateTextTrial(i)" class="cv-trend-detail">
+          <a  (click)="clickCircle(item.trendId.id)">{{i +1}}. {{item.trendId.title}}</a>
         </text>
       </ng-container>
     </g>
@@ -177,8 +178,8 @@
     <g transform="translate(1200,800)">
       <text class="title">Asses Trend:</text>
       <ng-container *ngFor="let item of assesTrends;index as i">
-        <text [attr.transform]="caculateTextAdopt(i)">
-          {{i +1}}. {{item.trendId.title}}
+        <text [attr.transform]="caculateTextAdopt(i)" class="cv-trend-detail">
+          <a  (click)="clickCircle(item.trendId.id)">{{i +1}}. {{item.trendId.title}}</a>
         </text>
       </ng-container>
     </g>
@@ -186,8 +187,8 @@
     <g transform="translate(0,800)">
       <text class="title">Hold Trend:</text>
       <ng-container *ngFor="let item of holdTrends;index as i">
-        <text [attr.transform]="caculateTextTrial(i)">
-          {{i +1}}. {{item.trendId.title}}
+        <text [attr.transform]="caculateTextTrial(i)" class="cv-trend-detail">
+          <a  (click)="clickCircle(item.trendId.id)">{{i +1}}. {{item.trendId.title}}</a>
         </text>
       </ng-container>
     </g>

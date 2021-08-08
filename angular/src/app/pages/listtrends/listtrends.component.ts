@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 import {Router, ActivatedRoute} from '@angular/router';
 import {NotificationService} from "../../services/notification.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+// ref : pagination : https://www.npmjs.com/package/ngx-pagination#demo
 
 @Component({
   selector: 'app-listtrends',
@@ -19,6 +20,8 @@ export class ListtrendsComponent implements OnInit {
   listTrends: any;// store all trend to show
   categories:any = [];
   form: FormGroup = this.formBuilder.group({});
+
+  p: number = 1;
 
   constructor(
     private formBuilder: FormBuilder,

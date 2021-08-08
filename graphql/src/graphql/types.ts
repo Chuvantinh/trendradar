@@ -1,4 +1,4 @@
-import {enumType, inputObjectType, list, objectType, stringArg} from "nexus";
+import {enumType, inputObjectType, intArg, list, objectType, stringArg} from "nexus";
 import {context, Context} from "../context";
 import {type} from "os";
 
@@ -196,6 +196,20 @@ const   CategoriesOnTrend= objectType({
 
 
 // ------------------------------------------------------------------------------------  BEGIN TREND Type
+const TrendCluster = objectType({
+  name: 'TrendCluster',
+  definition(t) {
+    t.nullable.int('iterations')
+    t.nullable.int('k')
+    t.nullable.list.field('indexes', {
+      type: 'Int'
+    })
+    t.nullable.list.field('centroids', {
+      type: 'Int'
+    })
+  }
+})
+
 const TrendSearchInput = inputObjectType({
   name: 'TrendSearchInput',
   definition(t) {
@@ -531,7 +545,7 @@ const Comment = objectType({
         type: 'Trend',
         resolve: (parent, _, context: Context) => {
           return context.prisma.comment.findUnique({
-            where: {id: parent.id || undefined}
+            where: {id: parent.id}
           }).trend()
         }
       }
@@ -546,9 +560,9 @@ const Comment = objectType({
       resolve: (parent, _, context: Context) => {
         return context.prisma.comment
           .findUnique({
-            where: { id: parent.id || undefined}
+            where: { id: parent.id}
           })
-          .user()
+          .createdUser()
       },
     })
 
@@ -559,7 +573,7 @@ const Comment = objectType({
           .findUnique({
             where: { id: parent.id || undefined}
           })
-          .user()
+          .updatedUser()
       },
     })
 
@@ -570,7 +584,7 @@ const Comment = objectType({
           .findUnique({
             where: { id: parent.id || undefined}
           })
-          .user()
+          .deletedUser()
       },
     })
   }
@@ -594,6 +608,7 @@ export {
   Trend,
   TrendCreateInput,
   TrendSearchInput,
+  TrendCluster,
 
   TrendEvalution,
   TrendEvalutionCreateInput,

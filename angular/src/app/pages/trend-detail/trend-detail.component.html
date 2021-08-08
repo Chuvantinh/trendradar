@@ -57,18 +57,13 @@
     </div>
 
   </div>
-  <div class="clearfix"></div>
 
-  <br><br>
-  <br>
-  <br>
-
-  <div class="clearfix"></div>
-
-  <div class="trend-vote clearfix">
+  <div class="clearfix visible-md-block visible-lg-block"></div>
+  <h3></h3>
+  <div class="trend-vote col-4 col-lg-4 col-sm-12 col-xs-12  float-left">
     Trend Vote:
 
-    <div class="col-6 col-sm-12 col-xs-12 col-lg-6">
+    <div  >
       <form [formGroup]="form" autocomplete="off" (ngSubmit)="trendEvalution(form.value)">
         <div class="form-group">
           <label for="effect">Effect auf das Unternehmen</label>
@@ -87,6 +82,24 @@
 
         <button class="btn btn-success" type="submit">Submit</button>
       </form>
+    </div>
+  </div>
+
+  <div class="trend-comment col-4 col-lg-4 col-sm-12 col-xs-12  float-left">
+    Trend Comment:
+    <app-comments (newComment)="addComment($event)"></app-comments>
+  </div>
+
+  <div class="trend-comment-detail col-4 col-lg-4 col-sm-12 col-xs-12  float-left">
+    Trend Comment Information:
+    <div class="vt-commented" *ngFor="let item of datacomment; index as i">
+      <div>
+        <span class="vt-commented-date">{{ item.createdAt}}</span>
+        by <span class="vt-commented-author">{{item.createdBy.name}}</span>
+        <p class="vt-commented-content" [innerHTML]="item.content">
+
+        </p>
+      </div>
     </div>
   </div>
 </div>
