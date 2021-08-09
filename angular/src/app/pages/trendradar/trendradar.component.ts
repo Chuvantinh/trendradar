@@ -3,7 +3,8 @@ import {
   Renderer2,
   ViewChild,
   ElementRef,
-  OnInit
+  OnInit,
+  ChangeDetectorRef, AfterContentChecked
 } from '@angular/core';
 
 // get data from backend
@@ -11,7 +12,7 @@ import {Apollo} from "apollo-angular";
 import gql from 'graphql-tag';
 import {Router, ActivatedRoute} from "@angular/router";
 import {NotificationService} from "../../services/notification.service";
-import {variable} from "@angular/compiler/src/output/output_ast";
+import {count} from "rxjs/operators";
 
 @Component({
   selector: 'app-trendradar',
@@ -19,17 +20,17 @@ import {variable} from "@angular/compiler/src/output/output_ast";
   styleUrls: ['./trendradar.component.sass']
 })
 export class TrendradarComponent implements OnInit {
-  //x^2 + y^2 = 130^2 = 16900   https://brainly.com/question/11458821, (x, y)=(78, 104) -> factor x = 78 / 5 = 15.6, y= 104 / 100 = 1.04
-  radar1 = 20; // r = 130
-  radar2 = 44; // r = 220
-  radar3 = 70; // r = 310
-  radar4 = 350; // r = 400
 
   portFolio: any = [];
   adoptTrends: any = [];
   trialTrends: any = [];
   assesTrends: any = [];
   holdTrends: any = [];
+
+  radar1:number = 1.3;// r = 130
+  radar2:number = 2.2; // r = 220
+  radar3:number = 3.1; // r = 310
+  radar4:number = 4; // r = 400
 
   @ViewChild('tooltip') tooltip: ElementRef = new ElementRef<any>('tooltip');
 
@@ -38,6 +39,7 @@ export class TrendradarComponent implements OnInit {
     private notification: NotificationService,
     private apollo: Apollo,
     private router: Router,
+    private cdref: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -48,43 +50,70 @@ export class TrendradarComponent implements OnInit {
    * caculateTransform
    * @param vertical
    * @param horizontal
-   * @param type : circle 1 or 2 or 3 or 4
-   * @param indexed : circle 1 or 2 or 3 or 4
+   * @param type : as circle or ring  1 or 2 or 3 or 4, 1 is smallest
+   * @param indexed : as quadrat 1 or 2 or 3 or 4, left , right , below right, below left.
    * return "translate("+ x +"," + y + ")";
    */
-  caculateTransform(vertical:any, horizontal:any, type:number, indexed: number){
+   caculateTransform(vertical:any, horizontal:any, type:number, indexed: number){
+    /**
+     * BEGIN quadrat ? 1,2 ,3 4
+     */
+    //x^2 + y^2 = 130^2 = 16900   https://brainly.com/question/11458821, (x, y)=(78, 104) -> factor x = 78 / 5 = 15.6, y= 104 / 100 = 1.04
     let addessX: number = 1;
     let addessY: number = 1;
-
-    if(indexed == 0 || indexed == 3){
+    let minus = 0;
+    if(indexed == 0){
       addessX = -1;
-      addessY = -1;
-    }else if(indexed == 1 || indexed == 2){
-      addessX = 1;
-    }
-
-    if(indexed == 0 || indexed == 1){
-      addessY = -1;
-    }else if(indexed == 2 || indexed == 3){
       addessY = 1;
-    }
-
-    if(type == 1){
-      let x:number = vertical * this.radar1 * addessX;
-      let y:number = horizontal * 1.3 * addessY;
-      return "translate("+ x +"," + y + ")";
-    }else if(type == 2){
-      let x:number = vertical * this.radar2 * addessX;
-      let y:number = horizontal * 1.3 * addessY;
-      return "translate("+ x +"," + y + ")";
-    }else if (type == 3){
-      let x:number = vertical * this.radar3 * addessX;
-      let y:number = horizontal * 1.3 * addessY;
-      return "translate("+ x +"," + y + ")";
+      minus = 20;
+    }else if(indexed == 1){
+      addessX = 1;
+      addessY = 1;
+      minus = 30;
+    }else if(indexed == 2){
+      addessX = 1;
+      addessY = -1;
+      minus = 40;
     }else{
-      let x:number = vertical * this.radar4 * addessY;
-      let y:number = horizontal * 1.3 * addessY;
-      return "translate("+ x +"," + y + ")";
+      addessX = -1;
+      addessY = 1;
+      minus = 50;
+    }
+    /**
+     * END quadrat ? 1,2 ,3 4
+     */
+
+    if(type == 1){// radius with r = 130
+      let factor = 0;
+      if(indexed % 2 == 0){
+        factor = this.radar1;
+      }else{
+        factor = this.radar1 / 2;
+      }
+      let x:number = horizontal * factor  * addessX;
+      let y:number = (Math.sqrt(130 * 130 - (x  * x )) - minus) * addessY ;
+      return "translate(" + x + "," + y + ")";
+    }else if(type == 2){
+      let factor = 0;
+      factor = this.radar2;
+      let x:number = horizontal * factor  * addessX;
+      let y:number = (Math.sqrt((220 * 220) - (x  * x )) - minus ) * addessY ;
+      return "translate(" + x + "," + y + ")";
+    }else if (type == 3){
+      let factor = 0;
+      if(indexed % 2 == 0){
+        factor = this.radar3;
+      }else{
+        factor = this.radar3 / 2;
+      }
+      let x:number = horizontal * factor  * addessX;
+      let y:number = (Math.sqrt(310 * 310 - (x  * x )) - minus ) * addessY ;
+      return "translate(" + x + "," + y + ")";
+    }else{
+      let factor = this.radar4;
+      let x:number = horizontal * factor  * addessX;
+      let y:number = (Math.sqrt(400 *  400 - (x  * x ) )   - minus ) * addessY ;
+      return "translate(" + x + "," + y + ")";
     }
 
   }
@@ -212,7 +241,7 @@ export class TrendradarComponent implements OnInit {
           indexed: indexes_adopt[index]
         }));
       }
-
+      console.log(this.adoptTrends);
 
       if(indexes_trial){
         this.trialTrends = this.trialTrends.map((item: any, index:number) => ({

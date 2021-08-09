@@ -1,5 +1,9 @@
 <div class="container">
-  <div class="trends col-xs-1 col-sm-1 col-md-12 col-lg-12">
+  <div class="col-md-4 text-right">
+    <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
+  </div>
+
+  <div id="htmlData" class="trends col-xs-1 col-sm-1 col-md-12 col-lg-12">
     <span>Trends:</span>
     <br>
     <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12" *ngFor="let item of trend; index as i;">
@@ -60,7 +64,7 @@
 
   <div class="clearfix visible-md-block visible-lg-block"></div>
   <h3></h3>
-  <div class="trend-vote col-4 col-lg-4 col-sm-12 col-xs-12  float-left">
+  <div class="trend-vote col-12 col-lg-12 col-sm-12 col-xs-12  float-left">
     Trend Vote:
 
     <div  >
@@ -85,12 +89,13 @@
     </div>
   </div>
 
-  <div class="trend-comment col-4 col-lg-4 col-sm-12 col-xs-12  float-left">
+  <div class="trend-comment col-6 col-lg-6 col-sm-12 col-xs-12  float-left">
     Trend Comment:
     <app-comments (newComment)="addComment($event)"></app-comments>
   </div>
 
-  <div class="trend-comment-detail col-4 col-lg-4 col-sm-12 col-xs-12  float-left">
+
+  <div class="trend-comment-detail col-6 col-lg-6 col-sm-12 col-xs-12  float-left">
     Trend Comment Information:
     <div class="vt-commented" *ngFor="let item of datacomment; index as i">
       <div>

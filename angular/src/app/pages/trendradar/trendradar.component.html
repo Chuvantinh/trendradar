@@ -118,7 +118,7 @@
           <circle r="9" fill="orange" (mouseenter)="mouseEnter($event, item.trendId.title)"
                   (mouseleave)="mouseLeave($event)" ></circle>
           <text y="3" text-anchor="middle" class="cv-trend-text">
-            {{ i }}
+            {{ i + 1 }}
           </text>
         </g>
       </ng-container>
@@ -135,7 +135,7 @@
           <circle r="9" fill="red" (mouseenter)="mouseEnter($event, item.trendId.title)"
                   (mouseleave)="mouseLeave($event)"></circle>
           <text y="3" text-anchor="middle" class="cv-trend-text">
-            {{item.trendId.title}}
+            {{ i + 1}}
           </text>
         </g>
       </ng-container>
@@ -178,7 +178,7 @@
     <g transform="translate(1200,800)">
       <text class="title">Asses Trend:</text>
       <ng-container *ngFor="let item of assesTrends;index as i">
-        <text [attr.transform]="caculateTextAdopt(i)" class="cv-trend-detail">
+        <text [attr.transform]="caculateTextTrial(i)" class="cv-trend-detail">
           <a  (click)="clickCircle(item.trendId.id)">{{i +1}}. {{item.trendId.title}}</a>
         </text>
       </ng-container>
@@ -187,7 +187,7 @@
     <g transform="translate(0,800)">
       <text class="title">Hold Trend:</text>
       <ng-container *ngFor="let item of holdTrends;index as i">
-        <text [attr.transform]="caculateTextTrial(i)" class="cv-trend-detail">
+        <text [attr.transform]="caculateTextAdopt(i)" class="cv-trend-detail">
           <a  (click)="clickCircle(item.trendId.id)">{{i +1}}. {{item.trendId.title}}</a>
         </text>
       </ng-container>
