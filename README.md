@@ -45,7 +45,13 @@ select * from "Post";
 - update table as migration
 npx prisma migrate dev --name add-profile
 ```
-
+how to compare date in Potgestsql:
+```
+SELECT *
+FROM table
+WHERE update_date >= '2013-05-03'::date
+AND update_date < ('2013-05-03'::date + '1 day'::interval);
+```
 #####
 
 # Prisma 2x

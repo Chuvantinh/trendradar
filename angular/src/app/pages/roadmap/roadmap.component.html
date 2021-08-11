@@ -4,13 +4,58 @@
     <div class="information">Information</div>
     <br>
     <br>
+    <!--    ---------------------------------------------------------Date Range -->
+
+    <div class="timeline col-lg-12 col-md-12 col-sm-12">
+
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-info float-left">
+        Date range
+      </div>
+
+      <div class="right col-lg-11 col-md-11 col-sm-12 float-left text-dark">
+        <div class="line">
+          <form (ngSubmit)="filter(form.value)" [formGroup]="form">
+            <mat-form-field class="example-form-field" appearance="fill">
+              <mat-label>Select Date Rage</mat-label>
+              <mat-date-range-input
+                [formGroup]="form"
+                [rangePicker]="campaignOnePicker"
+                [comparisonStart]="form.value.start"
+                [comparisonEnd]="form.value.end">
+                <input matStartDate placeholder="Start date" formControlName="start">
+                <input matEndDate placeholder="End date" formControlName="end">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Select View</mat-label>
+              <mat-select formControlName="type_view">
+                <mat-option value="year">Year</mat-option>
+                <mat-option value="month">Month</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
+            <button type="submit" class="btn btn-success">Filter</button>
+          </form>
+
+
+        </div>
+
+      </div>
+    </div>
+
+
     <!--    ---------------------------------------------------------timeline -->
     <div class="timeline col-lg-12 col-md-12 col-sm-12">
-      <div class="left col-lg-3 col-md-3 col-sm-12 bg-info float-left">
+
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-info float-left">
         Timeline
       </div>
 
-      <div class="right col-lg-9 col-md-9 col-sm-12 bg-info float-left">
+      <div class="right col-lg-11 col-md-11 col-sm-12 float-left text-dark">
         <div class="line">
          2020 , 2021
 
@@ -22,19 +67,20 @@
 
     <!--    ---------------------------------------------------------rm-high -->
     <div class="rm-high col-lg-12 col-md-12 col-sm-12">
-      <div class="left col-lg-3 col-md-3 col-sm-12 bg-primary float-left">
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-primary float-left">
         Investition
       </div>
 
-      <div class="right col-lg-9 col-md-9 col-sm-12 bg-primary float-left">
-        <div class="line">
-          <p class="btn btn-info">Trend AI</p>
-          <p class="btn btn-info">Trend AI+</p>
+      <div class="right col-lg-11 col-md-11 col-sm-12 float-left">
+        <ng-container *ngFor="let item of listTrends">
+
+        <div class="line" *ngIf="item.layer == 1">
+
+          <p class="btn bg-primary text-white" (click)="routerOtherPage(item.id)">{{item.title}}
+            <br> <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
+          </p>
         </div>
-
-        <div class="btn btn-info line">Trend A1</div>
-
-        <div class="btn btn-info line">Trend A2</div>
+        </ng-container>
       </div>
 
     </div>
@@ -43,32 +89,61 @@
 <!--    ---------------------------------------------------------rm-mittel -->
     <div class="rm-mittel col-lg-12 col-md-12 col-sm-12">
 
-      <div class="left col-lg-3 col-md-3 col-sm-12 bg-warning float-left">
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-warning float-left">
         Selection
       </div>
 
-      <div class="right col-lg-9 col-md-9 col-sm-12 bg-warning float-left">
-        Trend B
-        <br>
-        Trend B1
-        <br>
-        Trend C2
+      <div class="right col-lg-11 col-md-11 col-sm-12 float-left">
+        <ng-container *ngFor="let item of listTrends">
+
+          <div class="line" *ngIf="item.layer == 2">
+
+            <p class="btn bg-warning text-white" (click)="routerOtherPage(item.id)">{{item.title}}
+              <br> <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
+            </p>
+          </div>
+        </ng-container>
       </div>
     </div>
     <hr>
 
     <!--    ---------------------------------------------------------rm-low -->
     <div class="rm-low col-lg-12 col-md-12 col-sm-12">
-      <div class="left col-lg-3 col-md-3 col-sm-12 bg-danger float-left">
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-danger float-left">
         DeInvestition
       </div>
 
-      <div class="right col-lg-9 col-md-9 col-sm-12 bg-danger float-left">
-        Trend C
-        <br>
-        Trend C1
-        <br>
-        Trend C2
+      <div class="right col-lg-11 col-md-11 col-sm-12 float-left">
+        <ng-container *ngFor="let item of listTrends">
+
+          <div class="line" *ngIf="item.layer == 3">
+
+            <p class="btn bg-danger text-white" (click)="routerOtherPage(item.id)" >{{item.title}}
+
+              <br> <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
+            </p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <hr>
+
+    <!--    ---------------------------------------------------------rm-un Evalution low -->
+    <div class="rm-low col-lg-12 col-md-12 col-sm-12">
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-danger float-left">
+        Not Evalution
+      </div>
+
+      <div class="right col-lg-11 col-md-11 col-sm-12  float-left">
+        <ng-container *ngFor="let item of listTrends">
+
+          <div class="line" *ngIf="item.layer == 4">
+            <p class="btn bg-danger text-white" (click)="routerOtherPage(item.id)">{{item.title}}
+
+              <br> <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
+            </p>
+          </div>
+        </ng-container>
       </div>
     </div>
     <hr>

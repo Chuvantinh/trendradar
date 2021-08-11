@@ -52,6 +52,9 @@ model Trend{
    images   String[]
    videos   String[]
 
+   start    DateTime  @default(now())
+   end      DateTime  @default(now())
+
    createdAt  DateTime? @default(now())
    createdUser User?  @relation("trendCreatedUser", fields: [createdBy], references: [id])
    createdBy  Int?

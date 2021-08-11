@@ -36,60 +36,26 @@ export const Query = objectType({
       resolve: async (_parent, _args, context: Context, resolveInfo) => {
         let orderByField = _args.data.orderByField;
         let valueField = _args.data.valueField;
+        let start = _args.data.start == null ? undefined : _args.data.start;
+        let end = _args.data.end == null ? undefined : _args.data.end;
 
-        if(orderByField == "createdAt"){
-          if(valueField == "asc"){
-            return await context.prisma.trend.findMany({
-              where: {
-                title: {
-                  contains: _args.data.search_string,
-                }
-              },
-              orderBy: {
-                createdAt: 'asc'
-              }
-            });
-          }else{
-            return await context.prisma.trend.findMany({
-              where: {
-                title: {
-                  contains: _args.data.search_string,
-                }
-              },
-              orderBy: {
-                createdAt: 'desc'
-              }
-            });
-          }
-        }
+        let orderByObj = {};
+        orderByObj[orderByField] = valueField;
 
-        if(orderByField == "title"){
-          if(valueField == "desc"){
-            return await context.prisma.trend.findMany({
-              take: 4,
-              skip: 2,
-              where: {
-                title: {
-                  contains: _args.data.search_string,
-                }
-              },
-              orderBy: {
-                title: 'desc'
-              }
-            });
-          }else{
-            return await context.prisma.trend.findMany({
-              where: {
-                title: {
-                  contains: _args.data.search_string,
-                }
-              },
-              orderBy: {
-                title: 'asc'
-              }
-            });
-          }
-        }
+        return await context.prisma.trend.findMany({
+          where: {
+            title: {
+              contains: _args.data.search_string,
+            },
+            start:{
+              gte: start
+            },
+            end:{
+              lte: end
+            }
+          },
+          orderBy: orderByObj
+        });
 
       },
     })
@@ -220,7 +186,7 @@ export const Query = objectType({
       resolve: async (_, args, context: Context) => {
         return await context.prisma.$queryRaw('select "trendId", sum("effect") as "total_effect",' +
           'count("createdBy"), ROUND((sum("effect")/count("createdBy"))::numeric, 2) as average_effect, ' +
-          'sum("probability") as total_pro, ROUND((sum("probability")/count("createdBy"))::numeric, 2) as average_pro,' +
+          'sum("probability") as total_prgetListTrendso, ROUND((sum("probability")/count("createdBy"))::numeric, 2) as average_pro,' +
           ' ( sum("probability") + sum("effect") ) as total' +
           ' from "TrendEvalution" ' +
           ' group by "trendId" order by "total" desc;');

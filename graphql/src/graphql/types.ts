@@ -219,6 +219,8 @@ const TrendSearchInput = inputObjectType({
     })
     t.nullable.string('orderByField')
     t.nullable.string('valueField')
+    t.nullable.field('start', {type: 'DateTime'})
+    t.nullable.field('end', {type: 'DateTime'})
   }
 })
 
@@ -228,7 +230,8 @@ const TrendCreateInput = inputObjectType({
     t.nonNull.string('title')
     t.string('description')
     t.field('status', {type: Status})
-    t.string('images')
+    t.field('start', {type: 'DateTime'})
+    t.field('end', {type: 'DateTime'})
 
     t.nullable.list.field('images', {
       type: 'String'
@@ -254,6 +257,9 @@ const Trend = objectType({
     t.nullable.list.field('videos', {
       type: 'String'
     })
+
+    t.nonNull.field('start', { type: 'DateTime' })
+    t.nonNull.field('end', { type: 'DateTime' })
 
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.nonNull.field('updatedAt', { type: 'DateTime' })

@@ -85,6 +85,8 @@ export class TrendDetailComponent implements OnInit {
             description,
             images,
             videos,
+            start,
+            end,
             createdAt,
             createdBy{
               id

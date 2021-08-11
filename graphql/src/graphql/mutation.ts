@@ -176,6 +176,8 @@ export const Mutation = objectType({
             status: args.data.status,
             images: args.data.images,
             videos: args.data.videos,
+            start: args.data.start,
+            end: args.data.end,
             createdUser: {
               connect: { id: context.userId}
             },
@@ -213,6 +215,8 @@ export const Mutation = objectType({
             status: args.data.status,
             images: args.data.images,
             videos: args.data.videos,
+            start: args.data.start,
+            end: args.data.end,
             updatedUser: {
               connect: { id: context.userId}
             },
@@ -249,11 +253,11 @@ export const Mutation = objectType({
         //let output: any = kmeans(args.input_data, args.number_cluster,null, args.max_interation);
         //console.log(output);
         //return output;
-        let input_data: Array<Array<number>> = [
-          [1, 12, 14, 4, 25, 35, 22, 3, 14, 5, 51, 2, 23, 24, 15],
-          [7, 34, 15, 34, 17, 11, 34, 2, 35, 18, 52, 34, 33, 21],
-          [5, 19, 35, 17, 35, 18, 12, 45, 23, 56, 23, 45, 16, 3]
-        ];
+        // let input_data: Array<Array<number>> = [
+        //   [1, 12, 14, 4, 25, 35, 22, 3, 14, 5, 51, 2, 23, 24, 15],
+        //   [7, 34, 15, 34, 17, 11, 34, 2, 35, 18, 52, 34, 33, 21],
+        //   [5, 19, 35, 17, 35, 18, 12, 45, 23, 56, 23, 45, 16, 3]
+        // ];
         let data: KMeans = kmeans(args.input_data, args.number_cluster, null, args.max_interation);
 
         return data;

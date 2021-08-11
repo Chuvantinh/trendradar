@@ -45,6 +45,22 @@
         </div>
       </div>
 
+      <div class="form-group col-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Choose start date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="start">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Choose end date</mat-label>
+          <input matInput [matDatepicker]="picker1" formControlName="end">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+
       <!-- Videos -->
       <div formArrayName="trendVideos" class="form-group col-md-6">
         <div id="id-video">

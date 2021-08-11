@@ -50,7 +50,10 @@ export class TrendAddOneComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
+    this.initForm();
+  }
 
+  initForm(){
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -65,6 +68,8 @@ export class TrendAddOneComponent implements OnInit {
         })
       ]),
       categoriesId: ['', Validators.required],
+      start: ['', Validators.required],
+      end: ['', Validators.required],
       sources: this.fb.array([
         this.fb.group({
           title: new FormControl('', [Validators.required]),
@@ -113,6 +118,8 @@ export class TrendAddOneComponent implements OnInit {
         $images: [String],
         $videos: [String],
         $categoriesId: [String],
+        $start: DateTime,
+        $end: DateTime,
         $source: [TrendSourceCreateInput]
       ){
         createTrend( data: {
@@ -121,6 +128,8 @@ export class TrendAddOneComponent implements OnInit {
           status: $status,
           images: $images,
           videos: $videos,
+          start: $start,
+          end: $end,
           },
           categoriesId: $categoriesId,
           source: $source
@@ -129,6 +138,8 @@ export class TrendAddOneComponent implements OnInit {
           id
           title
           description
+          start
+          end
           createdAt
           createdBy{
             id

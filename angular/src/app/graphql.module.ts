@@ -22,7 +22,7 @@ export function createApollo(httpLink: HttpLink) {
 
   const auth = setContext((operation, context) => {
 
-    console.log('token in graphqlmodule: ' + token);
+    // console.log('token in graphqlmodule: ' + token);
 
     if (token === null) {
       return {};

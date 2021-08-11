@@ -124,6 +124,11 @@ enum Status {
   DEACTIVE
 }
 
+type Subscription {
+  """See newest Comment with each TrendID"""
+  newComment(trendId: Int): Comment
+}
+
 type Trend {
   categories: [Category]
   comment: [Comment]
@@ -132,9 +137,11 @@ type Trend {
   deletedAt: DateTime!
   deletedBy: User
   description: String
+  end: DateTime!
   id: ID
   images: [String]
   source: [TrendSource]
+  start: DateTime!
   status: Status
   title: String
   trendEvalution: [TrendEvalution]
@@ -152,7 +159,9 @@ type TrendCluster {
 
 input TrendCreateInput {
   description: String
+  end: DateTime
   images: [String]
+  start: DateTime
   status: Status
   title: String!
   videos: [String]
@@ -180,8 +189,10 @@ input TrendEvalutionCreateInput {
 
 input TrendSearchInput {
   categoriesId: [String]
+  end: DateTime
   orderByField: String
   search_string: String
+  start: DateTime
   valueField: String
 }
 

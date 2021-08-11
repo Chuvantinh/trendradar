@@ -67,6 +67,16 @@ import { CKEditorModule} from "ckeditor4-angular";
 import { MatSelectModule} from "@angular/material/select";
 import { CommentsComponent } from './shared/comments/comments.component';
 import {NgxPaginationModule} from "ngx-pagination";
+// date range
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from "@angular/material/core";
+import { MatInputModule } from '@angular/material/input';
+
+// component button share of angular
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule} from "ngx-sharebuttons/icons";
+import {NgxPrintModule} from 'ngx-print';//print
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 @NgModule({
   declarations: [
@@ -133,6 +143,16 @@ import {NgxPaginationModule} from "ngx-pagination";
     CKEditorModule,
     MatSelectModule, // for select
     NgxPaginationModule, // for pagging a component of angular with offset
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    NgxPrintModule,
+    // share information via fb, instagram ...
+    ShareButtonsModule.withConfig({
+      debug: true
+    }),
+    ShareIconsModule, // Optional if you want the default share icons
+    FontAwesomeModule, // font of npm for ng button shares
   ],
   providers: [
     AuthService,

@@ -1,6 +1,8 @@
 <div class="container">
   <div class="col-md-4 text-right">
     <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
+    <button class="btn btn-success btn-block" printSectionId="htmlData" ngxPrint>print</button>
+    <share-buttons></share-buttons>
   </div>
 
   <div id="htmlData" class="trends col-xs-1 col-sm-1 col-md-12 col-lg-12">
@@ -18,7 +20,7 @@
 
       <div class="video col-6 col-sm-12 col-xs-12 col-lg-6 float-left">
         <ng-container *ngFor="let vi of item.videos">
-          <video controls autoplay class="video-galaxy-detail" src="{{ vi }}"> </video>
+          <video controls class="video-galaxy-detail" src="{{ vi }}"> </video>
         </ng-container>
       </div>
       <div class="clearfix">
@@ -35,20 +37,34 @@
       </p>
 
       <p>
-        <i class="fas fa-toggle-on"></i>: <span class="btn btn-success">{{ item.status }}</span>
+        <i class="fas fa-toggle-on"></i> <span class="btn btn-success">{{ item.status }}</span>
       </p>
 
       <p>
-        <i class="fas fa-clock"></i>: <span>{{ item.createdAt}}</span>
+        <i class="fas fa-clock"></i> <span>CreatedAt: {{ item.createdAt}}</span>
       </p>
       <p class="createdBy">
         By:<span>{{ item.createdBy.name}}</span>
       </p>
 
+
       <div class="sources" *ngFor="let row of item.source; index as i">
         <p><i class="fab fa-unity"></i> From: {{row.title}}, url: <a href="{{row.url}}" target="_blank">{{row.url}}</a></p>
       </div>
-      <p>User's Evalution:</p>
+
+      <div class="roadmap col-12">
+        <i class="fas fa-road"></i> Trend Roadmap:
+        <span class="start">
+            From: {{item.start}}
+        </span>
+
+        <span class="end">
+            To: {{item.end}}
+        </span>
+      </div>
+
+
+      <p><i class="fas fa-poll-h"></i> User's Evalution:</p>
       <div class="evalution" *ngFor="let e of item.trendEvalution; index as ei">
         <div class="evalution-user col-6 col-md-6 col-sm-12 col-lg-6 float-left">
           <p class="createdBy">By: {{e.createdBy.name}}</p>
@@ -58,14 +74,23 @@
 
         </div>
       </div>
+
+
+
     </div>
+
+
 
   </div>
 
   <div class="clearfix visible-md-block visible-lg-block"></div>
   <h3></h3>
+
+
   <div class="trend-vote col-12 col-lg-12 col-sm-12 col-xs-12  float-left">
-    Trend Vote:
+    <p class="btn btn">
+      Trend Vote:
+    </p>
 
     <div  >
       <form [formGroup]="form" autocomplete="off" (ngSubmit)="trendEvalution(form.value)">
@@ -90,13 +115,17 @@
   </div>
 
   <div class="trend-comment col-6 col-lg-6 col-sm-12 col-xs-12  float-left">
-    Trend Comment:
+   <p class="btn btn-success">
+     Trend Comment:
+   </p>
     <app-comments (newComment)="addComment($event)"></app-comments>
   </div>
 
 
   <div class="trend-comment-detail col-6 col-lg-6 col-sm-12 col-xs-12  float-left">
-    Trend Comment Information:
+    <p class="btn btn-success">
+      Trend Comment Information:
+    </p>
     <div class="vt-commented" *ngFor="let item of datacomment; index as i">
       <div>
         <span class="vt-commented-date">{{ item.createdAt}}</span>

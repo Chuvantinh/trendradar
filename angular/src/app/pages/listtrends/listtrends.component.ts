@@ -33,7 +33,7 @@ export class ListtrendsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getListTrends("", "title", "asc");
+    this.getListTrends("", "title", "asc", null, null);
     this.getCategories();
     this.definedFormGroup();
   }
@@ -53,19 +53,21 @@ export class ListtrendsComponent implements OnInit {
   /**
    * Get actually all of trends in the table Trend
    */
-  getListTrends(search_string: string, orderByField: string, valueField: string){
+  getListTrends(search_string: string, orderByField: string, valueField: string, start: Date | null, end: Date | null){
     this.apollo
     .watchQuery({
       query: gql`
-        query GetAllTrends($search_string: String, $orderByField: String, $valueField: String){
+        query GetAllTrends($search_string: String, $orderByField: String, $valueField: String, $start: DateTime, $end: DateTime){
           getTrends(data:{
-            search_string: $search_string, orderByField: $orderByField, valueField: $valueField
+            search_string: $search_string, orderByField: $orderByField, valueField: $valueField, start: $start, end: $end
           }){
             id,
             title,
             description,
             images,
             videos,
+            start,
+            end,
             createdAt,
             createdBy{
               id
@@ -96,7 +98,9 @@ export class ListtrendsComponent implements OnInit {
       variables: {
         search_string: search_string,
         orderByField: orderByField,
-        valueField: valueField
+        valueField: valueField,
+        start: start,
+        end: end,
       }
     })
     .valueChanges.subscribe(result => {
@@ -151,6 +155,6 @@ export class ListtrendsComponent implements OnInit {
     if (value.valueField == ""){
       value.valueField = "asc";
     }
-    this.getListTrends(value.search_string, value.orderByField, value.valueField);
+    this.getListTrends(value.search_string, value.orderByField, value.valueField, null, null);
   }
 }
