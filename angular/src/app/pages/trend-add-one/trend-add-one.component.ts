@@ -160,6 +160,8 @@ export class TrendAddOneComponent implements OnInit {
         title: valueInput.title,
         description: valueInput.description,
         status: STATUS.e,
+        start: new Date(valueInput.start),
+        end: new Date(valueInput.end),
         images: this.linkImages,
         videos: this.linkVideos,
         categoriesId: valueInput.categoriesId,

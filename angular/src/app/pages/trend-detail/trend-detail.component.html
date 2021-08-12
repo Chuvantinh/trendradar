@@ -5,11 +5,11 @@
     <share-buttons></share-buttons>
   </div>
 
-  <div id="htmlData" class="trends col-xs-1 col-sm-1 col-md-12 col-lg-12">
+  <div id="htmlData" class="trends col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <span>Trends:</span>
     <br>
-    <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12" *ngFor="let item of trend; index as i;">
-      <div class="text-center img col-6 col-sm-12 col-xs-12 col-lg-6 float-left">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let item of trend; index as i;">
+      <div class="text-center img col-sm-12 col-xs-122 col-lg-6 float-left">
         <a routerLink="{{item.id}}">
           <ng-container *ngFor="let im of item.images">
             <img class="img-galaxy-detail" src="{{ im }}" alt="{{ item.title }}">
@@ -18,7 +18,7 @@
         </a>
       </div>
 
-      <div class="video col-6 col-sm-12 col-xs-12 col-lg-6 float-left">
+      <div class="video col-sm-12 col-xs-122 col-lg-6 float-left">
         <ng-container *ngFor="let vi of item.videos">
           <video controls class="video-galaxy-detail" src="{{ vi }}"> </video>
         </ng-container>
@@ -50,23 +50,25 @@
 
       <div class="sources" *ngFor="let row of item.source; index as i">
         <p><i class="fab fa-unity"></i> From: {{row.title}}, url: <a href="{{row.url}}" target="_blank">{{row.url}}</a></p>
+        <p class="source-type">Type: <span>{{row.source}}</span></p>
       </div>
 
       <div class="roadmap col-12">
         <i class="fas fa-road"></i> Trend Roadmap:
-        <span class="start">
+        <br>
+        <div class="start col-xs-12 col-lg-6">
             From: {{item.start}}
-        </span>
+        </div>
 
-        <span class="end">
+        <div class="end col-xs-12 col-lg-6">
             To: {{item.end}}
-        </span>
+        </div>
       </div>
 
 
       <p><i class="fas fa-poll-h"></i> User's Evalution:</p>
       <div class="evalution" *ngFor="let e of item.trendEvalution; index as ei">
-        <div class="evalution-user col-6 col-md-6 col-sm-12 col-lg-6 float-left">
+        <div class="evalution-user col-md-6 col-sm-12 col-lg-6 float-left">
           <p class="createdBy">By: {{e.createdBy.name}}</p>
           <p>Point Effect: {{e.effect}}</p>
           <p>Point Probability: {{e.probability}}</p>
@@ -87,7 +89,7 @@
   <h3></h3>
 
 
-  <div class="trend-vote col-12 col-lg-12 col-sm-12 col-xs-12  float-left">
+  <div class="trend-vote col-12 col-lg-12 col-sm-12 col-xs-122  float-left">
     <p class="btn btn">
       Trend Vote:
     </p>
@@ -114,7 +116,7 @@
     </div>
   </div>
 
-  <div class="trend-comment col-6 col-lg-6 col-sm-12 col-xs-12  float-left">
+  <div class="trend-comment col-lg-6 col-sm-12 col-xs-122  float-left">
    <p class="btn btn-success">
      Trend Comment:
    </p>
@@ -122,7 +124,7 @@
   </div>
 
 
-  <div class="trend-comment-detail col-6 col-lg-6 col-sm-12 col-xs-12  float-left">
+  <div class="trend-comment-detail col-lg-6 col-sm-12 col-xs-122  float-left">
     <p class="btn btn-success">
       Trend Comment Information:
     </p>

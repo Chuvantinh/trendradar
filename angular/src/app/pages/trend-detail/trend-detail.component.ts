@@ -99,6 +99,7 @@ export class TrendDetailComponent implements OnInit {
               description
               url
               createdAt
+              source
             }
             trendEvalution{
               id

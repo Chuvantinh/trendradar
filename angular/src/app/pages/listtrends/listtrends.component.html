@@ -3,11 +3,11 @@
   <br><br>
   <p>Listtrends Page</p>
 
-  <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <form action="listtrends.component.ts" method="post" (ngSubmit)="getListBySearch(form.value)" [formGroup]="form"
           autocomplete="off">
 
-      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
+      <div class="form-group float-left col-xs-12 col-sm-12 col-md-3 col-lg-3">
         <label> Search String</label>
         <input formControlName="search_string"
                type="text" name="search_string" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1"
@@ -15,7 +15,7 @@
       </div>
 
 
-      <!--      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">-->
+      <!--      <div class="form-group float-left col-xs-12 col-sm-12 col-md-3 col-lg-3">-->
       <!--        <mat-form-field appearance="fill" class="form-control">-->
       <!--          <mat-label>Select Category</mat-label>-->
       <!--          <mat-select formControlName="categoriesId" multiple>-->
@@ -34,7 +34,7 @@
       <!--      </div>-->
 
 
-      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
+      <div class="form-group float-left col-xs-12 col-sm-12 col-md-3 col-lg-3">
         <label>OrderBy</label>
         <select formControlName="orderByField" name="search_strategie" id="search-strategie" class="form-control">
           <option value="">Sort Field</option>
@@ -43,7 +43,7 @@
         </select>
       </div>
 
-      <div class="form-group float-left col-xs-1 col-sm-1 col-md-3 col-lg-3">
+      <div class="form-group float-left col-xs-12 col-sm-12 col-md-3 col-lg-3">
         <label>Value</label>
         <select formControlName="valueField" class="form-control">
           <option value="">Sort Value</option>
@@ -53,21 +53,21 @@
       </div>
 
       <button type="submit"
-              class="btn-search form-control float-left col-xs-1 col-sm-1 col-md-3 col-lg-3 btn btn-success">Search
+              class="btn-search form-control float-left col-xs-12 col-sm-12 col-md-3 col-lg-3 btn btn-success">Search
       </button>
     </form>
   </div>
 
   <div class="clearfix"></div>
 
-  <div class="trends col-xs-1 col-sm-1 col-md-12 col-lg-12">
+  <div class="trends col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <br>
 
       <div class="vt-pagination">
         <pagination-controls (pageChange)="p = $event" ></pagination-controls>
       </div>
 
-    <div class="trend-element float-left col-xs-1 col-sm-1 col-md-3 col-lg-3"
+    <div class="trend-element float-left col-xs-12 col-sm-12 col-md-3 col-lg-3"
          *ngFor="let item of listTrends | paginate: { itemsPerPage: 4, currentPage: p }; index as i;">
       <p>
         <a routerLink="{{item.id}}">

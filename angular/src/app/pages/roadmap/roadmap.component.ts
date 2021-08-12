@@ -19,6 +19,7 @@ export class RoadmapComponent implements OnInit {
   portFolio: any = [];
   listTrends: any;// store all trend to show
   arrayTimline: any[] = [];
+  arrayMoths:any[] = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug', 'Sep', 'Oct', 'Nov.', 'Dec.']
   constructor(
     private formBuilder: FormBuilder,
     private notification: NotificationService,
@@ -88,8 +89,8 @@ export class RoadmapComponent implements OnInit {
             description,
             images,
             videos,
-            start
-            end
+            start,
+            end,
             createdAt,
             createdBy{
               id
@@ -137,15 +138,23 @@ export class RoadmapComponent implements OnInit {
       this.listTrends = this.listTrends.map((item:any) => ({
         ...item,
         layer: 4, // default for all is not evaluated trend
-        unit_timeline: 0
+        unit_timeline_from: 0,
+        unit_timeline_to: 0
       }));
+
 
       // add unit to show time , with year  or month
       // get the min and max time line
+      // add layer for each trend oki
+      let minDate:any = this.listTrends[0].start; // it is to day: Thu Aug 12 2021 14:52:24 GMT+0200 (Central European Summer Time)
+      let maxDate:any = this.listTrends[0].end; // it is to day: Thu Aug 12 2021 14:52:24 GMT+0200 (Central European Summer Time)
+
       if(data && this.listTrends){
+
         for(let trend of this.listTrends){
 
-
+            minDate = this.CompareDate(minDate, trend.start, 'min');
+            maxDate = this.CompareDate(maxDate, trend.end, 'max');
 
           for (let item of data){
             if(item.trendId.id == trend.id){
@@ -173,17 +182,64 @@ export class RoadmapComponent implements OnInit {
 
       }
 
+      // handle list year
+      this.arrayTimline = this.handleListYear(minDate, maxDate);
+      console.log(minDate)
+      console.log(this.arrayTimline)
       console.log(this.listTrends)
     });
   }
 
-  /**
-   * Sort Array with start Date Time
-   */
-  sortArray(data:any){
-    if (data){
+  handleWithForTrend(start:any, end:any, listyear:any){
+     let total_month = listyear.length * 12;
+     let startMonth = new Date(start).getMonth();
+     let endMonth = new Date(start).getMonth();
+  }
 
+  /**
+   * handle min max date and return list of years
+   * @param minDate
+   * @param maxDate
+   * return list of years
+   */
+  handleListYear(minDate: any, maxDate:any):any{
+    let minYear = new Date(minDate).getFullYear();
+    let maxYear = new Date(maxDate).getFullYear();
+    let listYears:any[] = [];
+    if(minYear == maxYear){
+      listYears.push(minYear);
+    }else{
+      for(let item = 0; item <= (maxYear - minYear); item++){
+          listYears.push(minYear + item);
+      }
     }
+    return listYears;
+  }
+
+  /**
+   * Compare between 2 Dates
+   */
+  CompareDate(date1:any, date2: any, getMinOrMax: string): any{
+
+      let diffTime = new Date(date2).valueOf() - new Date(date1).valueOf();
+      let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if(getMinOrMax === 'min'){
+        if(diffTime > 0 || diffTime == 0){
+          return date1;
+        }else{
+           return date2;
+        }
+      }
+
+      if(getMinOrMax == 'max'){
+        if(diffTime > 0 || diffTime == 0){
+          return date2;
+        }else{
+          return date1;
+        }
+      }
+
   }
 
   filter(valueInput: any) {
@@ -221,7 +277,15 @@ export class RoadmapComponent implements OnInit {
       ampm = d.getHours() >= 12 ? 'pm' : 'am',
       months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
       days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    return days[d.getDay()]+', '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+hours+':'+minutes+ampm;
+    //return days[d.getDay()]+', '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+hours+':'+minutes+ampm;
+    return months[d.getMonth()] + d.getFullYear();
+  }
+
+  // time line show
+  caculateWithYearElement(lengthYear:number){
+    let num = 12 / lengthYear;
+    let stringClass = "col-lg-" + num + " col-md-" + num + " col-sm-" + num + " col-xs-" + num + " ";
+    return stringClass;
   }
 
 }

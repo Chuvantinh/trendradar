@@ -1,6 +1,6 @@
 <div class="roadmap">
   <p>ROADMAP TRENDS</p>
-  <div class="content">
+  <div class="content-roadmap">
     <div class="information">Information</div>
     <br>
     <br>
@@ -56,8 +56,14 @@
       </div>
 
       <div class="right col-lg-11 col-md-11 col-sm-12 float-left text-dark">
-        <div class="line">
-         2020 , 2021
+        <div class="vt-year">
+          <div *ngFor="let item of arrayTimline" class="vt-year-col float-left text-center" [class]="caculateWithYearElement(arrayTimline.length)">
+            <div>{{ item }}</div>
+
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 float-left text-center" *ngFor="let mo of arrayMoths">
+              {{ mo }}
+            </div>
+          </div>
 
         </div>
 
@@ -76,9 +82,12 @@
 
         <div class="line" *ngIf="item.layer == 1">
 
-          <p class="btn bg-primary text-white" (click)="routerOtherPage(item.id)">{{item.title}}
-            <br> <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
-          </p>
+          <div class="btn bg-primary text-white" (click)="routerOtherPage(item.id)">{{item.title}}
+            <br>
+            <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
+          </div>
+
+
         </div>
         </ng-container>
       </div>
