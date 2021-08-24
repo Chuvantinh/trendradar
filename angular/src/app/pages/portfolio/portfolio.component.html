@@ -1,46 +1,55 @@
 <div class="container">
-  <h3 class="border-light">Portfolio-Analyse mit der <a href="https://www.marketinginstitut.biz/blog/portfolio-analyse-als-instrument-im-business-development/">McKinsey-Matrix</a></h3>
+  <h3 class="border-light">Portfolio-Analyse with the matrix of <a href="https://www.marketinginstitut.biz/blog/portfolio-analyse-als-instrument-im-business-development/">McKinsey-Matrix</a></h3>
+<!--  <p><button class="btn btn-success btn-block" printSectionId="htmlData" ngxPrint>print</button></p>-->
+  <button (click)="printService.mediaprint()" class="btn btn-info">click media print with css</button>
   <br>
 
   <div class="explantion">
     <div class="part">
-      Diese Portfolio basiert auf die entwickelne Model mit der McKinsey-Matrix. Es handelt sich um 3 Teile, die Investion(I, II, IV), Selektion (III, V, VII), Desinvestition(VI, VIII, IX) umfasst.
-      Aus der Bewertungen wird Portfolio auf diese Seite aufgebaut.
+      This portfolio is based on the model developed with the McKinsey matrix. There are 3 parts, which include investment (I, II, IV), selection (III, V, VII), disinvestment (VI, VIII, IX).
+      The portfolio is built on this page from the ratings.
     </div>
   </div>
 
+  <div class="list-trendid">
+    <ng-container *ngFor="let row of portFolio[0]; index as i">
+      <p id="highlight-{{i}}" (mouseenter)="mouseEnter($event)" (mouseleave)="mouseLeave($event)"><span><b>{{ row.trendId.id}}</b>: {{ row.trendId.title }}</span></p>
+    </ng-container>
+  </div>
 
   <br>
-  <div class="portfolio">
+  <div class="portfolio" id="htmlData">
     <div class="content">
       <table>
-        <div class="btn btn-info stark d-inline-block" tooltip="Vom Unternehmen direkt beeinflussbar">stark</div>
-        <div class="btn btn-info aufwirkung d-inline-block" tooltip="Aufwirkung aufs Unternehmen von 1 bis 5">Aufwirkung auf das Unternehmen</div>
-        <div class="btn btn-info gering  d-inline-block" tooltip="NICHT DIREKT Vom Unternehmen beeinflussbar">gering</div>
+        <div class="btn btn-info stark d-inline-block" tooltip="Can be directly influenced by the company">strong</div>
+        <div class="btn btn-info aufwirkung d-inline-block" tooltip="Impact on the company from 1 to 5">Impact on the company</div>
+        <div class="btn btn-info gering  d-inline-block" tooltip="NOT DIRECTLY influenceable by the company">weak</div>
 
-        <div class="btn btn-info bottom-gering d-inline-block" tooltip="kein Gewinn" >gering</div>
-        <div class="btn btn-info bottom-eintritt d-inline-block" tooltip="Eintrittswahrscheinlichkeit Achse" >Eintrittswahrscheinlichkeit</div>
-        <div class="btn btn-info bottom-stark  d-inline-block" tooltip="sehr hoch eintreten">hoch</div>
+        <div class="btn btn-info bottom-gering d-inline-block" tooltip="no Profit" >low</div>
+        <div class="btn btn-info bottom-eintritt d-inline-block" tooltip="Probability of occurrence axis" >Probability of occurrence</div>
+        <div class="btn btn-info bottom-stark  d-inline-block" tooltip="enter very high">high</div>
 
         <div class="trends" >
             <ng-container *ngFor="let item of portFolio[0]; index as i">
               <ng-template #popTemplate>
                 <div class="cv-tooltip">
-                  <div class="cv-title"> Effect : {{ roundExtends(item.average_effect )}}, Eintrittswahrscheinlichkeit: {{ roundExtends(item.average_pro)}} %</div>
+                  <div class="cv-title"> Impact : {{ roundExtends(item.average_effect )}}, Probability of occurrence: {{ roundExtends(item.average_pro)}} %</div>
                   <div><b>{{item.trendId.title}}</b> <br>{{ item.trendId.description}}</div>
                 </div>
               </ng-template>
 
-
+              <!--                    [style.width.px]="item.total / 4"-->
+              <!--                    [style.height.px]="item.total / 4"-->
               <span
-                    class="p-trend big-{{i}} {{getClassColor(item.average_effect)}}"
+                (mouseenter)="mouseEnter($event)" (mouseleave)="mouseLeave($event)"
+                id="highlight-{{i}}"
+                    class="p-trend {{getClassColor(item.average_effect)}}"
                     [tooltip]="popTemplate"
                     [delay]="200"
-                    [style.top.%]="100 - (item.average_effect * 100 / 5)" [style.left.%]="item.average_pro"
-                    [style.width.px]="item.total / 2"
-                    [style.height.px]="item.total / 2"
+                    [style.top.px]="caculateTop( item.average_effect )"
+                    [style.left.%]="item.average_pro"
                     (click)="routerOtherPage(item.trendId.id)">
-                {{ titleSlice(item.trendId.title) }}
+                {{ item.trendId.id  }}
               </span>
             </ng-container>
         </div>
@@ -64,10 +73,10 @@
               Position verteidigen
             </div>
             <div>
-              Trends sofort anpacken: Dies ist der wichtigste und sensibelste Bereiche des Portfolio. <br>
-              Chance müssen ernergisch genutzt und Risiken konsequent umgangen werden. <br>
-              Wenn die Trendentwicklungen weiter in der Zukunft liege, so ist hiert eine präventive Planung notwendig, mit der sich das Unternehmen
-              auf die Entwicklung vorbereitet.
+              Tackle trends immediately: This is the most important and sensitive area of the portfolio. <br>
+              Opportunities have to be used energetically and risks have to be consistently avoided. <br>
+              If the trend developments are further in the future, preventive planning is necessary here, with which the company is concerned
+              prepared for development.
             </div>
           </div>
         </ng-template>
@@ -75,12 +84,12 @@
         <ng-template #Template2>
           <div class="cv-tooltip">
             <div class="cv-title">
-              Ausbau mit Investition
+              Expansion with investment
             </div>
             <div>
-              Trends proaktive aufgreifen:  Diese Trends sind für das Unternehmen von großer Bedeutungleichzeitig ist nicht klar, ob sie wirklich eintreten werden.<br>
-              Aufgrund der hohen Bedeutung sollte sich das Unternehmen intensiv mit diesen Trends befassen und deren mögliches Eintreten beobachten
-              bzw. es ggf. sogar selbst beeinflussen.
+              Proactively picking up on trends: These trends are of great importance to the company, at the same time it is not clear whether they will actually occur. <br>
+              Due to their great importance, the company should deal intensively with these trends and monitor their possible occurrence
+              or maybe even influence it yourself.
             </div>
           </div>
         </ng-template>
@@ -88,12 +97,12 @@
         <ng-template #Template3>
           <div class="cv-tooltip">
             <div class="cv-title">
-              Selektiver Ausbau der Trends
+              Selective expansion of trends
             </div>
             <div>
-              Reaktive Eventualpläne, um im Fall des eher unerwarteten Eintreffens Chancen zu nutzen bzw. Risiken abwenden zu können;
+              Reactive contingency plans in order to be able to take advantage of opportunities or avert risks in the event of a rather unexpected occurrence;
               <br>
-              Einsatzfeld für strategische Frühaufklärung.
+              Field of application for strategic early reconnaissance.
             </div>
           </div>
         </ng-template>
@@ -101,11 +110,11 @@
         <ng-template #Template4>
           <div class="cv-tooltip">
             <div class="cv-title">
-              Selektiver Ausbau der Trends
+              Selective expansion of trends
             </div>
             <div>
-              Dies sind die mittel Trends. Zur Zeit stehen diese Trends nicht so hoch und nicht so gering. Aber da si sich in mehrere Richtungen
-              entwickeln können, sollten sie sehr genau beobachtet werden.
+              These are the medium trends. At the moment these trends are neither so high nor so low. But there are several directions
+              develop, they should be observed very closely.
             </div>
           </div>
         </ng-template>
@@ -113,12 +122,12 @@
         <ng-template #Template5>
           <div class="cv-tooltip">
             <div class="cv-title">
-              Selektion / Gewinnorientierung
+              Selection / profit orientation
             </div>
             <div>
-              Dies sind die mittel Trends. Zur Zeit stehen diese Trends nicht so hoch und nicht so gering.
-              Aber da sie sich in mehrere Richtungen
-              entwickeln können, sollten sie sehr genau beobachtet werden.
+              These are the medium trends. At the moment these trends are neither so high nor so low.
+              But since they are in several directions
+              develop, they should be observed very closely.
             </div>
           </div>
         </ng-template>
@@ -126,11 +135,11 @@
         <ng-template #Template6>
           <div class="cv-tooltip">
             <div class="cv-title">
-              Bedingt expandieren
+              Expand conditionally
             </div>
             <div>
-              Diese Trends können in der Zukunf weiter erweitern. Trotzdem sollte sie genau anschauen, welche Bedingungen für die Entwicklung noch
-              benötigen brauchen.
+              These trends can expand further in the future. Nevertheless, you should take a close look at the conditions for development
+              need need.
             </div>
           </div>
         </ng-template>
@@ -138,11 +147,11 @@
         <ng-template #Template7>
           <div class="cv-tooltip">
             <div class="cv-title">
-              Verteidigung und schwerpunkt verlagern
+              Defense and shift focus
             </div>
             <div>
-              Entsprechende Trends haben nur eine geringe Auswirkung auf das Unternehmen. Aufgrund ihrer hohen Wahrscheinlichkeit sollte sie
-              beobachtet  und in laufende Planungen eingebunden werden.
+              Corresponding trends have only a minor impact on the company. Because of its high probability, it should
+              monitored and integrated into ongoing planning.
             </div>
           </div>
         </ng-template>
@@ -150,11 +159,11 @@
         <ng-template #Template8>
           <div class="cv-tooltip">
             <div class="cv-title">
-              Gewinorientierung
+              Profit orientation
             </div>
             <div>
-              Diese Trend wirkt sehr gering aufs Unternehmen. Trotzdem können sie Gewinn auf dem Markt für Sie in kurze Zeit bringen.
-              Sie sollten auch beobachtet werden.
+              This trend has very little effect on the company. Even so, they can bring profit to you in the market in a short amount of time.
+              They should also be watched.
             </div>
           </div>
         </ng-template>
@@ -162,10 +171,10 @@
         <ng-template #Template9>
           <div class="cv-tooltip">
             <div class="cv-title">
-             Deinvestition
+              Disinvestment
             </div>
             <div>
-              Keine Ressourcen unnötig binden. Trends sollte nicht im Mittelpunkt der Plannung stehen
+              Do not tie up resources unnecessarily. Trends should not be the focus of planning
             </div>
           </div>
         </ng-template>
@@ -218,12 +227,12 @@
           <td class="bg-success"></td>
         </tr>
         <tr>
-          <td class="bg-dark td-first"> <span>3.5</span></td>
-          <td class="bg-dark"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template6">VI
+          <td class=".bg-secondary td-first"> <span>3.5</span></td>
+          <td class="bg-secondary"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template6">VI
             <i class="fa fa-info-circle" aria-hidden="true"></i>
           </b></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
           <td class="bg-primary"></td>
           <td class="bg-primary"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template5">V
             <i class="fa fa-info-circle" aria-hidden="true"></i>
@@ -237,10 +246,10 @@
           </b></td>
         </tr>
         <tr>
-          <td class="bg-dark td-first"> <span>3</span></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
+          <td class="bg-secondary td-first"> <span>3</span></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
           <td class="bg-primary"></td>
           <td class="bg-primary"></td>
           <td class="bg-primary"></td>
@@ -250,10 +259,10 @@
           <td class="bg-success"></td>
         </tr>
         <tr>
-          <td class="bg-dark td-first"> <span>2.5</span></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
+          <td class="bg-secondary td-first"> <span>2.5</span></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
           <td class="bg-primary"></td>
           <td class="bg-primary"></td>
           <td class="bg-primary"></td>
@@ -263,18 +272,18 @@
           <td class="bg-success"></td>
         </tr>
         <tr>
-          <td class="bg-dark td-first"> <span>2</span></td>
-          <td class="bg-dark"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template9">IX
+          <td class="bg-secondary td-first"> <span>2</span></td>
+          <td class="bg-secondary"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template9">IX
             <i class="fa fa-info-circle" aria-hidden="true"></i>
           </b></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template8">VIII
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template8">VIII
             <i class="fa fa-info-circle" aria-hidden="true"></i>
           </b></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
+          <td class="bg-secondary "></td>
+          <td class="bg-secondary"></td>
           <td class="bg-primary"></td>
           <td class="bg-primary"></td>
           <td class="bg-primary"><b style="color: white;font-size: larger; margin-left: 20px" [tooltip]="Template7">VII
@@ -282,17 +291,17 @@
           </b></td>
         </tr>
         <tr>
-          <td class="bg-dark td-first">
+          <td class="bg-secondary td-first">
             <span>1.5</span>
             <span class="begin">1</span>
           </td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
-          <td class="bg-dark"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
+          <td class="bg-secondary"></td>
           <td class="bg-primary"></td>
           <td class="bg-primary"></td>
           <td class="bg-primary"></td>

@@ -1,21 +1,23 @@
-<div class="roadmap">
+<div class="roadmap h-100">
   <p>ROADMAP TRENDS</p>
+
   <div class="content-roadmap">
     <div class="information">Information</div>
+    <button (click)="printService.mediaprint()" class="btn btn-info cv-print">Print</button>
     <br>
     <br>
     <!--    ---------------------------------------------------------Date Range -->
 
     <div class="timeline col-lg-12 col-md-12 col-sm-12">
 
-      <div class="left col-lg-1 col-md-1 col-sm-12 bg-info float-left">
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-info float-left" tooltip="you can use this filter as you want ">
         Date range
       </div>
 
       <div class="right col-lg-11 col-md-11 col-sm-12 float-left text-dark">
         <div class="line">
           <form (ngSubmit)="filter(form.value)" [formGroup]="form">
-            <mat-form-field class="example-form-field" appearance="fill">
+            <mat-form-field class="example-form-field col-lg-3 col-sm-12" appearance="fill">
               <mat-label>Select Date Rage</mat-label>
               <mat-date-range-input
                 [formGroup]="form"
@@ -29,7 +31,7 @@
               <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
             </mat-form-field>
 
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="col-lg-3 col-sm-12">
               <mat-label>Select View</mat-label>
               <mat-select formControlName="type_view">
                 <mat-option value="year">Year</mat-option>
@@ -37,10 +39,9 @@
               </mat-select>
             </mat-form-field>
 
+            <button class="btn-filter btn btn-primary col-lg-3 col-sm-12" type="submit">Filter</button>
 
-            <button type="submit" class="btn btn-success">Filter</button>
           </form>
-
 
         </div>
 
@@ -60,7 +61,7 @@
           <div *ngFor="let item of arrayTimline" class="vt-year-col float-left text-center" [class]="caculateWithYearElement(arrayTimline.length)">
             <div>{{ item }}</div>
 
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 float-left text-center" *ngFor="let mo of arrayMoths">
+            <div class="vt-year-month col-lg-1 col-md-1 col-sm-1 col-xs-1 float-left text-center" *ngFor="let mo of arrayMoths">
               {{ mo }}
             </div>
           </div>
@@ -70,22 +71,32 @@
       </div>
     </div>
     <br>
+  <div class="clearfix"></div>
 
-    <!--    ---------------------------------------------------------rm-high -->
+    <!--    ---------------------------------------------------------rm-high Investition-->
     <div class="rm-high col-lg-12 col-md-12 col-sm-12">
-      <div class="left col-lg-1 col-md-1 col-sm-12 bg-primary float-left">
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-primary float-left"
+           tooltip="The trends belongs safe area.
+      You can invest your money and time to this trend in the future">
         Investition
       </div>
 
-      <div class="right col-lg-11 col-md-11 col-sm-12 float-left">
-        <ng-container *ngFor="let item of listTrends">
+      <div class="vt-evaultion-right right col-lg-11 col-md-11 col-sm-12 float-left">
+        <ng-container *ngFor="let item of listTrends ; index as i">
 
         <div class="line" *ngIf="item.layer == 1">
 
-          <div class="btn bg-primary text-white" (click)="routerOtherPage(item.id)">{{item.title}}
+          <p class="btn text-white" (click)="routerOtherPage(item.id)"
+             tooltip="{{item.title}} - {{item.description}}"
+               [style.left.%]="item.left"
+               [style.width.%]="item.widthprozent"
+               [style.background-color]="getColor(i)"
+
+          >
+            {{item.id}}.{{item.title}}
             <br>
-            <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
-          </div>
+            <span class="text-warning">{{ShowDate( item.start)}}</span> - <span class="date-end">{{ ShowDate(item.end)}}</span>
+          </p>
 
 
         </div>
@@ -93,69 +104,94 @@
       </div>
 
     </div>
-    <hr>
 
-<!--    ---------------------------------------------------------rm-mittel -->
+    <div class="clearfix"></div>
+
+<!--    ---------------------------------------------------------rm-mittel Selection-->
     <div class="rm-mittel col-lg-12 col-md-12 col-sm-12">
 
-      <div class="left col-lg-1 col-md-1 col-sm-12 bg-warning float-left">
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-warning float-left" tooltip="This trend is to select.
+      You have to decide if you want to bring time and your money to this technologie">
         Selection
       </div>
 
-      <div class="right col-lg-11 col-md-11 col-sm-12 float-left">
-        <ng-container *ngFor="let item of listTrends">
+      <div class="vt-evaultion-right right col-lg-11 col-md-11 col-sm-12 float-left">
+        <ng-container *ngFor="let item of listTrends; index as i">
 
           <div class="line" *ngIf="item.layer == 2">
 
-            <p class="btn bg-warning text-white" (click)="routerOtherPage(item.id)">{{item.title}}
-              <br> <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
+            <p class="btn text-white" (click)="routerOtherPage(item.id)"
+               tooltip="{{item.title}} - {{item.description}}"
+               [style.left.%]="item.left"
+               [style.width.%]="item.widthprozent"
+               [style.background-color]="getColor(i)"
+
+            >
+              {{item.id}}.{{item.title}}
+              <br> <span class="text-warning">{{ShowDate( item.start)}}</span> - <span class="date-end">{{ ShowDate(item.end)}}</span>
             </p>
           </div>
         </ng-container>
       </div>
     </div>
-    <hr>
+    <div class="clearfix"></div>
 
     <!--    ---------------------------------------------------------rm-low -->
     <div class="rm-low col-lg-12 col-md-12 col-sm-12">
-      <div class="left col-lg-1 col-md-1 col-sm-12 bg-danger float-left">
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-danger float-left" tooltip="You should not invest in this area
+      because this trends were evaluted not so good by your colleagues and our user in this plattform">
         DeInvestition
       </div>
 
-      <div class="right col-lg-11 col-md-11 col-sm-12 float-left">
-        <ng-container *ngFor="let item of listTrends">
+      <div class="vt-evaultion-right right col-lg-11 col-md-11 col-sm-12 float-left">
+        <ng-container *ngFor="let item of listTrends ; index as i">
 
           <div class="line" *ngIf="item.layer == 3">
 
-            <p class="btn bg-danger text-white" (click)="routerOtherPage(item.id)" >{{item.title}}
+            <p class="btn text-white" (click)="routerOtherPage(item.id)"
+               tooltip="{{item.title}} - {{item.description}}"
+               [style.left.%]="item.left"
+               [style.width.%]="item.widthprozent"
+               [style.background-color]="getColor(i)"
+            >
+              {{item.id}}.{{item.title}}
 
-              <br> <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
+              <br> <span class="text-warning">{{ShowDate( item.start)}}</span> - <span class="date-end">{{ ShowDate(item.end)}}</span>
             </p>
           </div>
         </ng-container>
       </div>
     </div>
-    <hr>
 
+    <div class="clearfix"></div>
     <!--    ---------------------------------------------------------rm-un Evalution low -->
     <div class="rm-low col-lg-12 col-md-12 col-sm-12">
-      <div class="left col-lg-1 col-md-1 col-sm-12 bg-danger float-left">
-        Not Evalution
+      <div class="left col-lg-1 col-md-1 col-sm-12 bg-danger float-left" tooltip="This trends would have a evaluation in the next days">
+        Not yet Evaluation
       </div>
 
-      <div class="right col-lg-11 col-md-11 col-sm-12  float-left">
-        <ng-container *ngFor="let item of listTrends">
+      <div class="vt-evaultion-right right col-lg-11 col-md-11 col-sm-12  float-left">
+        <ng-container *ngFor="let item of listTrends; index as i">
 
           <div class="line" *ngIf="item.layer == 4">
-            <p class="btn bg-danger text-white" (click)="routerOtherPage(item.id)">{{item.title}}
 
-              <br> <span class="text-dark">{{ShowDate( item.start)}}</span> - <span class="text-dark">{{ ShowDate(item.end)}}</span>
+            <p class="btn text-white"
+               tooltip="{{item.title}} - {{item.description}}"
+               (click)="routerOtherPage(item.id)"
+                [style.left.%]="item.left"
+                [style.width.%]="item.widthprozent"
+                [style.background-color]="getColor(i)"
+
+            >
+              {{item.id}}.{{item.title}}
+
+              <br> <span class="text-warning">{{ShowDate( item.start)}}</span> - <span class="date-end">{{ ShowDate(item.end)}}</span>
+
             </p>
           </div>
         </ng-container>
       </div>
     </div>
-    <hr>
 
   </div>
 

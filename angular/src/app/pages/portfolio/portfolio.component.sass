@@ -1,3 +1,10 @@
+.list-trendid
+  position: fixed
+  left: 10px
+  overflow-y: scroll
+  z-index: 999
+.active
+  color: red !important
 .portfolio
   position: relative
   width: 80%
@@ -171,28 +178,30 @@ table
 
     span
       position: absolute
-      color: white
+      color: black
       padding: 10px
       border: 1px solid black
-      background: #ff8800
+      background: yellow
     span:hover
         cursor: pointer
-        color: yellow
+        color: red
         background: #00aced
     .p-trend
       border: darkslategray
       border-radius: 50%
       overflow: scroll
-      font-size: 10px
+      font-size: 15px
       display: grid
       place-items: center
+      width: 35px
+      height: 35px
     .bubble-blue
-      background-color: green
+      background-color: yellow
     .bubble-yellow
       background-color: yellow
       color: black
     .bubble-red
-      background-color: red
+      background-color: yellow
       color: black
 .portfolio:after
   content: ""

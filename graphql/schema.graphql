@@ -71,6 +71,7 @@ type Mutation {
   signupUser(data: UserCreateInput!): User!
   updateCategory(data: CategoryCreateInput!, id: Int): Category!
   updateComment(data: CommentCreateInput!, idEvalution: Int, trendID: Int): Comment!
+  updateDataTrend(id: Int, status: String): Trend!
   updateTrend(data: TrendCreateInput!, id: Int, source: [TrendSourceCreateInput]): Trend!
   updateTrendEvalution(data: TrendEvalutionCreateInput!, idEvalution: Int, trendID: Int): TrendEvalution!
   updateTrendSource(data: TrendSourceCreateInput!, id: Int): TrendSource!

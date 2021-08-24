@@ -1,7 +1,7 @@
 <div class="container">
   <p class="text-center"><a routerLink="add/trend" class="btn btn-sm btn-success mb-2">Add new Trend</a></p>
   <br><br>
-  <p>Listtrends Page</p>
+  <p class="cv-title">Listtrends Page</p>
 
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <form action="listtrends.component.ts" method="post" (ngSubmit)="getListBySearch(form.value)" [formGroup]="form"
@@ -63,47 +63,43 @@
   <div class="trends col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <br>
 
-      <div class="vt-pagination">
+      <div class="vt-pagination col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <pagination-controls (pageChange)="p = $event" ></pagination-controls>
       </div>
 
     <div class="trend-element float-left col-xs-12 col-sm-12 col-md-3 col-lg-3"
-         *ngFor="let item of listTrends | paginate: { itemsPerPage: 4, currentPage: p }; index as i;">
-      <p>
-        <a routerLink="{{item.id}}">
-          <img class="img-galaxy" src="{{ item.images[0]}}" alt="{{item.title}}">
-        </a>
-      </p>
+         *ngFor="let item of listTrends | paginate: { itemsPerPage: 8, currentPage: p }; index as i;">
 
-      <div>
-        <video controls class="video-galaxy-detail" src="{{ item.videos[0] }}"></video>
+      <div class="trend-element-wrappe">
+        <p>
+          <a routerLink="{{item.id}}">
+            <img class="img-galaxy" src="{{ item.images[0]}}" alt="{{item.title}}">
+          </a>
+        </p>
+
+        <p class="title">
+          <a routerLink="{{item.id}}">
+            {{ item.title }}
+          </a>
+        </p>
+
+        <p>
+          <i class="fas fa-toggle-on"></i>: <span class="btn btn-success">{{ item.status }}</span>
+        </p>
+
+        <p>
+          <i class="fas fa-clock"></i>: <span>{{ item.createdAt}}</span>
+        </p>
+        <p class="createdBy">
+          By:<span>{{ item.createdBy.name}}</span>
+        </p>
       </div>
-
-      <p class="title">
-        <a routerLink="{{item.id}}">
-          {{ item.title }}
-        </a>
-      </p>
-
-      <!--        <i class="fas fa-info-circle"></i>-->
-      <!--        <p class="desc text-justify" [innerHTML]="item.description">-->
-
-      <!--        </p>-->
-
-      <p>
-        <i class="fas fa-toggle-on"></i>: <span class="btn btn-success">{{ item.status }}</span>
-      </p>
-
-      <p>
-        <i class="fas fa-clock"></i>: <span>{{ item.createdAt}}</span>
-      </p>
-      <p class="createdBy">
-        By:<span>{{ item.createdBy.name}}</span>
-      </p>
     </div>
 
-    <div class="clearfix"></div>
-      <pagination-controls  (pageChange)="p = $event"></pagination-controls>
+<!--    <div class="clearfix"></div>-->
+<!--    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 float-none">-->
+<!--      <pagination-controls  (pageChange)="p = $event"></pagination-controls>-->
+<!--    </div>-->
 
 
   </div>

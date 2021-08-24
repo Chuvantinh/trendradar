@@ -4,7 +4,7 @@ import {
   ViewChild,
   ElementRef,
   OnInit,
-  ChangeDetectorRef, AfterContentChecked
+  ChangeDetectorRef, AfterContentChecked, Inject
 } from '@angular/core';
 
 // get data from backend
@@ -13,6 +13,9 @@ import gql from 'graphql-tag';
 import {Router, ActivatedRoute} from "@angular/router";
 import {NotificationService} from "../../services/notification.service";
 import {count} from "rxjs/operators";
+
+import { DOCUMENT} from "@angular/common";
+import {PrintService} from "../../services/print.service";
 
 @Component({
   selector: 'app-trendradar',
@@ -40,6 +43,8 @@ export class TrendradarComponent implements OnInit {
     private apollo: Apollo,
     private router: Router,
     private cdref: ChangeDetectorRef,
+    @Inject(DOCUMENT) private document: Document,
+    public printService: PrintService
   ) { }
 
   ngOnInit(): void {
@@ -95,7 +100,12 @@ export class TrendradarComponent implements OnInit {
       return "translate(" + x + "," + y + ")";
     }else if(type == 2){
       let factor = 0;
-      factor = this.radar2;
+      if(indexed % 2 == 0){
+        factor = this.radar2;
+      }else{
+        factor = this.radar2 / 2;
+      }
+
       let x:number = horizontal * factor  * addessX;
       let y:number = (Math.sqrt((220 * 220) - (x  * x )) - minus ) * addessY ;
       return "translate(" + x + "," + y + ")";
@@ -210,8 +220,10 @@ export class TrendradarComponent implements OnInit {
 
       let result_adopt = await this.getCluster(arr_eff_pro_adopt, length_adoptTrends);
       let result_trial = await this.getCluster(arr_eff_pro_trial, length_trialTrends);
+
       let result_asses = await this.getCluster(arr_eff_pro_asses, length_assesTrends);
-      let result_hold;
+
+      let result_hold:any;
       if(length_holdTrends > 0){
         result_hold  = await this.getCluster(arr_eff_pro_hold,  length_holdTrends);
       }
@@ -224,24 +236,24 @@ export class TrendradarComponent implements OnInit {
       if(result_adopt){
          indexes_adopt = result_adopt[0].TrendCluster.indexes;
       }
-      if (result_trial){
+      if (result_trial.length > 0){
          indexes_trial = result_trial[0].TrendCluster.indexes;
       }
-      if (result_asses) {
+
+      if (result_asses.length > 0) {
          indexes_asess = result_asses[0].TrendCluster.indexes;
       }
 
-      if(result_hold){
-         indexes_hold  = result_hold[0].TrendCluster.indexes;
+      if(result_hold.length  > 0){
+         indexes_hold  = result_hold[0]?.TrendCluster.indexes;
       }
 
-      if(indexes_adopt){
+      if(indexes_adopt.length > 0){
         this.adoptTrends = this.adoptTrends.map((item: any, index:number) => ({
           ...item,
           indexed: indexes_adopt[index]
         }));
       }
-      console.log(this.adoptTrends);
 
       if(indexes_trial){
         this.trialTrends = this.trialTrends.map((item: any, index:number) => ({
@@ -272,8 +284,9 @@ export class TrendradarComponent implements OnInit {
       return new Promise((resolve, reject) => {
         let default_cluster = 4;
         if( default_cluster > number_element){
-          default_cluster = number_element;
+          default_cluster = number_element - 1;
         }
+
         // call api to get indexes
         const TrendClusterGL = gql`
           mutation TrendCluster($input_data: [[Float]], $number_cluster: Int, $max_interation: Int){
@@ -311,7 +324,6 @@ export class TrendradarComponent implements OnInit {
   // https://stackblitz.com/edit/angular-svg-tooltip?file=src%2Fapp%2Fapp.component.ts
   public mouseEnter($event:any, data:any): void {
     let circle = $event.target as HTMLElement;
-    console.log(circle);
     let coordinates = circle.getBoundingClientRect();
     let x = `${coordinates.left + 20}px`;
     let y = `${coordinates.top + 20}px`;
@@ -328,5 +340,29 @@ export class TrendradarComponent implements OnInit {
 
   public clickCircle(id: any){
     this.router.navigateByUrl(`/listtrends/${id}`);
+  }
+
+  /**
+   * Add class active, when hover in a trend
+   * work follow is get id of element
+   * add class active
+   * @param $event
+   */
+  public mouseHighlightEnter($event: any){
+    let highlight_class = this.document.getElementsByClassName($event.target.id);
+    for (var i = 0; i < highlight_class.length; i++) {
+      this.renderer.addClass(highlight_class[i], 'active');
+    }
+  }
+
+  /**
+   * remove class active when you moved out of this element.
+   * @param $event
+   */
+  public mouseHighlightLeave($event:any){
+    let highlight_class = this.document.getElementsByClassName($event.target.id);
+    for (var i = 0; i < highlight_class.length; i++) {
+      this.renderer.removeClass(highlight_class[i], 'active');
+    }
   }
 }

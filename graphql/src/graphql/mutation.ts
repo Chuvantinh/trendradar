@@ -193,6 +193,22 @@ export const Mutation = objectType({
       },
     })
 
+    t.nonNull.field('updateDataTrend', {
+      type: 'Trend',
+      args: {
+        id: intArg(),
+        status: stringArg()
+      },
+      resolve: async (_, args, context: Context) => {
+        return await context.prisma.trend.update({
+          where: {id: args.id},
+          data:{
+            status: args.status
+          }
+        })
+      }
+    })
+
     t.nonNull.field('updateTrend', {
       type: 'Trend',
       args: {

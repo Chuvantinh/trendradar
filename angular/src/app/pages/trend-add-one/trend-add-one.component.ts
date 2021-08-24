@@ -11,7 +11,8 @@ import {AngularFireDatabase} from "@angular/fire/database";
 import {AngularFireStorage} from "@angular/fire/storage";
 import { HttpClientModule } from '@angular/common/http';
 import {Observable,of, from, Subscription } from 'rxjs';
-import {finalize, map} from "rxjs/operators";
+import {finalize, find, map} from "rxjs/operators";
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-trend-add-one',
@@ -51,6 +52,7 @@ export class TrendAddOneComponent implements OnInit {
   ngOnInit(): void {
     this.getCategories();
     this.initForm();
+
   }
 
   initForm(){
@@ -365,4 +367,33 @@ export class TrendAddOneComponent implements OnInit {
         .subscribe();
     });
   }
+
+  onChange(event:any){
+    let arr_begin:any[] = this.categories;
+    let filter = event.target.value.toLowerCase();
+
+
+    if (filter == '' || filter == undefined){
+      this.categories = arr_begin;
+    }else{
+
+      for ( let i = 0 ; i < arr_begin.length; i ++ ) {
+        let option = arr_begin[i].subCategory;
+        for (let j = 0; j < option.length; j++){
+          let index = option[j].title.toLowerCase().indexOf(filter);
+          if (  index < 0) {
+            let findIndex = option.findIndex((item:any) => item.id == option[j].id);
+
+            option.splice(findIndex, 1);
+          }
+        }
+      }
+      console.log(arr_begin);
+
+      this.categories = arr_begin;
+      console.log(this.categories);
+    }
+
+  }
+
 }

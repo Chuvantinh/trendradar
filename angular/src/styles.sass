@@ -17,3 +17,12 @@ input.ng-touched.ng-invalid
   width: 500px !important
 .clearfix
   float: none
+/* for print : class menu and footer will be hidden in print view */
+@media print
+  .footer
+    display: none !important
+  .menu
+    display: none !important
+  .scroll-to-top
+    display: none !important
+

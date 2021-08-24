@@ -1,26 +1,22 @@
 <div class="container">
-  <div class="col-md-4 text-right">
-    <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
-    <button class="btn btn-success btn-block" printSectionId="htmlData" ngxPrint>print</button>
-    <share-buttons></share-buttons>
-  </div>
 
   <div id="htmlData" class="trends col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <span>Trends:</span>
+    <span>Trend detail:</span>
     <br>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let item of trend; index as i;">
-      <div class="text-center img col-sm-12 col-xs-122 col-lg-6 float-left">
-        <a routerLink="{{item.id}}">
-          <ng-container *ngFor="let im of item.images">
-            <img class="img-galaxy-detail" src="{{ im }}" alt="{{ item.title }}">
-          </ng-container>
-
-        </a>
+      <div class="text-center img col-sm-12 col-xs-12 col-lg-6 float-left">
+        <ng-container *ngFor="let im of item.images">
+          <div class="col-lg-6 col-sm-12 float-left">
+            <a routerLink="{{item.id}}">
+              <img class="img-galaxy-detail" src="{{ im }}" alt="{{ item.title }}">
+            </a>
+          </div>
+        </ng-container>
       </div>
 
-      <div class="video col-sm-12 col-xs-122 col-lg-6 float-left">
+      <div class="video col-sm-12 col-xs-12 col-lg-6 float-left">
         <ng-container *ngFor="let vi of item.videos">
-          <video controls class="video-galaxy-detail" src="{{ vi }}"> </video>
+          <video controls class="video-galaxy-detail" poster="https://www.pudelskern.info/wp-content/uploads/2019/03/PK_SX_Trend_Radar2.004-1024x576.jpeg" src="{{ vi }}"> </video>
         </ng-container>
       </div>
       <div class="clearfix">
@@ -33,7 +29,15 @@
       </p>
 
       <i class="fas fa-info-circle"></i>
-      <p class="desc text-justify" [innerHTML]="item.description">
+      <span class="desc text-justify" [innerHTML]="item.description">
+      </span>
+
+
+      <p>
+        <i class="fab fa-bandcamp"></i> Categoriers:
+        <span *ngFor="let ca of item.categories" class="cate-title btn btn-primary">
+          {{ ca.title }}
+        </span>
       </p>
 
       <p>
@@ -53,18 +57,19 @@
         <p class="source-type">Type: <span>{{row.source}}</span></p>
       </div>
 
-      <div class="roadmap col-12">
-        <i class="fas fa-road"></i> Trend Roadmap:
+      <div class="roadmap">
+        <i class="fas fa-road"></i>Estimated operating time for Roadmap
         <br>
-        <div class="start col-xs-12 col-lg-6">
+        <div class="start col-xs-12 col-lg-6 float-left">
             From: {{item.start}}
         </div>
 
-        <div class="end col-xs-12 col-lg-6">
+        <div class="end col-xs-12 col-lg-6 float-left">
             To: {{item.end}}
         </div>
       </div>
 
+      <div class="clearfix"></div>
 
       <p><i class="fas fa-poll-h"></i> User's Evalution:</p>
       <div class="evalution" *ngFor="let e of item.trendEvalution; index as ei">
@@ -77,11 +82,7 @@
         </div>
       </div>
 
-
-
     </div>
-
-
 
   </div>
 
@@ -89,8 +90,8 @@
   <h3></h3>
 
 
-  <div class="trend-vote col-12 col-lg-12 col-sm-12 col-xs-122  float-left">
-    <p class="btn btn">
+  <div class="trend-vote col-6 col-lg-6 col-sm-12 col-xs-12  float-left">
+    <p class="btn btn-primary">
       Trend Vote:
     </p>
 
@@ -111,21 +112,23 @@
           <input type="text" class="form-control" id="during" placeholder="1 year" formControlName="during">
         </div>
 
-        <button class="btn btn-success" type="submit">Submit</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
   </div>
 
-  <div class="trend-comment col-lg-6 col-sm-12 col-xs-122  float-left">
-   <p class="btn btn-success">
+  <div class="clearfix"></div>
+
+  <div class="trend-comment col-lg-6 col-sm-12 col-xs-12  float-left">
+   <p class="btn btn-info">
      Trend Comment:
    </p>
     <app-comments (newComment)="addComment($event)"></app-comments>
   </div>
 
 
-  <div class="trend-comment-detail col-lg-6 col-sm-12 col-xs-122  float-left">
-    <p class="btn btn-success">
+  <div class="trend-comment-detail col-lg-6 col-sm-12 col-xs-12  float-left">
+    <p class="btn btn-info">
       Trend Comment Information:
     </p>
     <div class="vt-commented" *ngFor="let item of datacomment; index as i">
@@ -138,4 +141,13 @@
       </div>
     </div>
   </div>
+
+
+  <div class="share-download">
+     <button class="btn-download btn btn-success" (click)="openPDF()">Download PDF</button>
+
+      <button class="btn-download btn btn-success" printSectionId="htmlData" ngxPrint>print</button>
+    <share-buttons></share-buttons>
+  </div>
+
 </div>

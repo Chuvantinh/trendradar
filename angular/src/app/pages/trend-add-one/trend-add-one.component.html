@@ -7,7 +7,9 @@
         <mat-form-field appearance="fill" class="form-control">
           <mat-label>Select Category</mat-label>
           <mat-select formControlName="categoriesId" multiple>
-            <mat-option>-- None --</mat-option>
+
+<!--            <input class="yourClass" placeholder ="search " (change)="onChange($event)">-->
+
             <mat-optgroup *ngFor="let group of categories" [label]="group.title">
               <mat-option *ngFor="let sub of group.subCategory" [value]="sub.id">
                 {{ sub.title }}

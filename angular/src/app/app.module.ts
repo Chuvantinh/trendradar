@@ -77,6 +77,7 @@ import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule} from "ngx-sharebuttons/icons";
 import {NgxPrintModule} from 'ngx-print';//print
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -152,7 +153,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
       debug: true
     }),
     ShareIconsModule, // Optional if you want the default share icons
-    FontAwesomeModule, // font of npm for ng button shares
+    FontAwesomeModule,
+    MatButtonToggleModule,
   ],
   providers: [
     AuthService,

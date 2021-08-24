@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import {Router, ActivatedRoute} from "@angular/router";
 import {NotificationService} from "../../services/notification.service";
 import DateTimeFormat = Intl.DateTimeFormat;
+import {PrintService} from "../../services/print.service";
 
 @Component({
   selector: 'app-roadmap',
@@ -25,6 +26,7 @@ export class RoadmapComponent implements OnInit {
     private notification: NotificationService,
     private apollo: Apollo,
     private router: Router,
+    public printService: PrintService
   ) {
     const today = new Date();
     const month = today.getMonth();
@@ -74,9 +76,26 @@ export class RoadmapComponent implements OnInit {
   }
 
   /**
+   * after click Filter with start end end of Time
+   * @param valueInput
+   */
+  filter(valueInput: any) {
+    console.log(valueInput.start)
+    console.log(new Date(valueInput.start))
+
+    this.getListTrends("", "start", "asc", new Date(valueInput.start), new Date(valueInput.end) );
+  }
+
+  /**
    * Get actually all of trends in the table Trend
    */
    getListTrends(search_string: string, orderByField: string, valueField: string, start: Date | null, end: Date | null){
+
+
+
+    // start: Sun Aug 01 2021 00:00:00 GMT+0200 (Central European Summer Time)
+    // end: roadmap.component.ts:93 Tue Aug 31 2021 00:00:00 GMT+0200 (Central European Summer Time)
+
     this.apollo
     .watchQuery({
       query: gql`
@@ -129,7 +148,8 @@ export class RoadmapComponent implements OnInit {
     .valueChanges.subscribe(async (result) => {
       this.listTrends = Array.of(result.data);
       this.listTrends =   this.listTrends[0].getTrends;
-
+      console.log('listtrend after filter');
+      console.log(this.listTrends);
       let data = await this.getPortfolioList();
       data = Array.of(data.data);
       data = data[0].getPortfolioEvalution;
@@ -138,14 +158,17 @@ export class RoadmapComponent implements OnInit {
       this.listTrends = this.listTrends.map((item:any) => ({
         ...item,
         layer: 4, // default for all is not evaluated trend
-        unit_timeline_from: 0,
-        unit_timeline_to: 0
+        left: 0,
+        top: 0,
+        widthprozent: 0
       }));
 
 
       // add unit to show time , with year  or month
       // get the min and max time line
       // add layer for each trend oki
+      console.log('after click filter button');
+      console.log(this.listTrends);
       let minDate:any = this.listTrends[0].start; // it is to day: Thu Aug 12 2021 14:52:24 GMT+0200 (Central European Summer Time)
       let maxDate:any = this.listTrends[0].end; // it is to day: Thu Aug 12 2021 14:52:24 GMT+0200 (Central European Summer Time)
 
@@ -184,16 +207,63 @@ export class RoadmapComponent implements OnInit {
 
       // handle list year
       this.arrayTimline = this.handleListYear(minDate, maxDate);
-      console.log(minDate)
-      console.log(this.arrayTimline)
+      for(let trend of this.listTrends){
+        let prozentStart = this.handleLeftWithForTrend(trend.start, trend.end, this.arrayTimline, 'start');
+        trend.left = prozentStart.left;
+        trend.widthprozent = prozentStart.widthprozent;
+
+      }
+
+      //console.log(minDate)
+      //console.log(this.arrayTimline)
       console.log(this.listTrends)
     });
   }
 
-  handleWithForTrend(start:any, end:any, listyear:any){
-     let total_month = listyear.length * 12;
+  public  monthDiff(d1:any, d2:any) {
+    let months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
+  }
+
+  handleLeftWithForTrend(start:any, end:any, arrayTimline:any, type:any): any{
+     let total_month = arrayTimline.length * 12;
+
      let startMonth = new Date(start).getMonth();
-     let endMonth = new Date(start).getMonth();
+     let endMonth = new Date(end).getMonth();
+
+     let startYear = new Date(start).getFullYear();
+     let endYear = new Date(end).getFullYear();
+
+     let left = 0;
+     let unit = 100 / total_month;
+     let widthprozent = this.monthDiff(new Date(start), new Date(end)) * unit;
+
+    for (let item = 0; item < arrayTimline.length ; item++){
+
+         if(startYear == arrayTimline[item]){
+           left += startMonth * unit;
+         }
+
+         if(startYear > arrayTimline[item]){
+           left += unit * 12; // multiple 12 month
+         }
+     }
+
+    if(start == end){
+      left = startMonth * unit;
+    }
+
+    if(widthprozent == 0){
+      widthprozent = unit;
+    }
+
+     return {
+       'left': left,
+       'widthprozent': widthprozent
+     }
   }
 
   /**
@@ -242,9 +312,10 @@ export class RoadmapComponent implements OnInit {
 
   }
 
-  filter(valueInput: any) {
-    console.log(valueInput.start)
-    this.getListTrends("", "start", "asc", new Date(valueInput.start), new Date(valueInput.end));
+  // Background color for trend
+  getColor(index:number){
+    let list_color = ['#198754c7'];
+    return list_color[0];
   }
 
   getClassColor(average_effect_input:any){
@@ -278,7 +349,7 @@ export class RoadmapComponent implements OnInit {
       months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
       days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     //return days[d.getDay()]+', '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+hours+':'+minutes+ampm;
-    return months[d.getMonth()] + d.getFullYear();
+    return months[d.getMonth()] +' '+ d.getFullYear();
   }
 
   // time line show
@@ -287,5 +358,4 @@ export class RoadmapComponent implements OnInit {
     let stringClass = "col-lg-" + num + " col-md-" + num + " col-sm-" + num + " col-xs-" + num + " ";
     return stringClass;
   }
-
 }

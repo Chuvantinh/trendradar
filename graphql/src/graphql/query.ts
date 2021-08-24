@@ -36,8 +36,9 @@ export const Query = objectType({
       resolve: async (_parent, _args, context: Context, resolveInfo) => {
         let orderByField = _args.data.orderByField;
         let valueField = _args.data.valueField;
-        let start = _args.data.start == null ? undefined : _args.data.start;
-        let end = _args.data.end == null ? undefined : _args.data.end;
+
+        let start = _args.data.start == null ? undefined : _args.data.start.toISOString();
+        let end = _args.data.end == null ? undefined : _args.data.end.toISOString();
 
         let orderByObj = {};
         orderByObj[orderByField] = valueField;
@@ -52,7 +53,8 @@ export const Query = objectType({
             },
             end:{
               lte: end
-            }
+            },
+            status: "ACTIVE"
           },
           orderBy: orderByObj
         });
@@ -184,15 +186,20 @@ export const Query = objectType({
     t.nonNull.list.nonNull.field('getPortfolioEvalution',{
       type: 'Portfolio',
       resolve: async (_, args, context: Context) => {
-        return await context.prisma.$queryRaw('select "trendId", sum("effect") as "total_effect",' +
-          'count("createdBy"), ROUND((sum("effect")/count("createdBy"))::numeric, 2) as average_effect, ' +
-          'sum("probability") as total_prgetListTrendso, ROUND((sum("probability")/count("createdBy"))::numeric, 2) as average_pro,' +
-          ' ( sum("probability") + sum("effect") ) as total' +
-          ' from "TrendEvalution" ' +
-          ' group by "trendId" order by "total" desc;');
+        let deactive = 'DEACTIVE';
+        return await context.prisma.$queryRaw`
+          select "TrendEvalution"."trendId", sum("TrendEvalution"."effect") as "total_effect",
+          count("TrendEvalution"."createdBy"), ROUND((sum("TrendEvalution"."effect")/count("TrendEvalution"."createdBy"))::numeric, 2) as average_effect,
+          sum("TrendEvalution"."probability") as total_prgetListTrendso, ROUND((sum("TrendEvalution"."probability")/count("TrendEvalution"."createdBy"))::numeric, 2) as average_pro,
+           ( sum("TrendEvalution"."probability") + sum("TrendEvalution"."effect") ) as total
+           from "TrendEvalution" LEFT JOIN "Trend" ON "Trend"."id" = "TrendEvalution"."trendId"
+           where "Trend"."status" != ${deactive}
+           group by "TrendEvalution"."trendId" order by "total" desc
+           ;`
       },
     })
-
+    // left join "Trend" on "TrendEvalution".trendId = "Trend".id
+    //  ' where "Trend".status != "DEACTIVE" ' +
     // ---- END QUERY: TrenEvalution
 
     // ----------------------------------------------------------------------------- BEGIN QUERY: Comment
