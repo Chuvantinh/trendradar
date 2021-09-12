@@ -36,7 +36,7 @@
       </g>
 
       <ng-container *ngFor="let item of adoptTrends; index as i">
-        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 1, item.indexed)">
+        <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 1, item.indexed)">
 
           <!--      cricle symbol-->
           <circle r="12" fill="green" class="cv-circle-trend cv-circle-adopt-{{i+1}} highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
@@ -54,10 +54,10 @@
       </ng-container>
 
       <ng-container *ngFor="let item of trialTrends; index as i">
-        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 2, item.indexed)">
+        <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 2, item.indexed)">
 
           <!--      cricle symbol-->
-          <circle r="12" fill="blue" class="highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
+          <circle r="12" fill="blue" class="cv-circle-trend highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
                   (click)="clickCircle(item.trendId.id)"
                   (mouseenter)="mouseEnter($event, item.trendId.title) ; mouseHighlightEnter($event)"
                   (mouseleave)="mouseLeave($event) ; mouseHighlightLeave($event)"
@@ -72,10 +72,10 @@
       </ng-container>
 
       <ng-container *ngFor="let item of assesTrends; index as i">
-        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 3, item.indexed)">
+        <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 3, item.indexed)">
 
           <!--      cricle symbol-->
-          <circle r="12" fill="orange" class="highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
+          <circle r="12" fill="orange" class="cv-circle-trend highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
                   (click)="clickCircle(item.trendId.id)"
                   (mouseenter)="mouseEnter($event, item.trendId.title) ; mouseHighlightEnter($event)"
                   (mouseleave)="mouseLeave($event) ; mouseHighlightLeave($event)"
@@ -87,9 +87,9 @@
       </ng-container>
 
       <ng-container *ngFor="let item of holdTrends; index as i">
-        <g class="blip" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 4, item.indexed)">
+        <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 4, item.indexed)">
           <!--      cricle symbol-->
-          <circle r="12" fill="#f436ca" class="highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
+          <circle r="12" fill="#f436ca" class="cv-circle-trend highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
                   (click)="clickCircle(item.trendId.id)"
                   (mouseenter)="mouseEnter($event, item.trendId.title) ; mouseHighlightEnter($event)"
                   (mouseleave)="mouseLeave($event) ; mouseHighlightLeave($event)"

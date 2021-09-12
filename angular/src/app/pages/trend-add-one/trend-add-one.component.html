@@ -1,6 +1,15 @@
 <div class="container">
   <form (ngSubmit)="add(form.value)" [formGroup]="form" #myform="ngForm">
     <div class="form-row">
+
+      <div class="form-group col-md-6 col-sm-12">
+        <label>Titel of Trend:</label>
+        <input type="text" placeholder="title" formControlName="title" class="form-control">
+        <div *ngIf="form.get('title')?.hasError('required') && myform.submitted" class='alert alert-danger'>
+          Title is required
+        </div>
+      </div>
+
       <div class="form-group col-md-6 col-sm-12">
 
         <label>Select Category</label>
@@ -8,7 +17,7 @@
           <mat-label>Select Category</mat-label>
           <mat-select formControlName="categoriesId" multiple>
 
-<!--            <input class="yourClass" placeholder ="search " (change)="onChange($event)">-->
+            <!--            <input class="yourClass" placeholder ="search " (change)="onChange($event)">-->
 
             <mat-optgroup *ngFor="let group of categories" [label]="group.title">
               <mat-option *ngFor="let sub of group.subCategory" [value]="sub.id">
@@ -20,14 +29,6 @@
 
         <div *ngIf="form.get('categoriesId')?.hasError('required') && myform.submitted" class='alert alert-danger'>
           Please select mega trend
-        </div>
-      </div>
-
-      <div class="form-group col-md-6 col-sm-12">
-        <label>Titel of Trend:</label>
-        <input type="text" placeholder="title" formControlName="title" class="form-control">
-        <div *ngIf="form.get('title')?.hasError('required') && myform.submitted" class='alert alert-danger'>
-          Title is required
         </div>
       </div>
 

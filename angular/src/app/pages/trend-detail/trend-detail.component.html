@@ -54,7 +54,11 @@
 
       <div class="sources" *ngFor="let row of item.source; index as i">
         <p><i class="fab fa-unity"></i> From: {{row.title}}, url: <a href="{{row.url}}" target="_blank">{{row.url}}</a></p>
-        <p class="source-type">Type: <span>{{row.source}}</span></p>
+        <p class="source-type">Type:
+          <ng-container *ngFor="let sr of row.source ">
+            <span class="btn btn-success">{{ sr }}</span>
+          </ng-container>
+          </p>
       </div>
 
       <div class="roadmap">

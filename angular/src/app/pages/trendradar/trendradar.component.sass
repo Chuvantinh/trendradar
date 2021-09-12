@@ -1,14 +1,17 @@
 .radar
   height: 800px
   position: relative
+
   .Invest
     text-align: left
     bottom: 50%
     left: 15%
     position: absolute
+
   .Selection
     text-align: center
     margin-bottom: 10px
+
   .DeInvest
     text-align: right
     bottom: 50%
@@ -20,8 +23,10 @@
     height: 500px
     background-color: #ff8800
     margin: 0 auto
-    border-top-left-radius: 500px /* 100px of height + 10px of border */
-    border-top-right-radius: 500px /* 100px of height + 10px of border */
+    border-top-left-radius: 500px
+    /* 100px of height + 10px of border */
+    border-top-right-radius: 500px
+    /* 100px of height + 10px of border */
     border: 2px solid gray
     border-bottom: 0
     border-bottom: 2px solid #0d6efd
@@ -30,6 +35,7 @@
     .invest
       opacity: 0.5
       border-radius: 100% 0% 0% 10% / 100% 10% 0% 0%
+
     .selection
       border-radius: 73% 66% 12% 5% / 9% 8% 0% 0%
 
@@ -39,25 +45,79 @@
   pointer-events: none
   user-select: none
   opacity: 0.5
+
 .cv-circle
   fill: none
   stroke-width: 1
+
 circle:hover
   cursor: pointer
 
-.cv-circle-trend
-  :hover
-    background: red
+@keyframes stroke_fill
+  0%
+    fill: white
+  50%
+    fill: white
+    stroke-dashoffset: 0
+  100%
+    fill: black
+    stroke-dashoffset: 0
+.cv-g-trend
+  animation: stroke_fill 4s ease forwards
+  stroke-dasharray: 324.774
+  stroke-dashoffset: 324.774
+  stroke-width: 10
+
+@keyframes pulse-ring
+  0%
+    transform: scale(.33)
+  80%, 100%
+    opacity: 0
+
+@keyframes pulse-dot
+  0%
+    transform: scale(.8)
+  50%
+    transform: scale(1)
+  100%
+    transform: scale(.8)
+
 .cv-line
   stroke: gray
   opacity: 0.3
   stroke-width: 1
+
 .cv-trend-text
   fill: rgb(255, 255, 255)
   font-family: Arial, Helvetica
   font-size: 9px
   pointer-events: none
   user-select: none
+
+.trend-animation
+  //position: absolute
+  height: 10px
+  width: 10px
+  border-radius: 100%
+  top: 50%
+  left: 0
+  right: 0
+  margin-left: auto
+  margin-right: auto
+  //background-image: radial-gradient(rgba(241,241,241,.6),rgba(241,241,241,.54),rgba(255,255,255,.4),rgba(241,241,241,.3),rgba(255,255,255,.1),rgba(255,255,255,.05))
+  -webkit-transform: translateY(-50%)
+  transform: translateY(-50%)
+  -webkit-animation-name: grow
+  /* animation-name: grow */
+  -webkit-animation-iteration-count: infinite
+  animation-iteration-count: infinite
+  -webkit-animation-timing-function: ease-out
+  animation-timing-function: ease-out
+  -webkit-animation-duration: 3s
+  animation-duration: 3s
+  pointer-events: none
+  z-index: 2
+
 .title
   font-weight: bold
 
@@ -73,9 +133,11 @@ circle:hover
   border-radius: 2px
   opacity: 1
   cursor: pointer
+
 circle
   :hover
     cursor: pointer
+
 .cv-trend-detail
   text-decoration: underline
   :hover

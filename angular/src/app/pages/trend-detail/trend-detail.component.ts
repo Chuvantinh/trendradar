@@ -12,6 +12,7 @@ import {Constants} from "../../services/constants";
 //pdf
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import {PrintService} from "../../services/print.service";
 
 @Component({
   selector: 'app-trend-detail',

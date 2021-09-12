@@ -220,13 +220,8 @@ export class TrendradarComponent implements OnInit {
 
       let result_adopt = await this.getCluster(arr_eff_pro_adopt, length_adoptTrends);
       let result_trial = await this.getCluster(arr_eff_pro_trial, length_trialTrends);
-
       let result_asses = await this.getCluster(arr_eff_pro_asses, length_assesTrends);
-
-      let result_hold:any;
-      if(length_holdTrends > 0){
-        result_hold  = await this.getCluster(arr_eff_pro_hold,  length_holdTrends);
-      }
+      let result_hold  = await this.getCluster(arr_eff_pro_hold,  length_holdTrends);
 
       let indexes_adopt:any;
       let indexes_trial:any;
@@ -284,7 +279,7 @@ export class TrendradarComponent implements OnInit {
       return new Promise((resolve, reject) => {
         let default_cluster = 4;
         if( default_cluster > number_element){
-          default_cluster = number_element - 1;
+          default_cluster = number_element; // rewrite this variable to prevent error of cluster api
         }
 
         // call api to get indexes
