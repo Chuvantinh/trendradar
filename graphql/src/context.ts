@@ -1,3 +1,6 @@
+/**
+ * Create Context and prisma client, userId
+ */
 import {PrismaClient} from '@prisma/client'
 import {operationAuthorized, verifyAuthKey} from "./authorization/authorization";
 

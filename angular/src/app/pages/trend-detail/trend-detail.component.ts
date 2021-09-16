@@ -72,7 +72,7 @@ export class TrendDetailComponent implements OnInit {
   }
 
   /**
-   * get just only one trend
+   * Get just only one trend
    * @param id
    */
   getTrendById(id: number){
@@ -134,6 +134,10 @@ export class TrendDetailComponent implements OnInit {
     });
   }
 
+  /**
+   * Submit form of Evalution, save on the table evalution
+   * @param valueInput
+   */
   trendEvalution(valueInput: any): void{
     const effect = parseFloat(valueInput.effect);
     const probability = parseFloat(valueInput.probability);
@@ -227,6 +231,10 @@ export class TrendDetailComponent implements OnInit {
    }
   }
 
+  /**
+   * get comment of users and show it on the area of comment
+   * @param id
+   */
   private getCommentByTrendId(id:number): any{
     const getCommentByTrendId = gql`
       query getCommentByTrendId($trendId: Int)

@@ -18,10 +18,10 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 export class ListtrendsComponent implements OnInit {
   listTrends: any;// store all trend to show
-  categories:any = [];
+  categories:any = []; // store all categories
   form: FormGroup = this.formBuilder.group({});
 
-  p: number = 1;
+  p: number = 1;// define page of pagination on the view
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,7 +51,7 @@ export class ListtrendsComponent implements OnInit {
   }
 
   /**
-   * Get actually all of trends in the table Trend
+   * Get all of actually trends on the table "Trend" in the database system
    */
   getListTrends(search_string: string, orderByField: string, valueField: string, start: Date | null, end: Date | null){
     this.apollo
@@ -110,7 +110,7 @@ export class ListtrendsComponent implements OnInit {
   }
 
   /**
-   * get Infor of all categories with subcategory
+   * Get Information of all categories with subcategory
    */
   getCategories() {
     this.apollo
@@ -147,6 +147,12 @@ export class ListtrendsComponent implements OnInit {
     });
   }
 
+  /**
+   * Event click filter
+   * start and end variable were set null
+   * @param value
+   * return trend list
+   */
   getListBySearch(value:any){
     if(value.orderByField == ""){
       value.orderByField = "title";

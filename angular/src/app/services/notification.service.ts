@@ -1,3 +1,6 @@
+/**
+ * Show toast for the website
+ */
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 

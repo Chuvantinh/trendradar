@@ -44,6 +44,9 @@ export class RoadmapComponent implements OnInit {
     this.getListTrends("", "start", "asc", null, null);
   }
 
+  /**
+   * Get List of trends after group by in the database
+   */
   getPortfolioList(): any{
     return new Promise( ((resolve, reject) => {
       this.apollo
@@ -90,8 +93,6 @@ export class RoadmapComponent implements OnInit {
    * Get actually all of trends in the table Trend
    */
    getListTrends(search_string: string, orderByField: string, valueField: string, start: Date | null, end: Date | null){
-
-
 
     // start: Sun Aug 01 2021 00:00:00 GMT+0200 (Central European Summer Time)
     // end: roadmap.component.ts:93 Tue Aug 31 2021 00:00:00 GMT+0200 (Central European Summer Time)
@@ -164,9 +165,10 @@ export class RoadmapComponent implements OnInit {
       }));
 
 
+      // Work folow:
       // add unit to show time , with year  or month
       // get the min and max time line
-      // add layer for each trend oki
+      // add layer for each trend oki such as 4 layer of trends
       console.log('after click filter button');
       console.log(this.listTrends);
       let minDate:any = this.listTrends[0].start; // it is to day: Thu Aug 12 2021 14:52:24 GMT+0200 (Central European Summer Time)
@@ -214,12 +216,15 @@ export class RoadmapComponent implements OnInit {
 
       }
 
-      //console.log(minDate)
-      //console.log(this.arrayTimline)
-      console.log(this.listTrends)
     });
   }
 
+  /**
+   * Get diff of 2 months
+   * @param d1
+   * @param d2
+   * return number of months
+   */
   public  monthDiff(d1:any, d2:any) {
     let months;
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
@@ -228,6 +233,17 @@ export class RoadmapComponent implements OnInit {
     return months <= 0 ? 0 : months;
   }
 
+  /**
+   * Caculate with for each trend on this page.
+   * unit of month = total with / total month
+   * caculated number of month and multiple with unit
+   * Left is unit x startmonth. same year or different year x 12
+   * @param start
+   * @param end
+   * @param arrayTimline
+   * @param type
+   * return object: left and with of trend
+   */
   handleLeftWithForTrend(start:any, end:any, arrayTimline:any, type:any): any{
      let total_month = arrayTimline.length * 12;
 
@@ -312,28 +328,6 @@ export class RoadmapComponent implements OnInit {
 
   }
 
-  // Background color for trend
-  getColor(index:number){
-    let list_color = ['#198754c7'];
-    return list_color[0];
-  }
-
-  getClassColor(average_effect_input:any){
-    let average_effect:number = parseFloat(average_effect_input);
-    if (average_effect > 0.1 && average_effect < 2) {
-      return "bubble-red";
-    }
-    else if(average_effect > 2 && average_effect < 3.6) {
-      return "bubble-yellow";
-    }
-    else if(average_effect > 3.5){
-      return "bubble-blue";
-    }
-    else {
-      return "";
-    }
-  }
-
   /**
    * go to page trend details with id
    */
@@ -341,6 +335,11 @@ export class RoadmapComponent implements OnInit {
     this.router.navigateByUrl(`/listtrends/${id}`);
   }
 
+  /**
+   * Handle date to show in the front-end
+   * @param data
+   * @constructor
+   */
   ShowDate(data:any){
     let d = new Date(data),
       minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
@@ -352,7 +351,11 @@ export class RoadmapComponent implements OnInit {
     return months[d.getMonth()] +' '+ d.getFullYear();
   }
 
-  // time line show
+  /**
+   * Show the month of years on the front end
+   * by add class col to each div
+   * @param lengthYear
+   */
   caculateWithYearElement(lengthYear:number){
     let num = 12 / lengthYear;
     let stringClass = "col-lg-" + num + " col-md-" + num + " col-sm-" + num + " col-xs-" + num + " ";

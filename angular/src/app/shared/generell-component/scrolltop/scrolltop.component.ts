@@ -1,3 +1,6 @@
+/**
+ * button scroll top on home page
+ */
 import {Component, OnInit, Inject, HostListener} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 

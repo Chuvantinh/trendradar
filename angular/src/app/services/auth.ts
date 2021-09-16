@@ -16,6 +16,12 @@ export class AuthService {
     private router: Router,
     private storeChunk: Store<State>,
   ) { }
+
+  /**
+   * Login
+   * @param email
+   * @param password
+   */
   login(email: string, password: string){
 
     const LOGIN = gql`
@@ -57,6 +63,11 @@ export class AuthService {
     //let date: Date = new Date("2019-01-16");
   }
 
+  /**
+   * Registration with email and password
+   * @param email
+   * @param password
+   */
   signUp(email: string, password: string): any {
     const REGISTER = gql`
       mutation signupUser($data: UserCreateInput!) {
@@ -91,10 +102,18 @@ export class AuthService {
   }
        */
 
+  /**
+   * Format user with model User
+   * @param email
+   * @param token
+   */
   formatUser(email: string, token: any ): User{
     return new User(email,token);
   }
 
+  /**
+   * Check is authenticated
+   */
   getIsAuthenticated(){
     let isAuthenticatedState: boolean = false;
     this.storeChunk.select('user').subscribe((data) =>{
@@ -104,6 +123,9 @@ export class AuthService {
     return isAuthenticatedState;
   }
 
+  /**
+   * Get Email
+   */
   getEmail(){
     let emailUser: any = '';
     this.storeChunk.select('user').subscribe((data) =>{
@@ -113,6 +135,9 @@ export class AuthService {
     return emailUser;
   }
 
+  /**
+   * Get Token for Root
+   */
   getTokenforRoot(): string {
     let token: any = '';
     this.storeChunk.select('user').subscribe((data:any)=>{

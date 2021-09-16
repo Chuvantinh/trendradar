@@ -106,12 +106,12 @@ export class PortfolioComponent implements OnInit {
   }
 
   /**
-   * caculated the top with % for each trend
+   * caculated the top with % for each trend. This top is with position absolute. the null point is above at 5 point of the table
    * each cell = 100px , ex: 5 to 4.5 is 100 because the with of tag td is 100 px.
    * each areas with a factor and in each areas the top procent will be again caculated
    * after having of factor, we will multiple with 100 , and minus half with of trend (35/2 = 17.5)
    * @param effect
-   * return procent of top
+   * return percent of top
    */
   caculateTop(effect:any){
     let effect_local = parseFloat(effect);

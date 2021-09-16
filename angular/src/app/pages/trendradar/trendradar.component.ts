@@ -17,6 +17,7 @@ import {count} from "rxjs/operators";
 import { DOCUMENT} from "@angular/common";
 import {PrintService} from "../../services/print.service";
 
+// animation : https://codepen.io/kapo09/pen/GRjxVqN
 @Component({
   selector: 'app-trendradar',
   templateUrl: './trendradar.component.html',

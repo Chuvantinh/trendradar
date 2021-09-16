@@ -39,14 +39,21 @@
         <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 1, item.indexed)">
 
           <!--      cricle symbol-->
-          <circle r="12" fill="green" class="cv-circle-trend cv-circle-adopt-{{i+1}} highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
+          <circle r="12" fill="green"
+                  stroke="brown" stroke-width="4" stroke-dasharray="360" stroke-linecap="round"
+                  class="cv-circle-trend cv-circle-adopt-{{i+1}} highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
                   (click)="clickCircle(item.trendId.id)"
 
                   (mouseenter)="mouseEnter($event, item.trendId.title) ; mouseHighlightEnter($event)"
                   (mouseleave)="mouseLeave($event) ; mouseHighlightLeave($event)"
           >
+            <animate attributeName="stroke-dashoffset" values="360;0" dur="3s" repeatCount="indefinite"></animate>
+
+            <animate attributeName="r" from="8" to="20" dur="3.5s" begin="0s" repeatCount="indefinite"></animate>
+            <animate attributeName="opacity" from="1" to="0.5" dur="3.5s" begin="0s" repeatCount="indefinite"></animate>
 
           </circle>
+
           <text y="3" text-anchor="middle" class="cv-trend-text">
             {{ item.trendId.id }}
           </text>
@@ -57,11 +64,17 @@
         <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 2, item.indexed)">
 
           <!--      cricle symbol-->
-          <circle r="12" fill="blue" class="cv-circle-trend highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
+          <circle r="12" fill="blue"
+                  stroke="brown" stroke-width="4" stroke-dasharray="360" stroke-linecap="round"
+                  class="cv-circle-trend highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
                   (click)="clickCircle(item.trendId.id)"
                   (mouseenter)="mouseEnter($event, item.trendId.title) ; mouseHighlightEnter($event)"
                   (mouseleave)="mouseLeave($event) ; mouseHighlightLeave($event)"
           >
+            <animate attributeName="stroke-dashoffset" values="360;0" dur="3s" repeatCount="indefinite"></animate>
+
+            <animate attributeName="r" from="8" to="20" dur="3.5s" begin="0s" repeatCount="indefinite"></animate>
+            <animate attributeName="opacity" from="1" to="0.5" dur="3.5s" begin="0s" repeatCount="indefinite"></animate>
 
           </circle>
 
@@ -75,11 +88,18 @@
         <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 3, item.indexed)">
 
           <!--      cricle symbol-->
-          <circle r="12" fill="orange" class="cv-circle-trend highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
+          <circle r="12" fill="orange"
+                  stroke="brown" stroke-width="4" stroke-dasharray="360" stroke-linecap="round"
+                  class="cv-circle-trend highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
                   (click)="clickCircle(item.trendId.id)"
                   (mouseenter)="mouseEnter($event, item.trendId.title) ; mouseHighlightEnter($event)"
                   (mouseleave)="mouseLeave($event) ; mouseHighlightLeave($event)"
-          ></circle>
+          >
+            <animate attributeName="stroke-dashoffset" values="360;0" dur="3s" repeatCount="indefinite"></animate>
+
+            <animate attributeName="r" from="8" to="20" dur="3.5s" begin="0s" repeatCount="indefinite"></animate>
+            <animate attributeName="opacity" from="1" to="0.5" dur="3.5s" begin="0s" repeatCount="indefinite"></animate>
+          </circle>
           <text y="3" text-anchor="middle" class="cv-trend-text">
             {{ item.trendId.id }}
           </text>
@@ -89,11 +109,18 @@
       <ng-container *ngFor="let item of holdTrends; index as i">
         <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 4, item.indexed)">
           <!--      cricle symbol-->
-          <circle r="12" fill="#f436ca" class="cv-circle-trend highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
+          <circle r="12" fill="#f436ca"
+                  stroke="brown" stroke-width="4" stroke-dasharray="360" stroke-linecap="round"
+                  class="cv-circle-trend highlight-{{item.trendId.id}}" id="highlight-{{item.trendId.id}}"
                   (click)="clickCircle(item.trendId.id)"
                   (mouseenter)="mouseEnter($event, item.trendId.title) ; mouseHighlightEnter($event)"
                   (mouseleave)="mouseLeave($event) ; mouseHighlightLeave($event)"
-          ></circle>
+          >
+            <animate attributeName="stroke-dashoffset" values="360;0" dur="3s" repeatCount="indefinite"></animate>
+
+            <animate attributeName="r" from="8" to="20" dur="3.5s" begin="0s" repeatCount="indefinite"></animate>
+            <animate attributeName="opacity" from="1" to="0.5" dur="3.5s" begin="0s" repeatCount="indefinite"></animate>
+          </circle>
           <text y="3" text-anchor="middle" class="cv-trend-text">
             {{ item.trendId.id }}
           </text>

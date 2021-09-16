@@ -76,26 +76,37 @@ export class LoginComponent implements OnInit {
         ],
     })
   }
-  // show or hidden eye on login form
+
+  /**
+   * Show or hidden eye on login form
+   */
   toggleFieldTextType(){
     this.fieldTextType = !this.fieldTextType ;
   }
 
-  // show or hidden eye on register form
+  /**
+   * Show or hidden eye on register form
+   */
   toggleFieldTextTypeRegisterPassword(){
     this.fieldTextTypeRegisterPassword = !this.fieldTextTypeRegisterPassword ;
   }
 
-  // show or hidden eye on register form
+  /**
+   * Show or hidden eye on register form
+   */
   toggleFieldTextTypeRepeatRegisterPassword(){
     this.fieldTextTypeRepeatRegisterPassword = !this.fieldTextTypeRepeatRegisterPassword ;
   }
 
-  // form login
+  /**
+   * Functions for Login Form
+   */
   get email() { return this.form.get('email'); }
   get pasword() { return this.form.get('password'); }
 
-  // form register
+  /**
+   * Function for Register Form
+   */
   get registerEmail(){ return this.formRegister.get('email')}
   get registerName(){ return this.formRegister.get('name')}
   get registerPassword(){ return this.formRegister.get('password')}

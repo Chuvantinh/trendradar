@@ -1,3 +1,6 @@
+/**
+ * Handle password with bcrypt
+ */
 import * as bcrypt from "bcrypt"
 
 export const generatePassword = function (myPlaintextPassword: string, saltRounds: number ){

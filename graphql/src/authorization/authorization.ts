@@ -8,7 +8,10 @@ const WHITELIST = [
   'login',
   'signupUser',
 ]
-
+/**
+ * Check whether the request needs to be authenticated or not
+ * @param requestBody
+ */
 const operationAuthorized = async (requestBody: any): Promise<boolean> => {
   // check if operation is excepted from auth
   let authRequired = true;
@@ -40,6 +43,10 @@ const operationAuthorized = async (requestBody: any): Promise<boolean> => {
 
 }
 
+/**
+ * Check token is alive or died
+ * @param token
+ */
 const assertAlive = (token: any) => {
   const now = Date.now().valueOf() / 1000
   let decoded = jwt.decode(token);
@@ -52,6 +59,11 @@ const assertAlive = (token: any) => {
   }
 }
 
+/**
+ * Verify token
+ * @param authHeader
+ * @param tokenRequired
+ */
 const verifyAuthKey = async (authHeader: { authToken: string }, tokenRequired: boolean) => {
   // case: need to check
   if (authHeader.authToken && tokenRequired) {
@@ -84,6 +96,10 @@ const verifyAuthKey = async (authHeader: { authToken: string }, tokenRequired: b
   }
 }
 
+/**
+ * Create JwtToken
+ * @param userId
+ */
 const jwtToken = function (userId: number) {
   return jwt.sign({
     exp: Math.floor(Date.now() / 1000) + TOKEN_EXPIRY_TIME,

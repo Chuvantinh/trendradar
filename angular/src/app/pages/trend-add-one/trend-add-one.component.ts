@@ -84,6 +84,10 @@ export class TrendAddOneComponent implements OnInit {
     });
   }
 
+  /**
+   * Add data to the database
+   * @param valueInput
+   */
   async add(valueInput: any) {
     // validate form
     if (this.form.invalid) {

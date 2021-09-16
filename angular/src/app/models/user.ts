@@ -1,3 +1,8 @@
+/**
+ * Defind the model for user
+ * In order to store the state of user with NgRx Store
+ */
+
 export class User {
   public email:string;
   public token: string;

@@ -66,3 +66,7 @@ https://valor-software.com/ngx-bootstrap/#/tooltip#custom-class
 
 ### Ng Rx login, register logout , update template 
 https://mherman.org/blog/authentication-in-angular-with-ngrx/
+### animation in page trendradar
+https://stackoverflow.com/questions/26178095/svg-circle-animation/26183645
+
+https://codepen.io/shaneparsons/pen/MpgEma
