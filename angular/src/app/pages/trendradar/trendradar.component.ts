@@ -26,10 +26,16 @@ import {PrintService} from "../../services/print.service";
 export class TrendradarComponent implements OnInit {
 
   portFolio: any = [];
-  adoptTrends: any = [];
+
+  adoptTrends: any = [];// temporary variable
   trialTrends: any = [];
   assesTrends: any = [];
   holdTrends: any = [];
+
+  adoptTrends_final: any = []; // final variable to print on FE
+  trialTrends_final: any = [];
+  assesTrends_final: any = [];
+  holdTrends_final: any = [];
 
   radar1:number = 1.3;// r = 130
   radar2:number = 2.2; // r = 220
@@ -53,7 +59,7 @@ export class TrendradarComponent implements OnInit {
   }
 
   /**
-   * caculateTransform
+   * caculateTransform for bubble as atribute transform. The  middle point is center with cordination (0,0)
    * @param vertical
    * @param horizontal
    * @param type : as circle or ring  1 or 2 or 3 or 4, 1 is smallest
@@ -91,37 +97,60 @@ export class TrendradarComponent implements OnInit {
 
     if(type == 1){// radius with r = 130
       let factor = 0;
-      if(indexed % 2 == 0){
+      if(indexed == 0){
         factor = this.radar1;
-      }else{
+      }else if( indexed == 1 ){
         factor = this.radar1 / 2;
+      }else if( indexed == 2 ){
+        factor = this.radar1 / 3;
+      }else{
+        factor = this.radar1 / 4;
       }
+
       let x:number = horizontal * factor  * addessX;
       let y:number = (Math.sqrt(130 * 130 - (x  * x )) - minus) * addessY ;
+
       return "translate(" + x + "," + y + ")";
     }else if(type == 2){
       let factor = 0;
-      if(indexed % 2 == 0){
+      if(indexed == 0){
         factor = this.radar2;
-      }else{
+      }else if( indexed == 1 ){
         factor = this.radar2 / 2;
+      }else if( indexed == 2 ){
+        factor = this.radar2 / 3;
+      }else{
+        factor = this.radar2 / 4;
       }
-
       let x:number = horizontal * factor  * addessX;
       let y:number = (Math.sqrt((220 * 220) - (x  * x )) - minus ) * addessY ;
       return "translate(" + x + "," + y + ")";
     }else if (type == 3){
       let factor = 0;
-      if(indexed % 2 == 0){
+      if(indexed == 0){
         factor = this.radar3;
-      }else{
+      }else if( indexed == 1 ){
         factor = this.radar3 / 2;
+      }else if( indexed == 2 ){
+        factor = this.radar3 / 3;
+      }else{
+        factor = this.radar3 / 4;
       }
       let x:number = horizontal * factor  * addessX;
       let y:number = (Math.sqrt(310 * 310 - (x  * x )) - minus ) * addessY ;
       return "translate(" + x + "," + y + ")";
     }else{
-      let factor = this.radar4;
+      let factor = 0;
+      if(indexed == 0){
+        factor = this.radar4;
+      }else if( indexed == 1 ){
+        factor = this.radar4 / 2;
+      }else if( indexed == 2 ){
+        factor = this.radar4 / 3;
+      }else{
+        factor = this.radar4 / 4;
+      }
+
       let x:number = horizontal * factor  * addessX;
       let y:number = (Math.sqrt(400 *  400 - (x  * x ) )   - minus ) * addessY ;
       return "translate(" + x + "," + y + ")";
@@ -139,6 +168,10 @@ export class TrendradarComponent implements OnInit {
     return "translate("+ -80 +"," + y + ")";
   }
 
+  /**
+   * Get data and sort trend in this function at the begin time of page
+   * return list with index
+   */
   getPortfolioList(){
     this.apollo
     .watchQuery({
@@ -195,6 +228,7 @@ export class TrendradarComponent implements OnInit {
       let length_assesTrends = this.assesTrends.length;
       let length_holdTrends  = this.holdTrends.length;
 
+      // get array average_effect and average_pro for running Kmeans
       let arr_eff_pro_adopt: any[] = [];
       for (let item of this.adoptTrends){
         let arr_tem:any[] = [item.average_effect, item.average_pro];
@@ -218,8 +252,9 @@ export class TrendradarComponent implements OnInit {
         let arr_tem:any[] = [item.average_effect, item.average_pro];
         arr_eff_pro_hold.push(arr_tem);
       }
-
+      console.log("arr_eff_pro_adopt", arr_eff_pro_adopt);
       let result_adopt = await this.getCluster(arr_eff_pro_adopt, length_adoptTrends);
+      console.log("result_adopt", result_adopt);
       let result_trial = await this.getCluster(arr_eff_pro_trial, length_trialTrends);
       let result_asses = await this.getCluster(arr_eff_pro_asses, length_assesTrends);
       let result_hold  = await this.getCluster(arr_eff_pro_hold,  length_holdTrends);
@@ -244,37 +279,42 @@ export class TrendradarComponent implements OnInit {
          indexes_hold  = result_hold[0]?.TrendCluster.indexes;
       }
 
+      // add index to list of trend
       if(indexes_adopt.length > 0){
-        this.adoptTrends = this.adoptTrends.map((item: any, index:number) => ({
+        this.adoptTrends_final = this.adoptTrends.map((item: any, index:number) => ({
           ...item,
           indexed: indexes_adopt[index]
         }));
       }
 
       if(indexes_trial){
-        this.trialTrends = this.trialTrends.map((item: any, index:number) => ({
+        this.trialTrends_final = this.trialTrends.map((item: any, index:number) => ({
           ...item,
           indexed: indexes_trial[index]
         }));
       }
 
       if(indexes_asess){
-        this.assesTrends = this.assesTrends.map((item: any, index:number) => ({
+        this.assesTrends_final = this.assesTrends.map((item: any, index:number) => ({
           ...item,
           indexed: indexes_asess[index]
         }));
       }
 
       if(indexes_hold){
-        this.holdTrends = this.holdTrends.map((item: any, index:number) => ({
+        this.holdTrends_final = this.holdTrends.map((item: any, index:number) => ({
           ...item,
           indexed: indexes_hold[index]
         }));
       }
-
     });
   }
 
+  /**
+   * Running Cluster in Backend with equivalent parameter
+   * @param input_data
+   * @param number_element
+   */
   public async getCluster(input_data: any[][], number_element: number): Promise<Array<any>> {
     if(number_element > 0){
       return new Promise((resolve, reject) => {

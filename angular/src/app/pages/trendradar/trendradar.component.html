@@ -35,7 +35,7 @@
         </text>
       </g>
 
-      <ng-container *ngFor="let item of adoptTrends; index as i">
+      <ng-container *ngFor="let item of adoptTrends_final; index as i">
         <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 1, item.indexed)">
 
           <!--      cricle symbol-->
@@ -60,7 +60,7 @@
         </g>
       </ng-container>
 
-      <ng-container *ngFor="let item of trialTrends; index as i">
+      <ng-container *ngFor="let item of trialTrends_final; index as i">
         <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 2, item.indexed)">
 
           <!--      cricle symbol-->
@@ -84,7 +84,7 @@
         </g>
       </ng-container>
 
-      <ng-container *ngFor="let item of assesTrends; index as i">
+      <ng-container *ngFor="let item of assesTrends_final; index as i">
         <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 3, item.indexed)">
 
           <!--      cricle symbol-->
@@ -106,7 +106,7 @@
         </g>
       </ng-container>
 
-      <ng-container *ngFor="let item of holdTrends; index as i">
+      <ng-container *ngFor="let item of holdTrends_final; index as i">
         <g class="blip cv-g-trend" [attr.transform]="caculateTransform(item.average_effect, item.average_pro, 4, item.indexed)">
           <!--      cricle symbol-->
           <circle r="12" fill="#f436ca"
@@ -132,7 +132,7 @@
     <!--      PRINT Informationen of trend list      -->
     <g transform="translate(0,30)">
       <text class="title">Adopt Trend:</text>
-      <ng-container *ngFor="let item of adoptTrends;index as i">
+      <ng-container *ngFor="let item of adoptTrends_final;index as i">
         <text [attr.transform]="caculateTextAdopt(i)" class="cv-trend-detail highlight-{{item.trendId.id}}"
               (mouseenter)="mouseHighlightEnter($event)" (mouseleave)="mouseHighlightLeave($event)"
               id="highlight-{{item.trendId.id}}"
@@ -144,7 +144,7 @@
 
     <g transform="translate(1200,30)">
       <text class="title">Trial Trend:</text>
-      <ng-container *ngFor="let item of trialTrends;index as i">
+      <ng-container *ngFor="let item of trialTrends_final;index as i">
         <text [attr.transform]="caculateTextTrial(i)" class="cv-trend-detail highlight-{{item.trendId.id}}"
               (mouseenter)="mouseHighlightEnter($event)" (mouseleave)="mouseHighlightLeave($event)"
               id="highlight-{{item.trendId.id}}"
@@ -156,7 +156,7 @@
 
     <g transform="translate(1200,800)">
       <text class="title">Asses Trend:</text>
-      <ng-container *ngFor="let item of assesTrends;index as i">
+      <ng-container *ngFor="let item of assesTrends_final;index as i">
         <text [attr.transform]="caculateTextTrial(i)" class="cv-trend-detail highlight-{{item.trendId.id}}"
               (mouseenter)="mouseHighlightEnter($event)" (mouseleave)="mouseHighlightLeave($event)"
               id="highlight-{{item.trendId.id}}"
@@ -168,7 +168,7 @@
 
     <g transform="translate(0,800)">
       <text class="title">Hold Trend:</text>
-      <ng-container *ngFor="let item of holdTrends;index as i">
+      <ng-container *ngFor="let item of holdTrends_final;index as i">
         <text [attr.transform]="caculateTextAdopt(i)" class="cv-trend-detail highlight-{{item.trendId.id}}"
               (mouseenter)="mouseHighlightEnter($event)" (mouseleave)="mouseHighlightLeave($event)"
               id="highlight-{{item.trendId.id}}"

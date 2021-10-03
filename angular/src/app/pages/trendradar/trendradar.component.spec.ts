@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TrendradarComponent } from './trendradar.component';
+import { ToastrModule} from "ngx-toastr";
+import {RouterTestingModule} from "@angular/router/testing";
+import {GraphQLModule} from "../../graphql.module";
+import { StoreModule} from "@ngrx/store";
+import {metaReducers, reducers} from "../../store/app.states";
 
 describe('TrendradarComponent', () => {
   let component: TrendradarComponent;
@@ -8,6 +13,12 @@ describe('TrendradarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        ToastrModule.forRoot(),
+        GraphQLModule,
+        StoreModule.forRoot(reducers, {metaReducers}),
+      ],
       declarations: [ TrendradarComponent ]
     })
     .compileComponents();

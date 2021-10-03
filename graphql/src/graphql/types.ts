@@ -1,4 +1,4 @@
-import {enumType, inputObjectType, intArg, list, objectType, stringArg} from "nexus";
+import {enumType, idArg, inputObjectType, intArg, list, objectType, stringArg} from "nexus";
 import {context, Context} from "../context";
 import {type} from "os";
 
@@ -80,7 +80,7 @@ const Category = objectType({
       resolve: (parent, _, context: Context) => {
         return context.prisma.category
           .findUnique({
-            where: { id: parent.id || undefined}
+            where: { id: parseInt(parent.id!)}
           })
           .createdUser()
       },
@@ -91,7 +91,7 @@ const Category = objectType({
       resolve: (parent, _, context: Context) => {
         return context.prisma.category
           .findUnique({
-            where: { id: parent.id || undefined}
+            where: { id: parseInt(parent.id!) || undefined}
           })
           .updatedUser()
       },
@@ -102,7 +102,7 @@ const Category = objectType({
       resolve: (parent, _, context: Context) => {
         return context.prisma.category
           .findUnique({
-            where: { id: parent.id || undefined}
+            where: { id: parseInt(parent.id!)}
           })
           .deletedUser()
       },
@@ -125,28 +125,29 @@ const CategoryCreateInput = inputObjectType({
 const   CategoriesOnTrend= objectType({
   name: 'CategoriesOnTrend',
   definition(t){
-    t.nullable.field('createdAt', { type: 'DateTime' })
-
-    t.field('trendId', {
-      type: 'Trend',
-      resolve: (parent, _, context: Context) => {
-        return context.prisma.trend
-          .findFirst({
-            where: { trendId: parent.id}
-          })
-          //.trend()
-      }
-    })
-
-    t.nullable.field('catId', {
-      type: 'Category',
-      resolve: (parent, _, context: Context) => {
-        return context.prisma.category.findMany({
-            where: { id: parent.id}
-          })
-          //category()
-      }
-    })
+    t.field('createdAt', { type: 'DateTime' })
+    t.field('trendId', {type: 'ID'})
+    t.field('catId', {type: 'ID'})
+    // t.field('trendId', {
+    //   type: 'Trend',
+    //   resolve: (parent, _, context: Context) => {
+    //     return context.prisma.trend
+    //       .findFirst({
+    //         where: { id: parseInt(parent.id)}
+    //       })
+    //       //.trend()
+    //   }
+    // })
+    //
+    // t.nullable.field('catId', {
+    //   type: 'Category',
+    //   resolve: (parent, _, context: Context) => {
+    //     return context.prisma.category.findMany({
+    //         where: { id: parent.catId}
+    //       })
+    //       //category()
+    //   }
+    // })
 
     /*// t.field('trends', {
     //   type: 'Trend',
@@ -267,15 +268,15 @@ const Trend = objectType({
     t.field('status', { type: 'Status'})
     // https://stackoverflow.com/questions/53665761/graphql-using-nested-query-arguments-on-parent-or-parent-arguments-on-nested-que
     t.nullable.list.field('categories', {
-      type: Category,
+      type: 'Category',
       resolve: async (parent,args, context: Context, resolveInfo) => {
-        const parsedResolveInfoFragment = parseResolveInfo(resolveInfo);
-        console.log(parent);
+        // const parsedResolveInfoFragment = parseResolveInfo(resolveInfo);
+        // console.log(parent);
         // step 1: find out catId on the table categoriesOnTrend
         // step2 : for list category and get infor of its in the table category and return this data with type of category
         let catList = await context.prisma.categoriesOnTrend.findMany({
           where: {
-            trendId: parent.id
+            trendId: parent.id || undefined
           }
         });
         let data = [];
@@ -328,7 +329,7 @@ const Trend = objectType({
       resolve: (parent, _, context: Context) => {
         return context.prisma.trend
           .findUnique({
-            where: { id: parent.id}
+            where: { id: parent.id || undefined }
           })
           .createdUser()
       },

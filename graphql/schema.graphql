@@ -3,9 +3,9 @@
 
 
 type CategoriesOnTrend {
-  catId: Category
+  catId: ID
   createdAt: DateTime
-  trendId: Trend
+  trendId: ID
 }
 
 type Category {

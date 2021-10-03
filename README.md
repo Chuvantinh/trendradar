@@ -163,3 +163,12 @@ See more at the documentation : https://nexusjs.org/docs/
   // create comment
 ````
 
+#### Config jest unitest 
+install : https://jestjs.io/docs/getting-started
+
+
+https://stackoverflow.com/questions/56595053/cannot-find-name-it-in-jest-typescript
+in the tsconfig.json add
+````
+    "types": ["node", "jest"]
+````
