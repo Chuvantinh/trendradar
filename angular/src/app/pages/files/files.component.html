@@ -1,0 +1,156 @@
+<!--<div class="vt-files">-->
+<!--  <div class="vt-menu col col-lg-3 col-sm-1 col-md-3 float-left">-->
+<!--    menu-->
+<!--  </div>-->
+
+<!--  <div class="vt-container col col-lg-9 col-sm-1 col-md-9 float-left">-->
+<!--    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
+<!--      <div class="example-box" *ngFor="let movie of movies" cdkDrag (click)="notification(movie)">-->
+<!--        {{movie}}-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--[allowedFileExtensions]="allowedFileExtensions"-->
+<!--<dx-file-manager id="fileManager"
+                 [fileSystemProvider]="fileItems">
+  <dxo-upload
+    [maxFileSize]="1000000000"
+    [chunkSize]="500000">
+  </dxo-upload>
+
+  <dxo-permissions
+    [create]="true"
+    [copy]="true"
+    [download]="true"
+    [move]="true"
+
+    [rename]="true"
+    [upload]="true">
+  </dxo-permissions>
+</dx-file-manager>-->
+
+<!--//[remove]="true"-->
+
+<p></p>
+
+<div class="vt-files-container">
+  <div class="vt-toolbar col-lg-12 col-md-12 col-sm-12 col-xs-12 float-left">
+    <div class="col-12">
+      <button class="btn btn-success">new directory</button>
+      <button class="btn btn-danger">delete</button>
+      <button class="btn btn-check">sortby</button>
+      <button class="btn btn-success">Download</button>
+      <button class="btn btn-success">Filter</button>
+      <button class="btn btn-success">List/grid</button>
+      <button class="btn btn-info">Information</button>
+    </div>
+
+    <div class="vt-toolbar-upload col-12">
+      <div class="col-12 text-left">
+        <form [formGroup]="form" (ngSubmit)="upload(form.value)">
+          <label>Choose File</label>
+          <input type="file" formControlName="files" name="files" multiple (change)="onFilesChange($event)">
+          <button class="btn btn-primary" type="submit">Upload</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="vt-tree col-lg-3 col-md-3 col-sm-3 col-xs-3 float-left">
+    <div class="col-12">
+      <b>Files:</b>
+    </div>
+    <ng-container *ngFor="let item of tree;  index as i;">
+      <p [style.padding-left]="caculatePadding(item.parentid)" [ngClass]="{'p-active': selectedIndex === item.id}" (click)="setIndex(item.id)"><i class="fas fa-folder-open"></i> {{item.name}}</p>
+    </ng-container>
+
+
+  </div>
+
+  <div class="vt-files col-lg-9 col-md-9 col-sm-9 col-xs-9 float-left">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Icon</th>
+          <th scope="col">File Name</th>
+          <th scope="col">Type</th>
+          <th scope="col">Date</th>
+          <th scope="col">File Size</th>
+          <th scope="col">Share</th>
+          <th scope="col">View</th>
+          <th scope="col">Delete</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <ng-container *ngFor="let item of list_view; index as i">
+          <tr class="vt-row">
+            <td><input type="checkbox"></td>
+
+            <td><div class="icon" [innerHTML]="getIcons(item.type)"></div></td>
+
+            <td *ngIf="item.type == 'folder' "><div (click)="setIndex(item.id)">{{item.name}}</div></td>
+
+            <td *ngIf="item.type != 'folder' " ><div (click)="previewFile(item.id, item.name, item.type)">{{item.name}}</div></td>
+
+            <td><div>{{item.type}}</div></td>
+            <td>2021-10-15</td>
+            <td>{{item.size}}</td>
+            <td><i class="fas fa-share-alt"></i></td>
+            <td><i class="fas fa-eye"></i></td>
+            <td><i class="fas fa-trash-alt"></i></td>
+          </tr>
+        </ng-container>
+
+<!--          <tr class="vt-row">-->
+<!--            <td><input type="checkbox"></td>-->
+<!--            <td><div class="icon" [innerHTML]="getIcons('folder')"></div></td>-->
+<!--            <td><div>Documents</div></td>-->
+<!--            <td><div>Folder</div></td>-->
+<!--            <td>01.09.2021</td>-->
+<!--            <td>5 KB</td>-->
+<!--            <td><i class="fas fa-share-alt"></i></td>-->
+<!--            <td><i class="fas fa-trash-alt"></i></td>-->
+<!--          </tr>-->
+
+<!--          <tr class="vt-row">-->
+<!--            <td><input type="checkbox"></td>-->
+<!--            <td><div class="icon" [innerHTML]="getIcons('folder')">-->
+
+<!--            </div></td>-->
+<!--            <td><div>Projects</div></td>-->
+<!--            <td><div>Folder</div></td>-->
+<!--            <td>02.09.2021</td>-->
+<!--            <td>15 GB</td>-->
+<!--            <td><i class="fas fa-share-alt"></i></td>-->
+<!--            <td><i class="fas fa-trash-alt"></i></td>-->
+<!--          </tr>-->
+
+<!--          <tr class="vt-row">-->
+<!--            <td><input type="checkbox"></td>-->
+<!--            <td><div class="icon" [innerHTML]="getIcons('word')"></div></td>-->
+<!--            <td><div>Instruction</div></td>-->
+<!--            <td><div>.docx</div></td>-->
+<!--            <td>02.10.2021</td>-->
+<!--            <td>15 Kb</td>-->
+<!--            <td><i class="fas fa-share-alt"></i></td>-->
+<!--            <td><i class="fas fa-trash-alt"></i></td>-->
+<!--          </tr>-->
+
+<!--          <tr class="vt-row">-->
+<!--            <td><input type="checkbox"></td>-->
+<!--            <td><div class="icon" [innerHTML]="getIcons('pdf')"></div></td>-->
+<!--            <td><div>Arbeitrecht</div></td>-->
+<!--            <td><div>.pdf</div></td>-->
+<!--            <td>05.10.2021</td>-->
+<!--            <td>20 Kb</td>-->
+<!--            <td><i class="fas fa-share-alt"></i></td>-->
+<!--            <td><i class="fas fa-trash-alt"></i></td>-->
+<!--          </tr>-->
+
+        </tbody>
+      </table>
+  </div>
+</div>

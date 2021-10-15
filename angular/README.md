@@ -29,6 +29,12 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Create new Component
 ng generate component [component-name] 
 
+ng g c new-component --module app
+
+or 
+created at this folder: 
+ng g c component-name --module ../
+
 ## For understanding of NgRx in Angular with an example
 https://stackblitz.com/angular/nlrxbbygykj?file=src%2Fapp%2Fapp.component.ts
 
@@ -70,3 +76,11 @@ https://mherman.org/blog/authentication-in-angular-with-ngrx/
 https://stackoverflow.com/questions/26178095/svg-circle-animation/26183645
 
 https://codepen.io/shaneparsons/pen/MpgEma
+
+
+### how to test one component
+ng test --include src/app/shared/menudown/menudown.component.spec.ts
+
+ng test --include src/app/modules/login/login.component.spec.ts
+### lib file manager
+https://js.devexpress.com/Demos/WidgetsGallery/Demo/FileManager/Overview/Angular/Light/

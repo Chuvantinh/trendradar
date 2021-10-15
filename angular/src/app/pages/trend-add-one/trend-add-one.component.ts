@@ -341,7 +341,10 @@ export class TrendAddOneComponent implements OnInit {
         )
         .subscribe();
     });
+
   }
+
+
 
   /**
    * Upload Video to Firebase Cloud in Folder VideosSurvey

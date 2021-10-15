@@ -7,13 +7,17 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {GraphQLModule} from "../../graphql.module";
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
+import {ApolloTestingModule, ApolloTestingController} from "apollo-angular/testing";
+
 describe('PortfolioComponent', () => {
   let component: PortfolioComponent;
   let fixture: ComponentFixture<PortfolioComponent>;
 
+  let controller: ApolloTestingController;
+
   beforeEach(async () => {
     let store: MockStore;
-    const initialState = { loggedIn: false };
+    const initialState = { isAuthenticated: true };
 
     await TestBed.configureTestingModule({
       imports: [
@@ -21,7 +25,8 @@ describe('PortfolioComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         ToastrModule.forRoot(),
-        GraphQLModule,
+        // GraphQLModule,
+        ApolloTestingModule,
       ],
       declarations: [ PortfolioComponent ],
       providers:[
@@ -31,6 +36,8 @@ describe('PortfolioComponent', () => {
     .compileComponents();
 
     store = TestBed.inject(MockStore);
+
+    controller = TestBed.inject(ApolloTestingController);
 
   });
 

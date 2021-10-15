@@ -52,8 +52,9 @@
 
       <div class="trend-element-wrappe">
         <p>
+
           <a routerLink="{{item.id}}">
-            <img class="img-galaxy" src="{{ item.images[0]}}" alt="{{item.title}}">
+            <img class="img-galaxy" src="{{ exporeImages(item.images) }}" alt="{{item.title}}">
           </a>
         </p>
 

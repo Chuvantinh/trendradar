@@ -78,6 +78,18 @@ import { ShareIconsModule} from "ngx-sharebuttons/icons";
 import {NgxPrintModule} from 'ngx-print';//print
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { FilesComponent } from './pages/files/files.component';
+
+import {DragDropModule} from '@angular/cdk/drag-drop';
+
+import { DxButtonModule } from 'devextreme-angular';
+// or if tree shaking is not configured
+// import { DxButtonModule } from 'devextreme-angular/ui/button';
+
+import { DxFileManagerModule } from 'devextreme-angular';
+import { FilepreviewComponent } from './pages/filepreview/filepreview.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {PdfViewerModule} from "ng2-pdf-viewer";
 
 @NgModule({
   declarations: [
@@ -104,6 +116,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     TrendDetailComponent,
     TrendAddOneComponent,
     CommentsComponent,
+    FilesComponent,
+    FilepreviewComponent,
   ],
   exports: [
     MatSidenavModule
@@ -155,6 +169,14 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     ShareIconsModule, // Optional if you want the default share icons
     FontAwesomeModule,
     MatButtonToggleModule,
+
+    DragDropModule,
+    DxButtonModule,
+    DxFileManagerModule,
+
+    MatDialogModule,
+    PdfViewerModule
+
   ],
   providers: [
     AuthService,

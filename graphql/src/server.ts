@@ -3,7 +3,7 @@ import { schema } from './schema'
 import { context } from './context'
 
 
-const server = new ApolloServer({
+export const server = new ApolloServer({
   schema: schema,
   context: context,
 })

@@ -34,7 +34,7 @@ export class AuthEffects {
   ) {
   }
 
-  login$ = createEffect(() => {
+  login$ = createEffect(():any => {
     return this.actions$.pipe(
       ofType(loginStart),
       exhaustMap((action) => {

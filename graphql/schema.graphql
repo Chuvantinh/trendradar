@@ -126,8 +126,7 @@ enum Status {
 }
 
 type Subscription {
-  """See newest Comment with each TrendID"""
-  newComment(trendId: Int): Comment
+  newComment(comment_string: String): Comment
 }
 
 type Trend {

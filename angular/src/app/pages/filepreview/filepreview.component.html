@@ -1,0 +1,41 @@
+<mat-dialog-actions>
+  <div>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()">Save</button>
+    <a [href]="url" class="btn btn-primary" target="_blank" rel="noopener noreferrer"
+       download="{{url}}">
+      Download File : {{name}}. {{type}}
+    </a>
+  </div>
+</mat-dialog-actions>
+
+<div *ngIf="type == 'pdf'">
+  url: {{url}}
+  <pdf-viewer [src]="url"
+              [render-text]="true"
+              [show-borders]="true"
+              [fit-to-page]="true"
+              [autoresize]="true"
+              style="display: block;margin-left: -135px;"
+  >
+
+  </pdf-viewer>
+</div>
+
+
+<div *ngIf="type != 'pdf'">
+  <h2 mat-dialog-title>{{id }} - {{ name }} . {{ type}}</h2>
+
+  <mat-dialog-content>
+
+
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions>
+    <div>
+      <button class="mat-raised-button"(click)="close()">Close</button>
+      <button class="mat-raised-button mat-primary"(click)="save()">Save</button>
+    </div>
+  </mat-dialog-actions>
+</div>

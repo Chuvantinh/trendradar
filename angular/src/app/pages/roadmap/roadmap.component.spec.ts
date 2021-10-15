@@ -20,7 +20,7 @@ describe('RoadmapComponent', () => {
 
   beforeEach(async () => {
     let store: MockStore;
-    const initialState = { loggedIn: false };
+    const initialState = { isAuthenticated: true };
 
     await TestBed.configureTestingModule({
       imports: [

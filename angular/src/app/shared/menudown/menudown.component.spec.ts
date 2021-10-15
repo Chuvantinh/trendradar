@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MenudownComponent } from './menudown.component';
 
 describe('MenudownComponent', () => {
@@ -10,7 +9,7 @@ describe('MenudownComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ MenudownComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -20,6 +19,7 @@ describe('MenudownComponent', () => {
   });
 
   it('should create', () => {
+
     expect(component).toBeTruthy();
   });
 });

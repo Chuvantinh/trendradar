@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 import {Router, ActivatedRoute} from '@angular/router';
 import {NotificationService} from "../../services/notification.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {shareReplay} from "rxjs/operators";
 // ref : pagination : https://www.npmjs.com/package/ngx-pagination#demo
 
 @Component({
@@ -49,6 +50,63 @@ export class ListtrendsComponent implements OnInit {
       valueField: ['', Validators.required],
     });
   }
+
+  // getTrendsForTest(){
+  //   return this.apollo
+  //   .watchQuery({
+  //     query: gql`
+  //       query GetAllTrends($search_string: String, $orderByField: String, $valueField: String, $start: DateTime, $end: DateTime){
+  //         getTrends(data:{
+  //           search_string: $search_string, orderByField: $orderByField, valueField: $valueField, start: $start, end: $end
+  //         }){
+  //           id,
+  //           title,
+  //           description,
+  //           images,
+  //           videos,
+  //           start,
+  //           end,
+  //           createdAt,
+  //           createdBy{
+  //             id
+  //             name
+  //           }
+  //           status
+  //           source{
+  //             id
+  //             title
+  //             description
+  //             url
+  //             createdAt
+  //           }
+  //           trendEvalution{
+  //             id
+  //             effect
+  //             probability
+  //             during
+  //             createdAt
+  //           }
+  //           comment{
+  //             id
+  //             content
+  //           }
+  //         }
+  //       }
+  //     `,
+  //     variables: {
+  //       search_string: "",
+  //       orderByField: "title",
+  //       valueField: "asc",
+  //       start: "",
+  //       end: "",
+  //     }
+  //   })
+  //   .valueChanges.pipe(shareReplay(1));
+  //   // .valueChanges.subscribe(result => {
+  //   //   this.listTrends = Array.of(result.data);
+  //   //   this.listTrends =   this.listTrends[0].getTrends;
+  //   // });
+  // }
 
   /**
    * Get all of actually trends on the table "Trend" in the database system
@@ -162,5 +220,14 @@ export class ListtrendsComponent implements OnInit {
       value.valueField = "asc";
     }
     this.getListTrends(value.search_string, value.orderByField, value.valueField, null, null);
+  }
+
+  /**
+   * Split images to item
+   */
+
+  exporeImages(images: string){
+   //  console.log(images[0])
+    return images[0];
   }
 }

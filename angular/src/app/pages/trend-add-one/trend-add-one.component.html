@@ -15,7 +15,7 @@
         <label>Select Category</label>
         <mat-form-field appearance="fill" class="form-control">
           <mat-label>Select Category</mat-label>
-          <mat-select formControlName="categoriesId" multiple>
+          <mat-select formControlName="categoriesId" multiple ngDefaultControl>
 
             <!--            <input class="yourClass" placeholder ="search " (change)="onChange($event)">-->
 
@@ -41,6 +41,7 @@
         <ckeditor
           data="<p>Some initial data</p>"
           formControlName="description"
+          ngDefaultControl
         ></ckeditor>
 
         <div *ngIf="form.get('description')?.hasError('required') && myform.submitted" class='alert alert-danger'>

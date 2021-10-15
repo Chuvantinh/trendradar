@@ -22,7 +22,7 @@ export class AuthService {
    * @param email
    * @param password
    */
-  login(email: string, password: string){
+  login(email: string, password: string): any{
 
     const LOGIN = gql`
       mutation login($data: UserAuthPayload!) {

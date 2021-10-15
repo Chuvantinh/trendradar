@@ -10,6 +10,7 @@ import {PortfolioComponent} from "./pages/portfolio/portfolio.component";
 import {RoadmapComponent} from "./pages/roadmap/roadmap.component";
 import {TrendDetailComponent} from "./pages/trend-detail/trend-detail.component";
 import {TrendAddOneComponent} from "./pages/trend-add-one/trend-add-one.component";
+import {FilesComponent} from "./pages/files/files.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -30,6 +31,7 @@ const routes: Routes = [
   {path: 'trendradar', component: TrendradarComponent},
   {path: 'portfolio', component: PortfolioComponent},
   {path: 'roadmap', component: RoadmapComponent},
+  {path: 'files', component: FilesComponent},
 ];
 
 @NgModule({

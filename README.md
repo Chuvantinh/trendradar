@@ -172,3 +172,7 @@ in the tsconfig.json add
 ````
     "types": ["node", "jest"]
 ````
+test 
+
+bacckend: https://github.com/graphql-nexus/nexus/issues/115
+fe: https://github.com/kamilkisiela/apollo-angular/blob/master/packages/apollo-angular/tests/Query.spec.ts

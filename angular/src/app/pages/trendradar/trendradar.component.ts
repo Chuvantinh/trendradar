@@ -37,7 +37,7 @@ export class TrendradarComponent implements OnInit {
   assesTrends_final: any = [];
   holdTrends_final: any = [];
 
-  radar1:number = 1.3;// r = 130
+  radar1:number = 1.3;// r = 130 // div for 100 because wahrscheinslichkeit of Trends von 0 bis 100
   radar2:number = 2.2; // r = 220
   radar3:number = 3.1; // r = 310
   radar4:number = 4; // r = 400
@@ -198,6 +198,7 @@ export class TrendradarComponent implements OnInit {
       this.portFolio = Array.of(result.data);
       this.portFolio =   Array.of(this.portFolio[0].getPortfolioEvalution)[0];
 
+      // comparison to divide 4 Circle
       for (let item of this.portFolio) {
         if(item.average_effect > 3.5 && item.average_pro > 30){ // right part 1
           this.adoptTrends.push(item);
@@ -252,6 +253,8 @@ export class TrendradarComponent implements OnInit {
         let arr_tem:any[] = [item.average_effect, item.average_pro];
         arr_eff_pro_hold.push(arr_tem);
       }
+
+      // divide Trends to 4 Zone of each circle.
       console.log("arr_eff_pro_adopt", arr_eff_pro_adopt);
       let result_adopt = await this.getCluster(arr_eff_pro_adopt, length_adoptTrends);
       console.log("result_adopt", result_adopt);
