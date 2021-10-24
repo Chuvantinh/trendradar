@@ -82,14 +82,15 @@ import { FilesComponent } from './pages/files/files.component';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
-import { DxButtonModule } from 'devextreme-angular';
+// import { DxButtonModule } from 'devextreme-angular';
 // or if tree shaking is not configured
 // import { DxButtonModule } from 'devextreme-angular/ui/button';
 
-import { DxFileManagerModule } from 'devextreme-angular';
+// import { DxFileManagerModule } from 'devextreme-angular';
 import { FilepreviewComponent } from './pages/filepreview/filepreview.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {PdfViewerModule} from "ng2-pdf-viewer";
+import { FundingComponent } from './shared/home_child/funding/funding.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +119,7 @@ import {PdfViewerModule} from "ng2-pdf-viewer";
     CommentsComponent,
     FilesComponent,
     FilepreviewComponent,
+    FundingComponent,
   ],
   exports: [
     MatSidenavModule
@@ -171,8 +173,8 @@ import {PdfViewerModule} from "ng2-pdf-viewer";
     MatButtonToggleModule,
 
     DragDropModule,
-    DxButtonModule,
-    DxFileManagerModule,
+    // DxButtonModule,
+    // DxFileManagerModule,
 
     MatDialogModule,
     PdfViewerModule

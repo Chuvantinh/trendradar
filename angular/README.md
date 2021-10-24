@@ -29,6 +29,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Create new Component
 ng generate component [component-name] 
 
+at this folder: app is main module
 ng g c new-component --module app
 
 or 

@@ -31,7 +31,7 @@
               <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="col-lg-3 col-sm-12">
+            <mat-form-field appearance="fill" class="col-lg-3 col-sm-12" style="display: none;">
               <mat-label>Select View</mat-label>
               <mat-select formControlName="type_view">
                 <mat-option value="year">Year</mat-option>
@@ -58,7 +58,7 @@
 
       <div class="right col-lg-11 col-md-11 col-sm-12 float-left text-dark">
         <div class="vt-year">
-          <div *ngFor="let item of arrayTimline" class="vt-year-col float-left text-center" [class]="caculateWithYearElement(arrayTimline.length)">
+          <div *ngFor="let item of arrayTimline" class="vt-year-col float-left text-center" [style.width]="caculateWithYearElement(arrayTimline.length)">
             <div>{{ item }}</div>
 
             <div class="vt-year-month col-lg-1 col-md-1 col-sm-1 col-xs-1 float-left text-center" *ngFor="let mo of arrayMoths">

@@ -254,7 +254,7 @@ export class RoadmapComponent implements OnInit {
      let endYear = new Date(end).getFullYear();
 
      let left = 0;
-     let unit = 100 / total_month;
+     let unit = 100 / total_month;// 100 is 100 %
      let widthprozent = this.monthDiff(new Date(start), new Date(end)) * unit;
 
     for (let item = 0; item < arrayTimline.length ; item++){
@@ -357,8 +357,8 @@ export class RoadmapComponent implements OnInit {
    * @param lengthYear
    */
   caculateWithYearElement(lengthYear:number){
-    let num = 12 / lengthYear;
-    let stringClass = "col-lg-" + num + " col-md-" + num + " col-sm-" + num + " col-xs-" + num + " ";
-    return stringClass;
+    let num = 100 / lengthYear;
+    // let stringClass = "col-lg-" + num + " col-md-" + num + " col-sm-" + num + " col-xs-" + num + " ";
+    return num + '%';
   }
 }
