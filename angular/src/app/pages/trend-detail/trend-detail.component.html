@@ -94,12 +94,12 @@
   <h3></h3>
 
 
-  <div class="trend-vote col-6 col-lg-6 col-sm-12 col-xs-12  float-left">
+  <div class="trend-vote col-lg-8 col-sm-12 col-xs-12">
     <p class="btn btn-primary">
       Trend Vote:
     </p>
 
-    <div  >
+    <div>
       <form [formGroup]="form" autocomplete="off" (ngSubmit)="trendEvalution(form.value)">
         <div class="form-group">
           <label for="effect">Effect auf das Unternehmen</label>
@@ -111,9 +111,9 @@
           <input type="text" class="form-control" id="probability" placeholder="from 1 to 100" formControlName="probability">
         </div>
 
-        <div class="form-group">
+        <div class="form-group during">
           <label for="during">During</label>
-          <input type="text" class="form-control" id="during" placeholder="1 year" formControlName="during">
+          <input type="text" class="form-control" id="during" placeholder="1 year" formControlName="during" value="1year">
         </div>
 
         <button class="btn btn-primary" type="submit">Submit</button>

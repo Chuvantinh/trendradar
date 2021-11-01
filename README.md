@@ -1,10 +1,12 @@
 # Trendradar
 - Introduction: the master thesis of van tinh chu about the trend radar for the health or the trending of technology in the life
-- Abstract:
+- Abstract: This project was written for the purpose of creating a website. There people can use the functions of the website to create new ones, 
+vote, rate, give opinions and discuss current trends. The result is a website from Angular for frontend, backend is Prisma Version 2, Nexus. 
+Users can view trend list, portfolio model, roadmap model and especially trend radar model with HTML5 and CSS3 
 #####
 
 ## Angular 
-I made a decesion for the intergration of NgRx for this website in order to manage 
+I made a decesion for the intergration of NgRx for this website in order to manage the state for login in the website.
 ```
   ng g c new-component --module app
 ```
@@ -15,7 +17,12 @@ https://stackoverflow.com/questions/66101540/npm-install-unable-to-resolve-depen
 npm install --legacy-peer-deps
 ```
 ## Backend 
-# Postgresql 
+please go to folder graphql and type
+```
+npm run dev 
+```
+# Postgresql
+pass: admin123 for pgadmin4
 ```
 for sqlite
 datasource db {
